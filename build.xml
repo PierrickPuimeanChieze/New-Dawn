@@ -4,11 +4,15 @@
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
     <property name="fx.jar" value="${user.dir}/javafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
-    <property name="main.classe" value="viewerfx.ViewerFX"/>
-    <target name="clean">
+    <property name="main.class.name" value="viewerfx.ViewerFX"/>
+    <target name="clean" description="--> Clean the build directory of the project">
         <delete dir="${build.dir}"/>
     </target>
-    <target name="compile" depends="resolve-and-retrieve">
+    
+    <target name="compile" depends="resolve-and-retrieve" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
+        <fail unless="build.dir"/>
+        <fail unless="build.classes"/>
+        
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes}"/>
         <javac deprecation="on" destdir="${build.classes}" debug="on">
@@ -32,17 +36,21 @@
             </fileset>
         </copy>
     </target>
-    <target name="build" depends="compile">
+    <target name="build" depends="compile" description="--> Build the jar of the application">
         <jar basedir="${build.classes}" destfile="${build.jar}" >
         </jar>
     </target>
-    <target name="resolve-and-retrieve">
+    <target name="package" depends="clean, build" description="--> Package the application for distribution.TODO" />
+    <target name="resolve-and-retrieve" description="--> Resolve and retrieve the ivy dependencies">
         <property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]"/>
         <ivy:resolve file="ivy.xml"/>
         <ivy:retrieve/>
     </target>
-    <target name="run" depends="build" >
-        <java classname="${main.classe}" dir="${build.classes}">
+    <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
+        <fail unless="main.class.name"/>
+        <fail unless="build.class"/>
+        
+        <java classname="${main.class.name}" dir="${build.classes}">
             <classpath>
                 <fileset dir="lib/runtime">
                     <include name="**/*.jar"/>
@@ -55,7 +63,7 @@
     
     <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address in the property jpda.address">
         <fail unless="jpda.address" message="The property jpda addres must be set"/>
-        <java classname="${main.classe}" dir="${build.classes}" fork="true">
+        <java classname="${main.class.name}" dir="${build.classes}" fork="true">
             <classpath>
                 <fileset dir="lib/runtime">
                     <include name="**/*.jar"/>
