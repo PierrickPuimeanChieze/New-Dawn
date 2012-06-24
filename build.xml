@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="build-targets" basedir=".">
+    <property name="build.dir" value="${basedir}/target"/>
+    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.jar" value="${build.dir}/newDawn.jar"/>
+    <property name="fx.jar" value="${user.dir}/javafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
+    <property name="main.classe" value="viewerfx.ViewerFX"/>
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+    <target name="compile" depends="resolve-and-retrieve">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.classes}"/>
+        <javac deprecation="on" destdir="${build.classes}" debug="on">
+            <src>
+                <pathelement location="srcController"/>
+                <pathelement location="srcModel"/>
+                <pathelement location="srcUI"/>
+                <pathelement location="resources"/>
+            </src>
+            <classpath>
+                <fileset dir="lib/build">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${fx.jar}"/>
+            </classpath>
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+        <copy todir="${build.classes}">
+            <fileset dir="resources">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="build" depends="compile">
+        <jar basedir="${build.classes}" destfile="${build.jar}" >
+        </jar>
+    </target>
+    <target name="resolve-and-retrieve">
+        <property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]"/>
+        <ivy:resolve file="ivy.xml"/>
+        <ivy:retrieve/>
+    </target>
+    <target name="run" depends="build" >
+        <java classname="${main.classe}" dir="${build.classes}">
+            <classpath>
+                <fileset dir="lib/runtime">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${build.classes}"/>
+                <pathelement location="${fx.jar}"/>
+            </classpath>
+        </java>
+    </target>
+    
+    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address in the property jpda.address">
+        <fail unless="jpda.address" message="The property jpda addres must be set"/>
+        <java classname="${main.classe}" dir="${build.classes}" fork="true">
+            <classpath>
+                <fileset dir="lib/runtime">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${build.classes}"/>
+                <pathelement location="${fx.jar}"/>
+            </classpath>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+        </java>    
+    </target>
+    
+    <target name="test">
+    </target>
+</project>

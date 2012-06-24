@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<system name="Sol System">
+    <star name="Sun" spectralClass="A" diameter="1391900">
+        <planet name="Mercury" planetaryClass="terrestrial" orbitalRadius="57950000" diameter="4866" orbitalPeriod="7600530" />
+        <planet name="Venus" planetaryClass="terrestrial" orbitalRadius="108110000" diameter="12106" orbitalPeriod="19414140" />
+        <planet name="Earth" planetaryClass="terrestrial" orbitalRadius="149570000" diameter="12742" orbitalPeriod="31584698" > 
+            <satellite name="Moon" orbitalRadius="384000" diameter="4860" orbitalPeriod="0"/>
+        </planet>
+        <planet name="Mars" planetaryClass="terrestrial" orbitalRadius="227840000" diameter="6760" orbitalPeriod="59354294"/>
+        <planet name="Jupiter" planetaryClass="gas_giant" orbitalRadius="778140000" diameter="142984" orbitalPeriod="374335776"/>
+        <planet name="Saturn" planetaryClass="gas_giant" orbitalRadius="1427000000" diameter="116438" orbitalPeriod="929596608"/>
+        <planet name="Uranus" planetaryClass="gas_giant" orbitalRadius="2870300000" diameter="46940" orbitalPeriod="2661041808"/>
+        <planet name="Neptune" planetaryClass="gas_giant" orbitalRadius="4499900000" diameter="45432" orbitalPeriod="5200416000"/>
+        
+        	
+    </star>
+</system>

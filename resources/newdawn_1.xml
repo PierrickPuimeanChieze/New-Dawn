@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <bean name="gameData" class="com.newdawn.controllers.GameData" />
+    <bean name="config" class="com.newdawn.controllers.Config">
+        <property name="initDefaultDeltaValue" value="0.0"/>
+    </bean>
+    <bean name="fleetManagementController" class="com.newdawn.controllers.FleetManagementController" />
+    <bean name="celestialBodyMovementController" class="com.newdawn.controllers.CelestialBodyMovementController"/>
+    <bean name="shipMovementController" class="com.newdawn.controllers.ShipMovementController"/>
+    <bean name="orderController" class="com.newdawn.controllers.OrderController"/>
+
+    <bean name="initialisationController" class="com.newdawn.controllers.InitialisationController">
+        <property name="gameData" ref="gameData"/>    
+        <property name="config" ref="config"/>    
+    </bean>
+    
+    
+    <bean name="mainController" class="com.newdawn.controllers.MainController">
+        <property name="gameData" ref="gameData"/>
+        <property name="celestialBodyMovementController" ref="celestialBodyMovementController"/>
+        <property name="shipMovementController" ref="shipMovementController"/>
+        <property name="orderController" ref="orderController"/>
+        <property name="config" ref="config" />
+    </bean>
+</beans>
