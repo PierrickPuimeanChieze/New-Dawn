@@ -5,13 +5,30 @@
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
     <property name="fx.jar" value="${user.dir}/javafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
     <property name="main.class.name" value="viewerfx.ViewerFX"/>
+    <property name="lib.dir" location="lib"/>
+    <fail unless="build.dir"/>
+    <fail unless="build.classes"/>
+    <fail unless="fx.jar"/>
+    <path id="build-classpath">
+        <fileset dir="${lib.dir}/build">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${fx.jar}"/>
+    </path>
+    
+    <path id="run-classpath">
+        <fileset dir="${lib.dir}/runtime">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${fx.jar}"/>
+    </path>
     <target name="clean" description="--> Clean the build directory of the project">
         <delete dir="${build.dir}"/>
     </target>
     
+    <target name="init" />
     <target name="compile" depends="resolve-and-retrieve" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
-        <fail unless="build.dir"/>
-        <fail unless="build.classes"/>
         
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.classes}"/>
@@ -22,12 +39,8 @@
                 <pathelement location="srcUI"/>
                 <pathelement location="resources"/>
             </src>
-            <classpath>
-                <fileset dir="lib/build">
-                    <include name="**/*.jar"/>
-                </fileset>
-                <pathelement location="${fx.jar}"/>
-            </classpath>
+            <classpath refid="build-classpath"/>
+            
             <compilerarg value="-Xlint:unchecked"/>
         </javac>
         <copy todir="${build.classes}">
@@ -42,35 +55,23 @@
     </target>
     <target name="package" depends="clean, build" description="--> Package the application for distribution.TODO" />
     <target name="resolve-and-retrieve" description="--> Resolve and retrieve the ivy dependencies">
-        <property name="ivy.retrieve.pattern" value="lib/[conf]/[artifact].[ext]"/>
+        <property name="ivy.retrieve.pattern" value="${lib.dir}/[conf]/[artifact].[ext]"/>
         <ivy:resolve file="ivy.xml"/>
         <ivy:retrieve/>
     </target>
     <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
         <fail unless="main.class.name"/>
-        <fail unless="build.class"/>
+        <fail unless="build.classes"/>
         
         <java classname="${main.class.name}" dir="${build.classes}">
-            <classpath>
-                <fileset dir="lib/runtime">
-                    <include name="**/*.jar"/>
-                </fileset>
-                <pathelement location="${build.classes}"/>
-                <pathelement location="${fx.jar}"/>
-            </classpath>
+            <classpath refid="run-classpath"/>
         </java>
     </target>
     
-    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address in the property jpda.address">
-        <fail unless="jpda.address" message="The property jpda addres must be set"/>
+    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address ${jpda.address}">
+        <fail unless="jpda.address" message="The property jpda.address must be set"/>
         <java classname="${main.class.name}" dir="${build.classes}" fork="true">
-            <classpath>
-                <fileset dir="lib/runtime">
-                    <include name="**/*.jar"/>
-                </fileset>
-                <pathelement location="${build.classes}"/>
-                <pathelement location="${fx.jar}"/>
-            </classpath>
+            <classpath refid="run-classpath"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
         </java>    
