@@ -7,20 +7,25 @@ package viewerfx;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
 import com.newdawn.controllers.MainController;
-import com.newdawn.gui.fleet.FleetManagementScreen;
+import com.newdawn.gui.fleet.FleetManagementScreenOld;
 import com.newdawn.gui.map.system.SystemMapScreen;
 import com.newdawn.model.system.StellarSystem;
 import java.io.File;
 
 
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -44,7 +49,7 @@ public class ViewerFX extends Application {
     private TabPane screenTabPane;
     private SystemMapScreen systemMapScreen;
     private Tab systemMapScreenTab;
-    private FleetManagementScreen fleetManagementScreen;
+    private HBox fleetManagementScreen;
     private Tab fleetManagementScreenTab;
 
     /**
@@ -72,14 +77,16 @@ public class ViewerFX extends Application {
         super.init();
 
         ViewerFX.currentApplication = this;
-        
+
         sprintContainer = new ClassPathXmlApplicationContext("newdawn.xml");
         this.mainController = sprintContainer.getBean(MainController.class);
 
-        InitialisationController initialisationController = sprintContainer.getBean(InitialisationController.class);
+        InitialisationController initialisationController = sprintContainer.
+                getBean(InitialisationController.class);
         final StellarSystem solarSystem = SollarSystemBuilder.getIt(initialisationController);
         final StellarSystem solarSystem2 = SollarSystem2Builder.getIt(initialisationController);
-        StellarSystem testSystem = initialisationController.createSystem(getClass().getResourceAsStream("/testSystem.xml"));
+        StellarSystem testSystem = initialisationController.createSystem(getClass().
+                getResourceAsStream("/testSystem.xml"));
         GameData gameData = sprintContainer.getBean(GameData.class);
         gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
     }
@@ -196,9 +203,19 @@ public class ViewerFX extends Application {
         return systemMapScreenTab;
     }
 
-    public FleetManagementScreen getFleetManagementScreen() {
+    public HBox getFleetManagementScreen() {
         if (fleetManagementScreen == null) {
-            fleetManagementScreen = new FleetManagementScreen();
+            try {
+                FXMLLoader test = new FXMLLoader();
+
+//                fleetManagementScreen = new FleetManagementScreenOld();
+                fleetManagementScreen = (HBox) test.load(getClass().
+                        getResourceAsStream("/com/newdawn/gui/fleet/FleetManagementScreen.fxml"));
+            } catch (IOException ex) {
+                Logger.getLogger(ViewerFX.class.getName()).
+                        log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex);
+            }
         }
         return fleetManagementScreen;
     }

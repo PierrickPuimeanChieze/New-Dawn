@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import com.newdawn.gui.fleet.*?>
+
+<HBox prefHeight="280.0" prefWidth="673.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.fleet.FleetManagementScreen">
+    <children>
+        <TitledPane id="squadronSelectionPane" fx:id="squadronSelectionPane" animated="false" collapsible="false" maxHeight="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" text="Squadron selection" HBox.hgrow="ALWAYS">
+            <content>
+                <GridPane>
+                    <children>
+                        <Label text="System" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <Label text="Squadron" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <ListView id="systemListView" fx:id="systemListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ListView id="squadronListView" fx:id="squadronListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="16.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                    </rowConstraints>
+                </GridPane>
+            </content>
+        </TitledPane>
+        <TitledPane id="squadronInformationPane" fx:id="squadronInformationPane" animated="false" collapsible="false" maxHeight="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" text="Squadron Information" HBox.hgrow="NEVER">
+            <content>
+                <VBox id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" >
+                    <children>
+                        <TitledPane id="squadronSpeedSelectionPane"  animated="true" collapsible="true" text="Squadron Speed">
+                            <content>
+                                <SpeedSelectionComponent fx:id="squadronSpeedSelectionComponent"/>
+                            </content>
+                        </TitledPane>
+                    </children>
+                        
+                </VBox>
+            </content>
+        </TitledPane>
+        <TitledPane id="shipsListPane" fx:id="shipListPane" animated="false" collapsible="false" maxHeight="1.7976931348623157E308" minHeight="50.0" minWidth="50.0" text="Ships List" HBox.hgrow="ALWAYS">
+            <content>
+                <TableView  id="shipsTableView" fx:id="shipsTableView"   >
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="Name" id="shipNameColumn" fx:id="shipNameColumn"/>
+                        
+                    </columns>
+                </TableView>
+            </content>
+        </TitledPane>
+    </children>
+</HBox>

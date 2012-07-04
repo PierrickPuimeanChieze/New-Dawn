@@ -22,19 +22,19 @@ import javafx.util.StringConverter;
  *
  * @author Teocali
  */
-public class SpeedSelectionPane extends VBox {
+public class SpeedSelectionComponent extends VBox {
 
     private ObjectProperty<Squadron> squadronProperty;
     private DoubleBinding selectedSpeedBinding;
     private TextField selectedSpeed;
     private TextField maxSpeed;
 
-    public SpeedSelectionPane() {
+    public SpeedSelectionComponent() {
         initComponents();
     }
 
     private void initComponents() {
-
+        
         this.getChildren().addAll(getSelectedSpeed(), getMaxSpeed());
 
     }

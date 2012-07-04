@@ -18,7 +18,7 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author puimeapi
+ * @author Pierrick Puimean-Chieze
  */
 public class StellarSystem implements Serializable{
 

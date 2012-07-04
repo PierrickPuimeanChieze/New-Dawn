@@ -8,7 +8,7 @@ import java.awt.Point;
 
 /**
  *
- * @author puimeapi
+ * @author Pierrick Puimean-Chieze
  */
 public class Star extends CelestialBody {
     /**

@@ -4,7 +4,7 @@
  */
 package viewerfx;
 
-import com.newdawn.gui.fleet.SpeedSelectionPane;
+import com.newdawn.gui.fleet.SpeedSelectionComponent;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
@@ -24,7 +24,7 @@ public class TestClass2 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println(getClass().getCanonicalName());
-//        SpeedSelectionPane pane = new SpeedSelectionPane();
+//        SpeedSelectionComponent pane = new SpeedSelectionComponent();
 //        Slider testSlider = new Slider(0, 50000, 00);
 //        testSlider.setLabelFormatter(new StringConverter<Double>() {
 //

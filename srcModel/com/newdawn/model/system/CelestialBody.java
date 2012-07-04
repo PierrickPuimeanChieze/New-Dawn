@@ -14,7 +14,7 @@ import javafx.beans.property.StringProperty;
 /**
  *
  * Abstract class for any celestial body.
- * @author puimeapi
+ * @author Pierrick Puimean-Chieze
  */
 public abstract class CelestialBody implements SpaceObject{
 

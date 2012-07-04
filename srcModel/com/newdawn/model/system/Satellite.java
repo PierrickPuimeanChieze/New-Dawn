@@ -6,7 +6,7 @@ package com.newdawn.model.system;
 
 /**
  *
- * @author puimeapi
+ * @author Pierrick Puimean-Chieze
  */
 public class Satellite extends OrbitalBody{
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author puimeapi
+ * @author Pierrick Puimean-Chieze
  */
 public class Planet extends OrbitalBody {
 
