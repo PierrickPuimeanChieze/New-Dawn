@@ -16,7 +16,6 @@ public class OrbitalBody extends CelestialBody{
 
     private Orbit orbit;
     
-    
     private DoubleProperty deltaProperty;
     
     private Long orbitalPeriod;
