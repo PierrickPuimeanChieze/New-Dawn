@@ -14,19 +14,17 @@ import javafx.beans.property.StringProperty;
 /**
  *
  * Abstract class for any celestial body.
+ *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class CelestialBody implements SpaceObject{
+public abstract class CelestialBody implements SpaceObject {
 
     protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
     private long diameter;
     private StringProperty nameProperty;
     private StellarSystem stellarSystem;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
-    
-
 
     /**
      * Get the value of name
@@ -53,8 +51,6 @@ public abstract class CelestialBody implements SpaceObject{
         }
         return nameProperty;
     }
-    
-    
 
     public CelestialBody(StellarSystem stellarSystem, long diameter) {
         this.stellarSystem = stellarSystem;
@@ -65,8 +61,6 @@ public abstract class CelestialBody implements SpaceObject{
         this.diameter = diameter;
     }
 
-    
-    
     public synchronized void removePropertyChangeListener(String string, PropertyChangeListener pl) {
         propertyChangeSupport.removePropertyChangeListener(string, pl);
     }
@@ -110,15 +104,14 @@ public abstract class CelestialBody implements SpaceObject{
     public void setStellarSystem(StellarSystem stellarSystem) {
         this.stellarSystem = stellarSystem;
     }
-    
- public DoubleProperty positionYProperty() {
+
+    public DoubleProperty positionYProperty() {
         if (positionYProperty == null) {
             positionYProperty = new SimpleDoubleProperty(this, "positionY", 0);
         }
         return positionYProperty;
     }
 
-    
     /**
      * Get the value of positionY
      *
@@ -144,7 +137,6 @@ public abstract class CelestialBody implements SpaceObject{
         return positionXProperty;
     }
 
-    
     /**
      * Get the value of positionX
      *
@@ -162,6 +154,4 @@ public abstract class CelestialBody implements SpaceObject{
     public void setPositionX(double positionX) {
         positionXProperty().setValue(positionX);
     }
-
-    
 }

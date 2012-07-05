@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  *
  */
 // TODO : ajouter les informations textuelles (no, vitesse) 
@@ -57,11 +57,12 @@ public class SquadronComponent extends Group {
             {
                 bind(SquadronComponent.this.taskGroupToShow.speedProperty());
             }
+
             @Override
             protected String computeValue() {
                 Double speedMS = SquadronComponent.this.taskGroupToShow.getSpeed();
-                long speedKMS = Math.round(speedMS/1000);
-                String speedStr = Long.toString(speedKMS)+" km/s";
+                long speedKMS = Math.round(speedMS / 1000);
+                String speedStr = Long.toString(speedKMS) + " km/s";
                 return speedStr;
             }
         });
@@ -91,8 +92,10 @@ public class SquadronComponent extends Group {
             speedText.setVisible(true);
             //TODO replace this calculation by the use of the ShipMovementController.calculateIntermediateCoordinate
             double li = DIRECTIONAL_LINE_LENGTH;
-            final double destinationX = this.taskGroupToShow.getDestination().getPositionX();
-            final double destinationY = this.taskGroupToShow.getDestination().getPositionY();
+            final double destinationX = this.taskGroupToShow.getDestination().
+                    getPositionX();
+            final double destinationY = this.taskGroupToShow.getDestination().
+                    getPositionY();
 
             final double destinationXCalculated = destinationX / Constants.FIXED_QUOTIENT * zoomLevel;
             final double destinationYCalculated = destinationY / Constants.FIXED_QUOTIENT * zoomLevel;

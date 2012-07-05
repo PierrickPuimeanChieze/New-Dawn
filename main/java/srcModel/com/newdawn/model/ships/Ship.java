@@ -11,10 +11,10 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
-public class Ship implements SpaceObject{
-    
+public class Ship implements SpaceObject {
+
     private double maxSpeed;
     private Squadron taskGroup;
     private StringProperty nameProperty;
@@ -40,12 +40,11 @@ public class Ship implements SpaceObject{
 
     public StringProperty nameProperty() {
         if (nameProperty == null) {
-            nameProperty=new SimpleStringProperty(this, "name");
+            nameProperty = new SimpleStringProperty(this, "name");
         }
         return nameProperty;
     }
 
-    
     public Squadron getTaskGroup() {
         return taskGroup;
     }
@@ -53,8 +52,7 @@ public class Ship implements SpaceObject{
     public void setTaskGroup(Squadron taskGroup) {
         this.taskGroup = taskGroup;
     }
-    
-    
+
     public double getMaxSpeed() {
         return maxSpeed;
     }
@@ -62,6 +60,7 @@ public class Ship implements SpaceObject{
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
+
     /**
      * Get the value of destination
      *
@@ -84,7 +83,6 @@ public class Ship implements SpaceObject{
         return taskGroup.getStellarSystem();
     }
 
-
     @Override
     public double getPositionX() {
         return taskGroup.getPositionX();
@@ -94,7 +92,4 @@ public class Ship implements SpaceObject{
     public double getPositionY() {
         return taskGroup.getPositionY();
     }
-    
-    
-            
 }

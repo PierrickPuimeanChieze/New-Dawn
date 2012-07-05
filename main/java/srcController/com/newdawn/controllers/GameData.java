@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class GameData {
 
-    private ObservableList<StellarSystem> stellarSystems = FXCollections.observableArrayList();
+    private ObservableList<StellarSystem> stellarSystems = FXCollections.
+            observableArrayList();
 
     public ObservableList<StellarSystem> getStellarSystems() {
 

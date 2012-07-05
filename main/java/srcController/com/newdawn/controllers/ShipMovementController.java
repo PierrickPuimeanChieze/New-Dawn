@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class ShipMovementController {
@@ -18,13 +18,18 @@ public class ShipMovementController {
     void moveTaskGroup(long second, Squadron taskGroup) {
         if (taskGroup.getDestination() != null) {
             double traveledDistance = taskGroup.getSpeed() * second;
-            double destinationDistance = Point2D.distance(taskGroup.getPositionX(), taskGroup.getPositionY(), taskGroup.getDestination().getPositionX(), taskGroup.getDestination().getPositionY());
+            double destinationDistance = Point2D.distance(taskGroup.getPositionX(), taskGroup.
+                    getPositionY(), taskGroup.getDestination().getPositionX(), taskGroup.
+                    getDestination().getPositionY());
             if (destinationDistance < traveledDistance) {
                 taskGroup.setPositionX(taskGroup.getDestination().getPositionX());
                 taskGroup.setPositionY(taskGroup.getDestination().getPositionY());
                 taskGroup.setDestination(null);
             } else {
-                Point2D.Double newPositionForShip = calculateIntermediateCoordinate(new Point2D.Double(taskGroup.getPositionX(), taskGroup.getPositionY()), new Point2D.Double(taskGroup.getDestination().getPositionX(), taskGroup.getDestination().getPositionY()), traveledDistance);
+                Point2D.Double newPositionForShip = calculateIntermediateCoordinate(new Point2D.Double(taskGroup.
+                        getPositionX(), taskGroup.getPositionY()), new Point2D.Double(taskGroup.
+                        getDestination().getPositionX(), taskGroup.
+                        getDestination().getPositionY()), traveledDistance);
 
 
                 taskGroup.setPositionX(newPositionForShip.x);

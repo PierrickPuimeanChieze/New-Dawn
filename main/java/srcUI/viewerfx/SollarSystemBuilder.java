@@ -18,13 +18,14 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class SollarSystemBuilder {
 
     public static StellarSystem getIt(InitialisationController initialisationController) throws ParserConfigurationException, SAXException, IOException {
 //        File solSystemFile = new File("C:\\Users\\Pierrick\\Dropbox\\NewDawn\\ViewerFX\\srcUI\\viewerfx\\solarSystem.xml");
-        InputStream solSystemInputStream = SollarSystemBuilder.class.getResourceAsStream("/solarSystem.xml");
+        InputStream solSystemInputStream = SollarSystemBuilder.class.
+                getResourceAsStream("/solarSystem.xml");
         StellarSystem solarSystem = initialisationController.createSystem(solSystemInputStream);
 
         Squadron testTG = new Squadron();

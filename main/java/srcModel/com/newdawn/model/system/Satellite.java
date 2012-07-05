@@ -8,7 +8,7 @@ package com.newdawn.model.system;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class Satellite extends OrbitalBody{
+public class Satellite extends OrbitalBody {
 
     public Satellite(String name, Orbit orbit, double delta, Long orbitalPeriod, long diameter) {
         super(orbit, delta, diameter, orbitalPeriod);

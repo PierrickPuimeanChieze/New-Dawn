@@ -24,7 +24,7 @@ import viewerfx.ViewerFX;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class FleetManagementScreenOld extends GridPane {
 
@@ -74,8 +74,9 @@ public class FleetManagementScreenOld extends GridPane {
 
     public ListView<StellarSystem> getSystemSelectionListView() {
         if (systemSelectionListView == null) {
-            
-            final GameData gameData = ViewerFX.getCurrentApplication().getSprintContainer().getBean(GameData.class);
+
+            final GameData gameData = ViewerFX.getCurrentApplication().
+                    getSprintContainer().getBean(GameData.class);
             systemSelectionListView = new ListView<>(gameData.getStellarSystems());
             systemSelectionListView.setCellFactory(new PropertyListCellFactory<StellarSystem>("name", null));
             systemSelectionListView.setPrefHeight(50);
@@ -87,21 +88,26 @@ public class FleetManagementScreenOld extends GridPane {
     public ListView<Squadron> getSquadronSelectionListView() {
         if (squadronSelectionListView == null) {
             squadronSelectionListView = new ListView<>();
-            final ObjectBinding<ObservableList<Squadron>> select = Bindings.select(getSystemSelectionListView().getSelectionModel().selectedItemProperty(), "squadrons");
+            final ObjectBinding<ObservableList<Squadron>> select = Bindings.
+                    select(getSystemSelectionListView().getSelectionModel().
+                    selectedItemProperty(), "squadrons");
             squadronSelectionListView.itemsProperty().bind(select);
             squadronSelectionListView.setPrefHeight(50);
             squadronSelectionListView.setCellFactory(new PropertyListCellFactory<Squadron>("name", null));
 
-            squadronSelectionListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
+            squadronSelectionListView.getSelectionModel().selectedItemProperty().
+                    addListener(new ChangeListener<Object>() {
 
                 @Override
                 public void changed(ObservableValue<? extends Object> property, Object oldValue, Object newValue) {
 //                    getSquadronShipListTableView().getItems().clear();
                     if (newValue != null) {
                         Squadron squadron = (Squadron) newValue;
-                        getSquadronShipListTableView().setItems(squadron.getShips());
+                        getSquadronShipListTableView().setItems(squadron.
+                                getShips());
                     } else {
-                        final ObservableList<Ship> emptyObservableList = FXCollections.emptyObservableList();
+                        final ObservableList<Ship> emptyObservableList = FXCollections.
+                                emptyObservableList();
                         getSquadronShipListTableView().setItems(emptyObservableList);
                     }
                 }
@@ -150,11 +156,10 @@ public class FleetManagementScreenOld extends GridPane {
 
     public SpeedSelectionComponent getSquadronSpeedSelectionPane() {
         if (squadronSpeedSelectionPane == null) {
-            squadronSpeedSelectionPane=new SpeedSelectionComponent();
-            squadronSpeedSelectionPane.squadronProperty().bind(getSquadronSelectionListView().getSelectionModel().selectedItemProperty());
+            squadronSpeedSelectionPane = new SpeedSelectionComponent();
+            squadronSpeedSelectionPane.squadronProperty().bind(getSquadronSelectionListView().
+                    getSelectionModel().selectedItemProperty());
         }
         return squadronSpeedSelectionPane;
     }
-    
-    
 }

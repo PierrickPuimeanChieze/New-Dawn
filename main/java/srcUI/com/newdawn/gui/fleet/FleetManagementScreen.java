@@ -55,6 +55,7 @@ public class FleetManagementScreen implements Initializable {
         squadronListView.getSelectionModel().selectedItemProperty().
                 addListener(new ChangeListener<Object>() {
 //
+
             @Override
             public void changed(ObservableValue<? extends Object> property, Object oldValue, Object newValue) {
 //                    getSquadronShipListTableView().getItems().clear();

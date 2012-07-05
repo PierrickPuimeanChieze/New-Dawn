@@ -14,14 +14,13 @@ import javafx.scene.shape.Circle;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class OrbitComponent extends Circle {
 
     private Orbit toShow;
     private boolean alwaysVisible = true;
     private DoubleProperty zoomLevelProperty;
-    
     private final ChangeListener<Number> updaterListener = new ChangeListener<Number>() {
 
         @Override
@@ -64,7 +63,7 @@ public class OrbitComponent extends Circle {
         final double registeredCenterY = toShow.getRef().getPositionY();
         final double registeredRadius = toShow.getRadius();
         double centerX = (registeredCenterX / Constants.FIXED_QUOTIENT) * zoomLevel;
-        double centerY = (registeredCenterY / Constants.FIXED_QUOTIENT) * zoomLevel*-1;
+        double centerY = (registeredCenterY / Constants.FIXED_QUOTIENT) * zoomLevel * -1;
         double radius = (registeredRadius / Constants.FIXED_QUOTIENT) * zoomLevel;
         setCenterX(centerX);
         setCenterY(centerY);

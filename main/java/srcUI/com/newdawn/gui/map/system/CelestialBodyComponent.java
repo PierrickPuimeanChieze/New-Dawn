@@ -19,13 +19,11 @@ import javafx.scene.text.Text;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
-
 // TODO : ajouter les informations textuelles (nom, ...) 
 // TODO : Essayer de mettre en place des bindings, plutot que des listeners, pour la mise a jour
 // TODO : documentation
- 
 public class CelestialBodyComponent extends Group {
 
     private final Circle celestialBodyCircle;
@@ -64,6 +62,7 @@ public class CelestialBodyComponent extends Group {
         }
         return minimalRadiusProperty;
     }
+
     /**
      * Get the value of minimalRadius
      *
@@ -103,7 +102,7 @@ public class CelestialBodyComponent extends Group {
         final double registeredPositionY = body.getPositionY();
         double positionX = (registeredPositionX / Constants.FIXED_QUOTIENT) * zoomLevel;
         double positionY = (registeredPositionY / Constants.FIXED_QUOTIENT) * zoomLevel;
-        
+
         celestialBodyCircle.setCenterX(positionX);
         celestialBodyCircle.setCenterY(positionY * -1);
 
@@ -113,22 +112,25 @@ public class CelestialBodyComponent extends Group {
             radiusToSet = minimalRadius;
         }
         celestialBodyCircle.setRadius(radiusToSet);
-        
+
         //Mettre en place un binding
-        nameText.setX(celestialBodyCircle.getCenterX()-celestialBodyCircle.getRadius()-5);
-        nameText.setY(celestialBodyCircle.getCenterY()-celestialBodyCircle.getRadius()-5);
-        
+        nameText.setX(celestialBodyCircle.getCenterX() - celestialBodyCircle.
+                getRadius() - 5);
+        nameText.setY(celestialBodyCircle.getCenterY() - celestialBodyCircle.
+                getRadius() - 5);
+
         if (linkedOrbitComponent != null) {
             linkedOrbitComponent.setZoomLevel(zoomLevel);
             //TODO supprimer le test, le remplacer par une seule ligne de code
-            if (!linkedOrbitComponent.isAlwaysVisible() && !linkedOrbitComponent.isVisible()) {
+            if (!linkedOrbitComponent.isAlwaysVisible() && !linkedOrbitComponent.
+                    isVisible()) {
                 setVisible(false);
             } else {
                 setVisible(true);
             }
         }
-        
-        
+
+
     }
 
     void setLinkedOrbitComponent(OrbitComponent linkedOrbitComponent) {
@@ -138,6 +140,4 @@ public class CelestialBodyComponent extends Group {
     public Circle getCelestialBodyCircle() {
         return celestialBodyCircle;
     }
-    
-    
 }

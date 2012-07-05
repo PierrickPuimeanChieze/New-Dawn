@@ -9,7 +9,7 @@ import com.newdawn.model.system.SpaceObject;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class MoveToSpaceObjectOrder extends Order {
 
@@ -32,17 +32,19 @@ public class MoveToSpaceObjectOrder extends Order {
 
     @Override
     public String getLongDescription() {
-        return "Following this order, the task group " + getTaskGroup().getName() + " will try to move to " + destination.getName();
+        return "Following this order, the task group " + getTaskGroup().getName() + " will try to move to " + destination.
+                getName();
     }
 
     @Override
     public boolean isOrderAccomplished() {
-        return destination.getPositionX() == getTaskGroup().getPositionX() && destination.getPositionY() == getTaskGroup().getPositionY();
+        return destination.getPositionX() == getTaskGroup().getPositionX() && destination.
+                getPositionY() == getTaskGroup().getPositionY();
     }
 
     @Override
     public void finalizeOrder() {
-        
+
         getTaskGroup().setSpeed(0);
         getTaskGroup().setDestination(null);
     }

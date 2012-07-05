@@ -22,7 +22,7 @@ import javafx.util.Callback;
  * cell. Additionaly, a specific mousevent handler will be set for the
  * mouseclicked event of the created list cell
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class PropertyListCellFactory<T> implements Callback<ListView<T>, ListCell<T>> {
 
@@ -37,7 +37,8 @@ public class PropertyListCellFactory<T> implements Callback<ListView<T>, ListCel
     @Override
     public ListCell<T> call(ListView<T> arg0) {
         ListCell<T> toReturn = new ListCell<>();
-        final StringBinding selectString = Bindings.selectString(toReturn.itemProperty(), propertyName);
+        final StringBinding selectString = Bindings.selectString(toReturn.
+                itemProperty(), propertyName);
         toReturn.textProperty().bind(selectString);
         toReturn.setOnMouseClicked(mouseEventHandler);
         return toReturn;

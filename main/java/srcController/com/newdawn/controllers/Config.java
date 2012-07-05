@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class Config {
+
     private int subPulse = 5;
     private String initDefaultDeltaValue;
 
@@ -36,6 +37,4 @@ public class Config {
     public int getSubPulse() {
         return subPulse;
     }
-    
-    
 }

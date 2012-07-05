@@ -9,20 +9,16 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class CelestialBodyMovementController {
-    
-    
+
     public void moveBody(long time, OrbitalBody bodyToMove) {
         final double orbitalSpeed = bodyToMove.getOrbitalSpeed();
         final double originalDelta = bodyToMove.getDelta();
-        double newDelta = originalDelta+orbitalSpeed*time;
-        final double newDeltaModified = newDelta%(Math.PI*2);
+        double newDelta = originalDelta + orbitalSpeed * time;
+        final double newDeltaModified = newDelta % (Math.PI * 2);
         bodyToMove.setDelta(newDeltaModified);
     }
-    
-   
-    
 }

@@ -20,7 +20,7 @@ import javafx.util.StringConverter;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class SpeedSelectionComponent extends VBox {
 
@@ -34,7 +34,7 @@ public class SpeedSelectionComponent extends VBox {
     }
 
     private void initComponents() {
-        
+
         this.getChildren().addAll(getSelectedSpeed(), getMaxSpeed());
 
     }
@@ -50,7 +50,8 @@ public class SpeedSelectionComponent extends VBox {
                 @Override
                 protected double computeValue() {
 
-                    return Double.parseDouble(getSelectedSpeed().textProperty().getValue());
+                    return Double.parseDouble(getSelectedSpeed().textProperty().
+                            getValue());
                 }
 
                 @Override
@@ -75,7 +76,7 @@ public class SpeedSelectionComponent extends VBox {
                     if (oldValue != null) {
                         oldValue.speedProperty().unbind();
                     }
-                    
+
                     if (newValue != null) {
 //                        getSpeedSelectionSlider().setMax(newValue.getMaxSpeed());
 //                        getSpeedSelectionSlider().setMajorTickUnit(newValue.getMaxSpeed());
@@ -85,7 +86,7 @@ public class SpeedSelectionComponent extends VBox {
                         getSelectedSpeed().setDisable(false);
 
                         newValue.speedProperty().bind(getSelectedSpeedBinding());
-                    } else { 
+                    } else {
                         getMaxSpeed().setText("-");
                         getSelectedSpeed().setText("-");
                         getSelectedSpeed().setDisable(true);

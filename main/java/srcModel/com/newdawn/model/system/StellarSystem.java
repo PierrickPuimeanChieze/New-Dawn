@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,7 +19,7 @@ import javafx.collections.ObservableList;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class StellarSystem implements Serializable{
+public class StellarSystem implements Serializable {
 
     private StringProperty nameProperty;
     private List<Star> stars = new ArrayList<Star>();
@@ -57,7 +56,8 @@ public class StellarSystem implements Serializable{
 
     public ObjectProperty<ObservableList<Squadron>> squadronsProperty() {
         if (squadronsProperty == null) {
-            ObservableList<Squadron> squadrons = FXCollections.observableArrayList();
+            ObservableList<Squadron> squadrons = FXCollections.
+                    observableArrayList();
             squadronsProperty = new SimpleObjectProperty<>(this, "squadrons", squadrons);
         }
         return squadronsProperty;

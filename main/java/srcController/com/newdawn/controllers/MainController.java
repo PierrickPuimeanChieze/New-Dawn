@@ -14,12 +14,13 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class MainController {
 
-    private static final Logger LOGGER = Logger.getLogger(MainController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MainController.class.
+            getName());
     @Autowired(required = true)
     private GameData gameData;
     @Autowired

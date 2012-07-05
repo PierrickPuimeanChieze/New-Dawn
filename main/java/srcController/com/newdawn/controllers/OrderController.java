@@ -9,7 +9,7 @@ import com.newdawn.model.ships.orders.Order;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class OrderController {
 
@@ -18,8 +18,7 @@ public class OrderController {
 
         if (order == null) {
             startNextOrder(taskGroup);
-        }
-        else if (order.isOrderAccomplished()) {
+        } else if (order.isOrderAccomplished()) {
             order.finalizeOrder();
             startNextOrder(taskGroup);
         }
@@ -27,7 +26,8 @@ public class OrderController {
 
     /**
      * This method start the next order of the order queue of a task group.
-     * If this queue does not contains any order, the task group is set on stand by
+     * If this queue does not contains any order, the task group is set on stand
+     * by
      */
     private void startNextOrder(Squadron taskGroup) {
         Order currentOrder = taskGroup.getQueuedOrders().poll();

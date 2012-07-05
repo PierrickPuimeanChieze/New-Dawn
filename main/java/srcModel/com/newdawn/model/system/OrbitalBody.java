@@ -10,25 +10,24 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
-public class OrbitalBody extends CelestialBody{
+public class OrbitalBody extends CelestialBody {
 
     private Orbit orbit;
-    
     private DoubleProperty deltaProperty;
-    
     private Long orbitalPeriod;
-    
-    
+
     public OrbitalBody(Orbit orbit, long diameter) {
         this(orbit, 0.0, diameter);
     }
+
     public OrbitalBody(Orbit orbit, double delta, long diameter) {
         this(orbit, delta, diameter, null);
     }
+
     public OrbitalBody(Orbit orbit, double delta, long diameter, Long orbitalPeriod) {
-        super(orbit.getRef().getStellarSystem(),diameter);
+        super(orbit.getRef().getStellarSystem(), diameter);
         this.orbit = orbit;
         this.orbitalPeriod = orbitalPeriod;
         positionXProperty().bind(new DoubleBinding() {
@@ -36,21 +35,25 @@ public class OrbitalBody extends CelestialBody{
             {
                 super.bind(deltaProperty());
             }
+
             @Override
             protected double computeValue() {
-                final double positionX = getOrbit().getRef().getPositionX()+getOrbit().getRadius()*Math.cos(getDelta());
+                final double positionX = getOrbit().getRef().getPositionX() + getOrbit().
+                        getRadius() * Math.cos(getDelta());
                 return positionX;
             }
         });
-        
+
         positionYProperty().bind(new DoubleBinding() {
 
             {
                 super.bind(deltaProperty());
             }
+
             @Override
             protected double computeValue() {
-                final double positionY = getOrbit().getRef().getPositionY()+getOrbit().getRadius()*Math.sin(getDelta());
+                final double positionY = getOrbit().getRef().getPositionY() + getOrbit().
+                        getRadius() * Math.sin(getDelta());
                 return positionY;
             }
         });
@@ -75,14 +78,12 @@ public class OrbitalBody extends CelestialBody{
     public void setOrbitalPeriod(Long orbitalPeriod) {
         this.orbitalPeriod = orbitalPeriod;
     }
-    
-    
-            
+
     public double getOrbitalSpeed() {
         if (orbitalPeriod == null) {
             return 0;
         }
-        return (Math.PI*2)/orbitalPeriod;
+        return (Math.PI * 2) / orbitalPeriod;
     }
 
     public double getDelta() {
@@ -92,6 +93,4 @@ public class OrbitalBody extends CelestialBody{
     public void setDelta(double delta) {
         deltaProperty().setValue(delta);
     }
-    
-    
 }

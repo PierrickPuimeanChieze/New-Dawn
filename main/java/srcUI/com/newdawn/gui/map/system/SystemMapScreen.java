@@ -20,10 +20,10 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class SystemMapScreen extends HBox {
-    
+
     private ListView<StellarSystem> availableSystemListView;
     private TabPane systemViewers;
     private Map<StellarSystem, Tab> openedTabs = new HashMap<>();
@@ -33,49 +33,50 @@ public class SystemMapScreen extends HBox {
     private TextField debugCenterToXTextField;
     private TextField debugCenterToYTextField;
     private Button debugCenterToValidButton;
-    
+
     public SystemMapScreen() {
         initComponents();
-        
+
     }
-    
+
     private void initComponents() {
         HBox.setHgrow(getSystemViewers(), Priority.ALWAYS);
         getChildren().addAll(getDebugCenterToBox(), getAvailableSystemListView(), getSystemViewers());
         setOnKeyPressed(getKeyboardHandler());
     }
-    
-    
+
     public ListView<StellarSystem> getAvailableSystemListView() {
         if (availableSystemListView == null) {
-            BeanFactory factory = viewerfx.ViewerFX.getCurrentApplication().getSprintContainer();
+            BeanFactory factory = viewerfx.ViewerFX.getCurrentApplication().
+                    getSprintContainer();
             GameData gameData = factory.getBean(GameData.class);
             availableSystemListView = new ListView<>(gameData.getStellarSystems());
             availableSystemListView.setCellFactory(new PropertyListCellFactory<StellarSystem>("name", getListMouseHandler()));
         }
         return availableSystemListView;
     }
-    
+
     public TabPane getSystemViewers() {
         if (systemViewers == null) {
             systemViewers = new TabPane();
-            
+
         }
         return systemViewers;
     }
-    
+
     private EventHandler<MouseEvent> getListMouseHandler() {
         if (listMouseHandler == null) {
             listMouseHandler = new EventHandler<MouseEvent>() {
-                
+
                 @Override
                 public void handle(MouseEvent event) {
                     if (event.getClickCount() >= 2) {
-                        
+
                         if (event.getSource() instanceof Cell) {
                             Cell cell = (Cell) event.getSource();
                             if (cell.getItem() instanceof StellarSystem) {
-                                StellarSystem clickedSystem = (StellarSystem) cell.getItem();
+                                StellarSystem clickedSystem = (StellarSystem) cell.
+                                        getItem();
                                 openOrSelectSystemViewe(clickedSystem);
                             }
                         }
@@ -85,7 +86,7 @@ public class SystemMapScreen extends HBox {
         }
         return listMouseHandler;
     }
-    
+
     private void openOrSelectSystemViewe(final StellarSystem clickedSystem) {
         Tab openedTab = openedTabs.get(clickedSystem);
         if (openedTab == null) {
@@ -93,7 +94,7 @@ public class SystemMapScreen extends HBox {
             final SystemViewer systemViewer = new SystemViewer(clickedSystem);
             openedTab.setContent(systemViewer);
             openedTab.setOnClosed(new EventHandler<Event>() {
-                
+
                 @Override
                 public void handle(Event event) {
                     openedTabs.remove(clickedSystem);
@@ -103,7 +104,7 @@ public class SystemMapScreen extends HBox {
             openedTabs.put(clickedSystem, openedTab);
             systemViewer.updateChildren();
             openedTab.setOnSelectionChanged(new EventHandler<Event>() {
-                
+
                 @Override
                 public void handle(Event arg0) {
                     Tab tab = (Tab) arg0.getSource();
@@ -115,19 +116,20 @@ public class SystemMapScreen extends HBox {
         }
         getSystemViewers().getSelectionModel().select(openedTab);
     }
-    
+
     public EventHandler<KeyEvent> getKeyboardHandler() {
         if (keyboardHandler == null) {
             keyboardHandler = new EventHandler<KeyEvent>() {
-                
+
                 public void handle(KeyEvent event) {
-                    SystemViewer selectedViewer = (SystemViewer) systemViewers.getSelectionModel().getSelectedItem().getContent();
+                    SystemViewer selectedViewer = (SystemViewer) systemViewers.
+                            getSelectionModel().getSelectedItem().getContent();
                     double increment = 0.01;
                     if (event.isControlDown()) {
                         increment = 0.1;
                     }
-                    
-                    
+
+
                     switch (event.getCode()) {
 //                    case DOWN:
 //                        components.setTranslateY(getTranslateY() - 10);
@@ -143,24 +145,26 @@ public class SystemMapScreen extends HBox {
                             break;
                         case PLUS:
                         case ADD:
-                            selectedViewer.setZoomLevel(selectedViewer.getZoomLevel() + increment);
+                            selectedViewer.setZoomLevel(selectedViewer.
+                                    getZoomLevel() + increment);
                             break;
                         case MINUS:
                         case SUBTRACT:
-                            selectedViewer.setZoomLevel(selectedViewer.getZoomLevel() - increment);
+                            selectedViewer.setZoomLevel(selectedViewer.
+                                    getZoomLevel() - increment);
                             break;
-                        
+
                         default:
                             break;
                     }
-                    
-                    
+
+
                 }
             };
         }
         return keyboardHandler;
     }
-    
+
     public HBox getDebugCenterToBox() {
         if (debugCenterToBox == null) {
             debugCenterToBox = new HBox();
@@ -168,7 +172,7 @@ public class SystemMapScreen extends HBox {
         }
         return debugCenterToBox;
     }
-    
+
     public Button getDebugCenterToValidButton() {
         if (debugCenterToValidButton == null) {
             debugCenterToValidButton = new Button();
@@ -176,24 +180,27 @@ public class SystemMapScreen extends HBox {
 
                 @Override
                 public void handle(ActionEvent arg0) {
-                    SystemViewer selectedViewer = (SystemViewer) systemViewers.getSelectionModel().getSelectedItem().getContent();
-                    double x = Double.parseDouble(getDebugCenterToXTextField().getText());
-                    double y = Double.parseDouble(getDebugCenterToYTextField().getText());
-                    
+                    SystemViewer selectedViewer = (SystemViewer) systemViewers.
+                            getSelectionModel().getSelectedItem().getContent();
+                    double x = Double.parseDouble(getDebugCenterToXTextField().
+                            getText());
+                    double y = Double.parseDouble(getDebugCenterToYTextField().
+                            getText());
+
                     selectedViewer.centerTo(x, y);
                 }
             });
         }
         return debugCenterToValidButton;
     }
-    
+
     public TextField getDebugCenterToXTextField() {
         if (debugCenterToXTextField == null) {
             debugCenterToXTextField = new TextField();
         }
         return debugCenterToXTextField;
     }
-    
+
     public TextField getDebugCenterToYTextField() {
         if (debugCenterToYTextField == null) {
             debugCenterToYTextField = new TextField();

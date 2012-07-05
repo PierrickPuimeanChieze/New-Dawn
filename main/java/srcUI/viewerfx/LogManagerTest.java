@@ -9,7 +9,7 @@ import java.util.logging.LogManager;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class LogManagerTest extends LogManager {
 
@@ -29,7 +29,8 @@ public class LogManagerTest extends LogManager {
                     clz.newInstance();
                     return;
                 } catch (ClassNotFoundException ex) {
-                    Class clz = Thread.currentThread().getContextClassLoader().loadClass(cname);
+                    Class clz = Thread.currentThread().getContextClassLoader().
+                            loadClass(cname);
                     clz.newInstance();
                     return;
                 }

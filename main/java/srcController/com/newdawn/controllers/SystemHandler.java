@@ -16,7 +16,7 @@ import org.xml.sax.ext.DefaultHandler2;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class SystemHandler extends DefaultHandler2 {
 
@@ -91,14 +91,16 @@ public class SystemHandler extends DefaultHandler2 {
     }
 
     private void initCurrentStar(Attributes attributes) {
-        Star.SpectralClass spectralClass = Star.SpectralClass.valueOf(attributes.getValue("spectralClass").toUpperCase());
+        Star.SpectralClass spectralClass = Star.SpectralClass.valueOf(attributes.
+                getValue("spectralClass").toUpperCase());
         long diameter = Long.parseLong(attributes.getValue("diameter"));
 
         currentStar = initialisationController.addStarToSystem(createdSystem, spectralClass, diameter);
     }
 
     private void initCurrentPlanet(Attributes attributes) {
-        Planet.PlanetaryClass planetaryClass = Planet.PlanetaryClass.valueOf(attributes.getValue("planetaryClass").toUpperCase());
+        Planet.PlanetaryClass planetaryClass = Planet.PlanetaryClass.valueOf(attributes.
+                getValue("planetaryClass").toUpperCase());
         long orbitalRadius = Long.parseLong(attributes.getValue("orbitalRadius"));
         long diameter = Long.parseLong(attributes.getValue("diameter"));
         String name = attributes.getValue("name");
@@ -131,14 +133,14 @@ public class SystemHandler extends DefaultHandler2 {
             //We fall back on the default value 
             deltaStr = defaultDeltaValue;
         }
-        
+
         Matcher piPatternMatcher = Pattern.compile("(\\d+(\\.\\d+)?)?π").matcher(deltaStr);
 
 
         //Check if a random value is asked and return it
         if ("random".equalsIgnoreCase(deltaStr)) {
-            return Math.random()*2*Math.PI;
-        } 
+            return Math.random() * 2 * Math.PI;
+        }
         //Check and parse if the delta asked is in the form "Xπ" and return the correct value
         if (piPatternMatcher.matches()) {
             double piCoef = 1;

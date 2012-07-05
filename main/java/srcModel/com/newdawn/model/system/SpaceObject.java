@@ -6,11 +6,13 @@ package com.newdawn.model.system;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public interface SpaceObject {
-    
+
     public double getPositionX();
+
     public double getPositionY();
+
     public String getName();
 }

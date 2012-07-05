@@ -27,7 +27,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class SystemViewer extends ScrollPane {
 
@@ -71,7 +71,8 @@ public class SystemViewer extends ScrollPane {
 
             @Override
             public void handle(MouseEvent arg0) {
-                System.out.println("X:"+arg0.getX()+";scene :"+arg0.getSceneX()+", screen:"+arg0.getScreenX());
+                System.out.println("X:" + arg0.getX() + ";scene :" + arg0.
+                        getSceneX() + ", screen:" + arg0.getScreenX());
             }
         });
     }
@@ -80,25 +81,30 @@ public class SystemViewer extends ScrollPane {
         this();
 
         for (Star star : stellarSystem.getStars()) {
-            final CelestialBodyComponent starComponent = CelestialBodyComponentFactory.buildComponentForBody(star);
+            final CelestialBodyComponent starComponent = CelestialBodyComponentFactory.
+                    buildComponentForBody(star);
             starComponent.setOnMouseClicked(new CenterHandler(this, starComponent));
             components.getChildren().add(starComponent);
 
         }
 
         for (Planet planet : stellarSystem.getPlanets()) {
-            final CelestialBodyComponent planetComponent = CelestialBodyComponentFactory.buildComponentForBody(planet);
+            final CelestialBodyComponent planetComponent = CelestialBodyComponentFactory.
+                    buildComponentForBody(planet);
             planetComponent.setOnMouseClicked(new CenterHandler(this, planetComponent));
             components.getChildren().add(planetComponent);
-            OrbitComponent planetOrbitComponent = new OrbitComponent(planet.getOrbit());
+            OrbitComponent planetOrbitComponent = new OrbitComponent(planet.
+                    getOrbit());
             components.getChildren().add(planetOrbitComponent);
             planetComponent.setLinkedOrbitComponent(planetOrbitComponent);
 //            registeredOrbit.add(planet.getOrbit());
 
             for (Satellite satellite : planet.getSatellites()) {
-                final CelestialBodyComponent moonComponent = CelestialBodyComponentFactory.buildComponentForBody(satellite);
+                final CelestialBodyComponent moonComponent = CelestialBodyComponentFactory.
+                        buildComponentForBody(satellite);
                 components.getChildren().add(moonComponent);
-                OrbitComponent moonOrbitComponent = new OrbitComponent(satellite.getOrbit());
+                OrbitComponent moonOrbitComponent = new OrbitComponent(satellite.
+                        getOrbit());
                 moonOrbitComponent.setAlwaysVisible(false);
                 components.getChildren().add(moonOrbitComponent);
                 moonComponent.setLinkedOrbitComponent(moonOrbitComponent);
@@ -112,7 +118,7 @@ public class SystemViewer extends ScrollPane {
 
         updateChildren();
         updateBackground();
-        
+
     }
 
     private void updateBackground() {
@@ -120,10 +126,10 @@ public class SystemViewer extends ScrollPane {
 //        double VBuffer = getViewportBounds().getHeight();
         double HBuffer = 0;
         double VBuffer = 0;
-        background.setWidth(components.getBoundsInLocal().getWidth()+HBuffer*2);
-        background.setHeight(components.getBoundsInLocal().getHeight()+VBuffer*2);
-        background.setX(components.getBoundsInLocal().getMinX()-HBuffer);
-        background.setY(components.getBoundsInLocal().getMinY()-VBuffer);
+        background.setWidth(components.getBoundsInLocal().getWidth() + HBuffer * 2);
+        background.setHeight(components.getBoundsInLocal().getHeight() + VBuffer * 2);
+        background.setX(components.getBoundsInLocal().getMinX() - HBuffer);
+        background.setY(components.getBoundsInLocal().getMinY() - VBuffer);
     }
 
     /**
@@ -162,13 +168,13 @@ public class SystemViewer extends ScrollPane {
         }
 
         updateBackground();
-        double vPart = getVvalue()/(getVmax()-getVmin());
-        double hPart = getHvalue()/(getHmax()-getHmin());        
+        double vPart = getVvalue() / (getVmax() - getVmin());
+        double hPart = getHvalue() / (getHmax() - getHmin());
         setVmax(components.getBoundsInLocal().getHeight());
         setHmax(components.getBoundsInLocal().getWidth());
-        setVvalue(vPart*(getVmax()-getVmin()));
-        setHvalue(hPart*(getHmax()-getHmin()));
-        
+        setVvalue(vPart * (getVmax() - getVmin()));
+        setHvalue(hPart * (getHmax() - getHmin()));
+
     }
 
     private void centerTo(Double center) {
@@ -186,9 +192,9 @@ public class SystemViewer extends ScrollPane {
         double uiWidth = components.getBoundsInLocal().getWidth();
         double uiHeight = components.getBoundsInLocal().getHeight();
 
-        double positionXToSet = positionX+uiWidth/2;
-        double positionYToSet = positionY+uiHeight/2;
-        
+        double positionXToSet = positionX + uiWidth / 2;
+        double positionYToSet = positionY + uiHeight / 2;
+
         setHvalue(positionXToSet);
         setVvalue(positionYToSet);
     }

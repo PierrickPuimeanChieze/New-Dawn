@@ -13,7 +13,7 @@ import javafx.util.StringConverter;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 public class TestClass2 extends Application {
 

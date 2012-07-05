@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * * @author Pierrick Puimean-Chieze
+ * @author Pierrick Puimean-Chieze
  */
 public class InitialisationController {
 
@@ -46,12 +46,12 @@ public class InitialisationController {
 
     public StellarSystem createSystem(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
         SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-        SystemHandler systemHandler = new SystemHandler(this, config.getInitDefaultDeltaValue());
+        SystemHandler systemHandler = new SystemHandler(this, config.
+                getInitDefaultDeltaValue());
         parser.parse(inputStream, systemHandler);
         return systemHandler.getCreatedSystem();
     }
 
-    
     public Star addStarToSystem(StellarSystem system, Star.SpectralClass spectralClass, long diameter) {
         Star star = new Star(system, spectralClass, diameter);
         system.getStars().add(star);
@@ -78,6 +78,7 @@ public class InitialisationController {
     public Satellite addNewSatelliteToPlanet(Planet orbitCenter, String name, long orbitalRadius, long diameter) {
         return this.addNewSatelliteToPlanet(orbitCenter, name, orbitalRadius, diameter, null);
     }
+
     public Satellite addNewSatelliteToPlanet(Planet orbitCenter, String name, long orbitalRadius, long diameter, Long orbitalPeriod) {
 
         Orbit orbit = new Orbit(orbitCenter, orbitalRadius);

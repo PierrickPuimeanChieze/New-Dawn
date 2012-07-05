@@ -17,22 +17,21 @@ import javafx.collections.ObservableList;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
-public class Squadron implements SpaceObject{
+public class Squadron implements SpaceObject {
 //    private List<Ship> ships = new ArrayList<Ship>();
-    private ObjectProperty<ObservableList<Ship>> shipsProperty;
 
+    private ObjectProperty<ObservableList<Ship>> shipsProperty;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
-    
     private SpaceObject destination;
     private StellarSystem stellarSystem;
     private DoubleProperty speedProperty;
     private StringProperty nameProperty;
-    private Queue<Order> queuedOrders = new LinkedList<Order>();
+    private LinkedList<Order> queuedOrders = new LinkedList<>();
     private Order currentOrder;
-    
+
     /**
      * Get the value of currentOrder
      *
@@ -40,6 +39,7 @@ public class Squadron implements SpaceObject{
      */
     public Order getCurrentOrder() {
         return currentOrder;
+
     }
 
     /**
@@ -51,7 +51,7 @@ public class Squadron implements SpaceObject{
         this.currentOrder = currentOrder;
     }
 
-    public Queue<Order> getQueuedOrders() {
+    public LinkedList<Order> getQueuedOrders() {
         return queuedOrders;
     }
 
@@ -116,7 +116,6 @@ public class Squadron implements SpaceObject{
         return positionYProperty;
     }
 
-    
     /**
      * Get the value of positionY
      *
@@ -142,7 +141,6 @@ public class Squadron implements SpaceObject{
         return positionXProperty;
     }
 
-    
     /**
      * Get the value of positionX
      *
@@ -174,7 +172,7 @@ public class Squadron implements SpaceObject{
         double maxSpeed = Double.MAX_VALUE;
         for (Ship ship : getShips()) {
             maxSpeed = Math.min(maxSpeed, ship.getMaxSpeed());
-            
+
         }
         return maxSpeed;
     }
@@ -189,15 +187,14 @@ public class Squadron implements SpaceObject{
 
     public DoubleProperty speedProperty() {
         if (speedProperty == null) {
-            speedProperty=new SimpleDoubleProperty(this, "speed", 0);
+            speedProperty = new SimpleDoubleProperty(this, "speed", 0);
         }
         return speedProperty;
     }
 
-    
     public StringProperty nameProperty() {
         if (nameProperty == null) {
-            nameProperty=new SimpleStringProperty(this, "name");
+            nameProperty = new SimpleStringProperty(this, "name");
         }
         return nameProperty;
     }
@@ -205,10 +202,8 @@ public class Squadron implements SpaceObject{
     public ObjectProperty<ObservableList<Ship>> shipsProperty() {
         if (shipsProperty == null) {
             ObservableList<Ship> ships = FXCollections.observableArrayList();
-            shipsProperty=new SimpleObjectProperty<>(this, "ships", ships);
+            shipsProperty = new SimpleObjectProperty<>(this, "ships", ships);
         }
         return shipsProperty;
     }
-    
-    
 }

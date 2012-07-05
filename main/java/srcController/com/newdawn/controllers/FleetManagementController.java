@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Teocali
+ * @author Pierrick Puimean-Chieze
  */
 @Component
 public class FleetManagementController {
