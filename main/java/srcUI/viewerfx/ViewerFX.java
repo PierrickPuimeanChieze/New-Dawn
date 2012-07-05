@@ -78,7 +78,7 @@ public class ViewerFX extends Application {
 
         ViewerFX.currentApplication = this;
 
-        sprintContainer = new ClassPathXmlApplicationContext("newdawn.xml");
+        sprintContainer = new ClassPathXmlApplicationContext("/spring/newdawn.xml");
         this.mainController = sprintContainer.getBean(MainController.class);
 
         InitialisationController initialisationController = sprintContainer.

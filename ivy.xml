@@ -10,8 +10,7 @@
         <dependency org="org.springframework" name="spring-core" rev="3.1.1.RELEASE" conf="runtime->default"/>
         <dependency org="org.springframework" name="spring-beans" rev="3.1.1.RELEASE" conf="runtime->default"/>
         <dependency org="org.springframework" name="spring-context" rev="3.1.1.RELEASE" conf="runtime->default"/>
-        <dependency org="org.springframework" name="spring-aop" rev="3.1.1.RELEASE" conf="runtime->default"/>
-        <dependency org="org.aspectj" name="aspectjrt" rev="1.6.12" conf="runtime->default"/>
+        />
             
     </dependencies>
 </ivy-module>
