@@ -35,7 +35,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class ViewerFX extends Application {
 

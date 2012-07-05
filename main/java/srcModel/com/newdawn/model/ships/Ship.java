@@ -11,7 +11,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class Ship implements SpaceObject{
     

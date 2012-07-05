@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class SollarSystemBuilder {
 

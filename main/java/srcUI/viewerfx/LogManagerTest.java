@@ -9,7 +9,7 @@ import java.util.logging.LogManager;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class LogManagerTest extends LogManager {
 

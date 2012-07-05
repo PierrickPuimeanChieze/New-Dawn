@@ -16,7 +16,7 @@ import com.newdawn.model.system.StellarSystem;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class SollarSystem2Builder {
 

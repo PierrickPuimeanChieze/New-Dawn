@@ -27,7 +27,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class SystemViewer extends ScrollPane {
 

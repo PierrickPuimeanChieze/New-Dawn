@@ -16,7 +16,7 @@ import org.xml.sax.ext.DefaultHandler2;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class SystemHandler extends DefaultHandler2 {
 

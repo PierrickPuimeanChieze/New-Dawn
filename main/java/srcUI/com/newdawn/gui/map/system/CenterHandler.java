@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class CenterHandler implements EventHandler<MouseEvent>{
     private final SystemViewer systemViewer;

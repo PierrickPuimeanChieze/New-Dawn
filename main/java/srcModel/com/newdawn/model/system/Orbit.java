@@ -6,7 +6,7 @@ package com.newdawn.model.system;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class Orbit {
     private CelestialBody ref;

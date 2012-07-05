@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 
 // TODO : ajouter les informations textuelles (nom, ...) 

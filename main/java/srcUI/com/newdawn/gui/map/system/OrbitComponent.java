@@ -14,7 +14,7 @@ import javafx.scene.shape.Circle;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class OrbitComponent extends Circle {
 

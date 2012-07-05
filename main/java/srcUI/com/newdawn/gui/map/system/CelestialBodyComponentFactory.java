@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class CelestialBodyComponentFactory {
     public static CelestialBodyComponent buildComponentForBody(CelestialBody body) {

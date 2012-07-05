@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  *
- * @author Pierrick
+ * * @author Pierrick Puimean-Chieze
  */
 public class OrbitalBody extends CelestialBody{
 
