@@ -7,13 +7,8 @@ package viewerfx;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
 import com.newdawn.controllers.MainController;
-import com.newdawn.gui.fleet.FleetManagementScreenOld;
 import com.newdawn.gui.map.system.SystemMapScreen;
 import com.newdawn.model.system.StellarSystem;
-import java.io.File;
-
-
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

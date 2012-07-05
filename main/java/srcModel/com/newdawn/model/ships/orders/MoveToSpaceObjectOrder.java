@@ -11,34 +11,31 @@ import com.newdawn.model.system.SpaceObject;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class MoveToSpaceObjectOrder extends Order {
-
-    private SpaceObject destination;
+public class MoveToSpaceObjectOrder extends MoveOrder {
 
     public MoveToSpaceObjectOrder(SpaceObject destination, Squadron taskGroup) {
-        super(taskGroup);
-        this.destination = destination;
+        super(destination, taskGroup);
     }
 
     @Override
     public void applyOrder() {
-        getTaskGroup().setDestination(destination);
+        getTaskGroup().setDestination(getDestination());
     }
 
     @Override
     public String getShortDescription() {
-        return "Move To: " + destination.getName();
+        return "Move To: " + getDestination().getName();
     }
 
     @Override
     public String getLongDescription() {
-        return "Following this order, the task group " + getTaskGroup().getName() + " will try to move to " + destination.
+        return "Following this order, the task group " + getTaskGroup().getName() + " will try to move to " + getDestination().
                 getName();
     }
 
     @Override
     public boolean isOrderAccomplished() {
-        return destination.getPositionX() == getTaskGroup().getPositionX() && destination.
+        return getDestination().getPositionX() == getTaskGroup().getPositionX() && getDestination().
                 getPositionY() == getTaskGroup().getPositionY();
     }
 

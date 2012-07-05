@@ -22,8 +22,9 @@ import javafx.collections.ObservableList;
 public class StellarSystem implements Serializable {
 
     private StringProperty nameProperty;
-    private List<Star> stars = new ArrayList<Star>();
-    private List<Planet> planets = new ArrayList<Planet>();
+    private List<Star> stars = new ArrayList<>();
+    private List<Planet> planets = new ArrayList<>();
+    private List<Asteroid> asteroids = new ArrayList<>();
     private ObjectProperty<ObservableList<Squadron>> squadronsProperty;
 
     public List<Star> getStars() {
@@ -40,6 +41,10 @@ public class StellarSystem implements Serializable {
 
     public ObservableList<Squadron> getSquadrons() {
         return squadronsProperty().getValue();
+    }
+
+    public List<Asteroid> getAsteroids() {
+        return asteroids;
     }
 
     public void setName(String name) {
