@@ -7,8 +7,8 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean name="mineral_1" class="com.newdawn.model.mineral.Mineral"/>
-    <bean name="mineral_2" class="com.newdawn.model.mineral.Mineral"/>
-    <bean name="mineral_3" class="com.newdawn.model.mineral.Mineral"/>
+    <bean id="firstMineral" name="mineral_1" class="com.newdawn.model.mineral.Mineral"/>
+    <bean id="secondMineral" name="mineral_2" class="com.newdawn.model.mineral.Mineral"/>
+    <bean id="thirdMineral" name="mineral_3" class="com.newdawn.model.mineral.Mineral"/>
         
 </beans>
