@@ -4,10 +4,12 @@
  */
 package com.newdawn.model.ships;
 
+import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -91,5 +93,10 @@ public class Ship implements SpaceObject {
     @Override
     public double getPositionY() {
         return taskGroup.getPositionY();
+    }
+
+    @Override
+    public ObservableList<OrderFactory> getOrderFactories() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

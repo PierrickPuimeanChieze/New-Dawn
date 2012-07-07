@@ -15,13 +15,10 @@
     <bean name="celestialBodyMovementController" class="com.newdawn.controllers.CelestialBodyMovementController"/>
     <bean name="shipMovementController" class="com.newdawn.controllers.ShipMovementController"/>
     <bean name="orderController" class="com.newdawn.controllers.OrderController"/>
-
     <bean name="initialisationController" class="com.newdawn.controllers.InitialisationController">
         <property name="gameData" ref="gameData"/>    
         <property name="config" ref="config"/>    
     </bean>
-    
-    
     <bean name="mainController" class="com.newdawn.controllers.MainController">
         <property name="gameData" ref="gameData"/>
         <property name="celestialBodyMovementController" ref="celestialBodyMovementController"/>

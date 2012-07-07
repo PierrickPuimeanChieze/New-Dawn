@@ -4,12 +4,16 @@
  */
 package com.newdawn.model.system;
 
+import com.newdawn.model.ships.orders.factory.MoveToSpaceObjectOrderFactory;
+import com.newdawn.model.ships.orders.factory.OrderFactory;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -25,7 +29,7 @@ public abstract class CelestialBody implements SpaceObject {
     private StellarSystem stellarSystem;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
-
+    protected ObservableList<OrderFactory> orderFactories = FXCollections.observableArrayList();
     /**
      * Get the value of name
      *
@@ -55,10 +59,11 @@ public abstract class CelestialBody implements SpaceObject {
     public CelestialBody(StellarSystem stellarSystem, long diameter) {
         this.stellarSystem = stellarSystem;
         this.diameter = diameter;
+        this.orderFactories.add(new MoveToSpaceObjectOrderFactory(this));
     }
 
     public CelestialBody(long diameter) {
-        this.diameter = diameter;
+        this(null, diameter);
     }
 
     public synchronized void removePropertyChangeListener(String string, PropertyChangeListener pl) {
@@ -154,4 +159,11 @@ public abstract class CelestialBody implements SpaceObject {
     public void setPositionX(double positionX) {
         positionXProperty().setValue(positionX);
     }
+
+    @Override
+    public ObservableList<OrderFactory> getOrderFactories() {
+        return FXCollections.unmodifiableObservableList(orderFactories);
+    }
+    
+    
 }

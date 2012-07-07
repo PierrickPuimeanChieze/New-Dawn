@@ -8,6 +8,7 @@ import com.newdawn.model.ships.Ship;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.Planet;
+import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.Star;
 import com.newdawn.model.system.StellarSystem;
 import java.net.URL;
@@ -59,7 +60,26 @@ public class FleetManagementScreen implements Initializable {
         initSquadronListView();
         initSquadronInformation();
         initShipListView();
+        initAvailableLocationsTreeView();
+        availableOrdersListView.setCellFactory(new PropertyListCellFactory<OrderFactory>("name", null));
+    }
+
+    private void initAvailableLocationsTreeView() {
         availableLocationsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", String.class, null));
+        
+        //TODO Try to use a binding
+        availableLocationsTreeView.getSelectionModel().selectedItemProperty().
+                addListener(new ChangeListener<TreeItem>() {
+
+            @Override
+            public void changed(ObservableValue<? extends TreeItem> arg0, TreeItem arg1, TreeItem arg2) {
+                Object value = arg2.getValue();
+                if (value instanceof SpaceObject) {
+                    SpaceObject spaceObject = (SpaceObject) value;
+                    availableOrdersListView.setItems(spaceObject.getOrderFactories());
+                }
+            }
+        });
         root.getChildren().add(starRoot);
         root.getChildren().add(planetRoot);
         root.getChildren().add(squadronRoot);

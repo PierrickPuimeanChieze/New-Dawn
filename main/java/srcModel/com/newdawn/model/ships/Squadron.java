@@ -5,12 +5,11 @@
 package com.newdawn.model.ships;
 
 import com.newdawn.model.ships.orders.Order;
+import com.newdawn.model.ships.orders.factory.MoveToSpaceObjectOrderFactory;
+import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +30,13 @@ public class Squadron implements SpaceObject {
     private StringProperty nameProperty;
     private LinkedList<Order> queuedOrders = new LinkedList<>();
     private Order currentOrder;
+    private ObservableList<OrderFactory> orderFactories = FXCollections.observableArrayList();
 
+    public Squadron() {
+        orderFactories.add(new MoveToSpaceObjectOrderFactory(this));
+    }
+    
+    
     /**
      * Get the value of currentOrder
      *
@@ -205,5 +210,10 @@ public class Squadron implements SpaceObject {
             shipsProperty = new SimpleObjectProperty<>(this, "ships", ships);
         }
         return shipsProperty;
+    }
+
+    @Override
+    public ObservableList<OrderFactory> getOrderFactories() {
+        return FXCollections.unmodifiableObservableList(orderFactories);
     }
 }

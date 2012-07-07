@@ -24,6 +24,8 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
 
     @Override
     public String getShortDescription() {
+        if (true) {
+        }
         return "Move To: " + getDestination().getName();
     }
 

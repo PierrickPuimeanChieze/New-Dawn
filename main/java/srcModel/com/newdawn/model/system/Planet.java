@@ -4,7 +4,6 @@
  */
 package com.newdawn.model.system;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,5 +42,5 @@ public class Planet extends OrbitalBody {
         SUPERJOVIAN
     }
     private PlanetaryClass planetaryClass;
-    private List<Satellite> satellites = new ArrayList<Satellite>();
+    private List<Satellite> satellites = new ArrayList<>();
 }

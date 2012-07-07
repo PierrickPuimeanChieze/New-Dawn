@@ -4,6 +4,9 @@
  */
 package com.newdawn.model.system;
 
+import com.newdawn.model.ships.orders.factory.OrderFactory;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Pierrick Puimean-Chieze
@@ -17,4 +20,6 @@ public interface SpaceObject {
     public String getName();
     
     public StellarSystem getStellarSystem();
+    
+    public ObservableList<OrderFactory> getOrderFactories();
 }

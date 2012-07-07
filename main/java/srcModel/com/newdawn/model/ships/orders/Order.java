@@ -27,7 +27,7 @@ public abstract class Order {
     public abstract String getShortDescription();
 
     public abstract String getLongDescription();
-
+    
     public abstract boolean isOrderAccomplished();
 
     public abstract void finalizeOrder();
