@@ -5,7 +5,7 @@
 package com.newdawn.gui.fleet;
 
 import com.newdawn.controllers.GameData;
-import com.newdawn.gui.map.system.PropertyListCellFactory;
+import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.model.ships.Ship;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.StellarSystem;

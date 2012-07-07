@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -44,7 +45,7 @@ public class ViewerFX extends Application {
     private TabPane screenTabPane;
     private SystemMapScreen systemMapScreen;
     private Tab systemMapScreenTab;
-    private HBox fleetManagementScreen;
+    private AnchorPane fleetManagementScreen;
     private Tab fleetManagementScreenTab;
 
     /**
@@ -198,13 +199,13 @@ public class ViewerFX extends Application {
         return systemMapScreenTab;
     }
 
-    public HBox getFleetManagementScreen() {
+    public AnchorPane getFleetManagementScreen() {
         if (fleetManagementScreen == null) {
             try {
                 FXMLLoader test = new FXMLLoader();
 
 //                fleetManagementScreen = new FleetManagementScreenOld();
-                fleetManagementScreen = (HBox) test.load(getClass().
+                fleetManagementScreen = (AnchorPane) test.load(getClass().
                         getResourceAsStream("/com/newdawn/gui/fleet/FleetManagementScreen.fxml"));
             } catch (IOException ex) {
                 Logger.getLogger(ViewerFX.class.getName()).

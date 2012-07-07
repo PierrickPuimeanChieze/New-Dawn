@@ -4,6 +4,7 @@
  */
 package com.newdawn.gui.map.system;
 
+import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.controllers.GameData;
 import com.newdawn.model.system.StellarSystem;
 import java.util.HashMap;

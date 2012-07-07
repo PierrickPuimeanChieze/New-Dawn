@@ -79,7 +79,7 @@ public class SollarSystem2Builder {
         testTG.setCurrentOrder(testMoveOrder);
         testMoveOrder.applyOrder();
         solarSystem.getSquadrons().add(testTG);
-
+        testTG.setStellarSystem(solarSystem);
         return solarSystem;
     }
 }

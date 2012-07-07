@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.newdawn.gui.map.system;
+package com.newdawn.gui;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;

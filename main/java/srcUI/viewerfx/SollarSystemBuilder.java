@@ -47,6 +47,7 @@ public class SollarSystemBuilder {
                 testTG.setCurrentOrder(testMoveOrder);
                 testMoveOrder.applyOrder();
                 solarSystem.getSquadrons().add(testTG);
+                testTG.setStellarSystem(solarSystem);
                 break;
             }
         }
