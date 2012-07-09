@@ -23,8 +23,8 @@ public class SollarSystem2Builder {
     public static StellarSystem getIt(InitialisationController initialisationController) {
         StellarSystem solarSystem = new StellarSystem();
         solarSystem.setName("Sol System 2");
-        Star sun = initialisationController.addStarToSystem(solarSystem, Star.SpectralClass.A, 1391900);
-        sun.setName("Sun");
+        Star sun = initialisationController.addStarToSystem(solarSystem, "Sun", Star.SpectralClass.A, 1391900);
+        
 
 
 

@@ -94,8 +94,8 @@ public class SystemHandler extends DefaultHandler2 {
         Star.SpectralClass spectralClass = Star.SpectralClass.valueOf(attributes.
                 getValue("spectralClass").toUpperCase());
         long diameter = Long.parseLong(attributes.getValue("diameter"));
-
-        currentStar = initialisationController.addStarToSystem(createdSystem, spectralClass, diameter);
+        String name = attributes.getValue("name");
+        currentStar = initialisationController.addStarToSystem(createdSystem, name, spectralClass, diameter);
     }
 
     private void initCurrentPlanet(Attributes attributes) {

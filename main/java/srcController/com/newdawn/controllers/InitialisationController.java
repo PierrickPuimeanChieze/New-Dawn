@@ -52,8 +52,9 @@ public class InitialisationController {
         return systemHandler.getCreatedSystem();
     }
 
-    public Star addStarToSystem(StellarSystem system, Star.SpectralClass spectralClass, long diameter) {
+    public Star addStarToSystem(StellarSystem system, String name, Star.SpectralClass spectralClass, long diameter) {
         Star star = new Star(system, spectralClass, diameter);
+        star.setName(name);
         system.getStars().add(star);
         return star;
     }
