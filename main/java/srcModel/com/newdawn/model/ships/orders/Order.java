@@ -5,7 +5,10 @@
 package com.newdawn.model.ships.orders;
 
 import com.newdawn.model.ships.Squadron;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  *
@@ -14,6 +17,52 @@ import javafx.beans.property.ReadOnlyStringProperty;
 public abstract class Order {
 
     private final Squadron taskGroup;
+    private BooleanProperty finishedProperty = new SimpleBooleanProperty(this, "finished", false);
+    private BooleanProperty appliedProperty = new SimpleBooleanProperty(this, "applied", false);
+
+    public ReadOnlyBooleanProperty appliedProperty() {
+        return appliedProperty;
+    }
+
+    /**
+     * Get the value of applied
+     *
+     * @return the value of applied
+     */
+    public boolean isApplied() {
+        return appliedProperty().getValue();
+    }
+
+    /**
+     * Set the value of applied
+     *
+     * @param applied new value of applied
+     */
+    protected void setApplied(boolean applied) {
+        this.appliedProperty.setValue(applied);
+    }
+
+    public ReadOnlyBooleanProperty finishedProperty() {
+        return finishedProperty;
+    }
+
+    /**
+     * Get the value of finished
+     *
+     * @return the value of finished
+     */
+    public boolean isFinished() {
+        return finishedProperty().getValue();
+    }
+
+    /**
+     * Set the value of finished
+     *
+     * @param finished new value of finished
+     */
+    protected void setFinished(boolean finished) {
+        this.finishedProperty.setValue(finished);
+    }
 
     protected Order(Squadron taskGroup) {
         this.taskGroup = taskGroup;
@@ -24,6 +73,7 @@ public abstract class Order {
     }
 
     public abstract ReadOnlyStringProperty shortDescriptionProperty();
+
     public abstract ReadOnlyStringProperty longDescriptionProperty();
 
     public abstract void applyOrder();
@@ -39,4 +89,6 @@ public abstract class Order {
     public abstract boolean isOrderAccomplished();
 
     public abstract void finalizeOrder();
+
+    public abstract void executeOrder(long incrementSize);
 }

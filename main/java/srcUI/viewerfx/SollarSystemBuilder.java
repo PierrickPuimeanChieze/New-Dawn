@@ -43,9 +43,9 @@ public class SollarSystemBuilder {
 
         for (Planet planet : solarSystem.getPlanets()) {
             if (planet.getName().toLowerCase().equals("venus")) {
-                Order testMoveOrder = new MoveToSpaceObjectOrder(planet, testTG);
-                testTG.setCurrentOrder(testMoveOrder);
-                testMoveOrder.applyOrder();
+//                Order testMoveOrder = new MoveToSpaceObjectOrder(planet, testTG);
+//                testTG.setCurrentOrder(testMoveOrder);
+//                testMoveOrder.applyOrder();
                 solarSystem.getSquadrons().add(testTG);
                 testTG.setStellarSystem(solarSystem);
                 break;

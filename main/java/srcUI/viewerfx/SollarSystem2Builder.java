@@ -75,9 +75,9 @@ public class SollarSystem2Builder {
         testTG.setPositionX(57950000);
         testTG.setPositionY(50000000);
 
-        Order testMoveOrder = new MoveToSpaceObjectOrder(venus, testTG);
-        testTG.setCurrentOrder(testMoveOrder);
-        testMoveOrder.applyOrder();
+//        Order testMoveOrder = new MoveToSpaceObjectOrder(venus, testTG);
+//        testTG.setCurrentOrder(testMoveOrder);
+//        testMoveOrder.applyOrder();
         solarSystem.getSquadrons().add(testTG);
         testTG.setStellarSystem(solarSystem);
         return solarSystem;

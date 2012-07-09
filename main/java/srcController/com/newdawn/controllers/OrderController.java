@@ -36,8 +36,9 @@ public class OrderController {
             setWaitingForOrder(taskGroup);
 
         } else {
+            //We remove the last currentOrder
             Order currentOrder = ordersList.remove(0);
-            taskGroup.setCurrentOrder(currentOrder);
+//            taskGroup.setCurrentOrder(currentOrder);
             currentOrder.applyOrder();
         }
     }

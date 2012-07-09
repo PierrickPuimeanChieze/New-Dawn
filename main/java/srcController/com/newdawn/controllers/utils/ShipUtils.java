@@ -5,6 +5,7 @@ import com.newdawn.model.ships.orders.MoveOrder;
 import com.newdawn.model.ships.orders.Order;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.ObservableList;
@@ -35,8 +36,15 @@ public class ShipUtils {
         return contextualSystem;
     }
 
-    private static List<Order> getAvailableOrders(Squadron squadron, SpaceObject object) {
-        List<Order> toReturn = new ArrayList<>();
-        return toReturn;
+    public static Point2D.Double calculateIntermediateCoordinate(Point2D.Double origine, Point2D.Double destination, double intermediateDistance) {
+
+        Point2D.Double intermediateCoordinate = new Point2D.Double();
+
+        double lc = Point2D.distance(origine.x, origine.y, destination.x, destination.y);
+
+        intermediateCoordinate.x = (intermediateDistance * (destination.x - origine.x)) / lc + origine.x;
+        intermediateCoordinate.y = (intermediateDistance * (destination.y - origine.y)) / lc + origine.y;
+
+        return intermediateCoordinate;
     }
 }

@@ -13,6 +13,8 @@ import com.newdawn.model.system.StellarSystem;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +37,6 @@ public class Squadron implements SpaceObject {
     private DoubleProperty speedProperty;
     private StringProperty nameProperty;
     private ReadOnlyListProperty<Order> plottedOrdersProperty;
-    private Order currentOrder;
     private ObservableList<OrderFactory> orderFactories = FXCollections.
             observableArrayList();
 
@@ -78,6 +79,18 @@ public class Squadron implements SpaceObject {
             ObservableList<Order> observableArrayList = FXCollections.
                     observableArrayList();
             plottedOrdersProperty = new SimpleListProperty<>(this, "plottedOrders", observableArrayList);
+            plottedOrdersProperty.addListener(new ListChangeListener<Order>() {
+
+                @Override
+                public void onChanged(Change<? extends Order> change) {
+                    if (getCurrentOrder() != null && !getCurrentOrder().isApplied()) {
+                        getCurrentOrder().applyOrder();
+                    } else if (getCurrentOrder() == null) {
+                        LOG.trace("no more order for squadron "+getName());
+                        setDestination(null);
+                    }
+                }
+            });
         }
         return plottedOrdersProperty;
     }
@@ -88,19 +101,18 @@ public class Squadron implements SpaceObject {
      * @return the value of currentOrder
      */
     public Order getCurrentOrder() {
-        return currentOrder;
+        return getPlottedOrders().size() > 0 ? getPlottedOrders().get(0) : null;
 
     }
 
-    /**
-     * Set the value of currentOrder
-     *
-     * @param currentOrder new value of currentOrder
-     */
-    public void setCurrentOrder(Order currentOrder) {
-        this.currentOrder = currentOrder;
-    }
-
+//    /**
+//     * Set the value of currentOrder
+//     *
+//     * @param currentOrder new value of currentOrder
+//     */
+//    public void setCurrentOrder(Order currentOrder) {
+//        this.currentOrder = currentOrder;
+//    }
     public ObservableList<Order> getPlottedOrders() {
         return plottedOrdersProperty().getValue();
     }
