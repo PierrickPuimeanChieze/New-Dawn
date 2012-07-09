@@ -6,6 +6,7 @@ package com.newdawn.controllers;
 
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.ships.orders.Order;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -30,12 +31,14 @@ public class OrderController {
      * by
      */
     private void startNextOrder(Squadron taskGroup) {
-        Order currentOrder = taskGroup.getQueuedOrders().poll();
-        taskGroup.setCurrentOrder(currentOrder);
-        if (currentOrder != null) {
-            currentOrder.applyOrder();
-        } else {
+        ObservableList<Order> ordersList = taskGroup.getPlottedOrders();
+        if (ordersList.isEmpty()) {
             setWaitingForOrder(taskGroup);
+
+        } else {
+            Order currentOrder = ordersList.remove(0);
+            taskGroup.setCurrentOrder(currentOrder);
+            currentOrder.applyOrder();
         }
     }
 
