@@ -99,8 +99,9 @@ public class ViewerFX extends Application {
         vBox.getChildren().add(getMenuBar());
         vBox.getChildren().add(getRunToolBar());
         vBox.getChildren().add(getScreenTabPane());
+        vBox.setPrefHeight(600);
+        vBox.setPrefWidth(800);
         final Scene scene = new Scene(vBox);
-
 
 
         primaryStage.setScene(scene);
