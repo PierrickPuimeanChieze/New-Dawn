@@ -8,6 +8,7 @@ import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
 import com.newdawn.controllers.MainController;
 import com.newdawn.gui.map.system.SystemMapScreen;
+import com.newdawn.gui.map.system.SystemMapScreenOld;
 import com.newdawn.model.system.StellarSystem;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -21,7 +22,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -43,7 +43,7 @@ public class ViewerFX extends Application {
     private MenuItem fleetManagementScreenMenuItem;
     private MainController mainController;
     private TabPane screenTabPane;
-    private SystemMapScreen systemMapScreen;
+    private AnchorPane systemMapScreen;
     private Tab systemMapScreenTab;
     private AnchorPane fleetManagementScreen;
     private Tab fleetManagementScreenTab;
@@ -96,9 +96,11 @@ public class ViewerFX extends Application {
         VBox vBox = new VBox();
 
         VBox.setVgrow(getScreenTabPane(), Priority.ALWAYS);
+        
         vBox.getChildren().add(getMenuBar());
         vBox.getChildren().add(getRunToolBar());
         vBox.getChildren().add(getScreenTabPane());
+        
         vBox.setPrefHeight(600);
         vBox.setPrefWidth(800);
         final Scene scene = new Scene(vBox);
@@ -185,9 +187,19 @@ public class ViewerFX extends Application {
         return screenTabPane;
     }
 
-    public SystemMapScreen getSystemMapScreen() {
+    public AnchorPane getSystemMapScreen() {
         if (systemMapScreen == null) {
-            systemMapScreen = new SystemMapScreen();
+            try {
+                FXMLLoader test = new FXMLLoader();
+
+//                fleetManagementScreen = new FleetManagementScreenOld();
+                systemMapScreen = (AnchorPane) test.load(getClass().
+                        getResourceAsStream("/com/newdawn/gui/map/system/SystemMapScreen.fxml"));
+            } catch (IOException ex) {
+                Logger.getLogger(ViewerFX.class.getName()).
+                        log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex);
+            }
         }
         return systemMapScreen;
     }
@@ -196,6 +208,7 @@ public class ViewerFX extends Application {
         if (systemMapScreenTab == null) {
             systemMapScreenTab = new Tab("System Screen");
             systemMapScreenTab.setContent(getSystemMapScreen());
+            
         }
         return systemMapScreenTab;
     }

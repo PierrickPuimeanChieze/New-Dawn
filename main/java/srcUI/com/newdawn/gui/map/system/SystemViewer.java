@@ -46,7 +46,7 @@ public class SystemViewer extends ScrollPane {
 
 //    private EventHandler<MouseEvent> dragManager;
 //    private Set<Orbit> registeredOrbit = new HashSet<Orbit>();
-    private SystemViewer() {
+    public SystemViewer() {
         this.setPannable(true);
         background = new Rectangle();
         background.setFill(Color.BISQUE);
