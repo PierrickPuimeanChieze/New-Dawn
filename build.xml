@@ -6,6 +6,7 @@
     <property name="fx.jar" value="${user.dir}/javafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
     <property name="main.class.name" value="viewerfx.ViewerFX"/>
     <property name="lib.dir" location="lib"/>
+    <property name="logging.conf.file" value="logging.properties"/>
     <fail unless="build.dir"/>
     <fail unless="build.classes"/>
     <fail unless="fx.jar"/>
@@ -66,8 +67,8 @@
     <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
         <fail unless="main.class.name"/>
         <fail unless="build.classes"/>
-        
-        <java classname="${main.class.name}" dir="${build.classes}">
+        <java classname="${main.class.name}" dir="${build.classes}" >
+            <jvmarg value="-Djava.util.logging.config.file=${logging.conf.file}"/>
             <classpath refid="run-classpath"/>
         </java>
     </target>
