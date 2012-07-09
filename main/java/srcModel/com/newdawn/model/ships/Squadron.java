@@ -4,15 +4,18 @@
  */
 package com.newdawn.model.ships;
 
+import com.newdawn.controllers.utils.ShipUtils;
 import com.newdawn.model.ships.orders.Order;
 import com.newdawn.model.ships.orders.factory.MoveToSpaceObjectOrderFactory;
 import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
-import java.util.*;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -21,22 +24,64 @@ import javafx.collections.ObservableList;
 public class Squadron implements SpaceObject {
 //    private List<Ship> ships = new ArrayList<Ship>();
 
+    private Log LOG = LogFactory.getLog(Squadron.class);
+    //TODO see to remove the property
     private ObjectProperty<ObservableList<Ship>> shipsProperty;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
     private SpaceObject destination;
-    private StellarSystem stellarSystem;
+    private ObjectProperty<StellarSystem> stellarSystemProperty;
+    private ObjectProperty<StellarSystem> contextualStellarSystemProperty;
     private DoubleProperty speedProperty;
     private StringProperty nameProperty;
-    private LinkedList<Order> queuedOrders = new LinkedList<>();
+    private ReadOnlyListProperty<Order> plottedOrdersProperty;
     private Order currentOrder;
-    private ObservableList<OrderFactory> orderFactories = FXCollections.observableArrayList();
+    private ObservableList<OrderFactory> orderFactories = FXCollections.
+            observableArrayList();
 
     public Squadron() {
         orderFactories.add(new MoveToSpaceObjectOrderFactory(this));
     }
-    
-    
+
+    public ReadOnlyObjectProperty<StellarSystem> contextualStellarSystemProperty() {
+        if (contextualStellarSystemProperty == null) {
+            contextualStellarSystemProperty = new SimpleObjectProperty<>(this, "contextualStellarSystem");
+            ObjectBinding<StellarSystem> binding = new ObjectBinding<StellarSystem>() {
+
+                {
+                    bind(getPlottedOrders());
+                }
+
+                @Override
+                protected StellarSystem computeValue() {
+                    return ShipUtils.calculateContextualStellarSystem(Squadron.this);
+                }
+            };
+            contextualStellarSystemProperty.bind(binding);
+        }
+        return contextualStellarSystemProperty;
+    }
+
+    public StellarSystem getContextualStellarSystem() {
+        return contextualStellarSystemProperty().getValue();
+    }
+
+    public ObjectProperty<StellarSystem> stellarSystemProperty() {
+        if (stellarSystemProperty == null) {
+            stellarSystemProperty = new SimpleObjectProperty<>(this, "stellarSystem");
+        }
+        return stellarSystemProperty;
+    }
+
+    public ReadOnlyListProperty<Order> plottedOrdersProperty() {
+        if (plottedOrdersProperty == null) {
+            ObservableList<Order> observableArrayList = FXCollections.
+                    observableArrayList();
+            plottedOrdersProperty = new SimpleListProperty<>(this, "plottedOrders", observableArrayList);
+        }
+        return plottedOrdersProperty;
+    }
+
     /**
      * Get the value of currentOrder
      *
@@ -56,8 +101,8 @@ public class Squadron implements SpaceObject {
         this.currentOrder = currentOrder;
     }
 
-    public LinkedList<Order> getQueuedOrders() {
-        return queuedOrders;
+    public ObservableList<Order> getPlottedOrders() {
+        return plottedOrdersProperty().getValue();
     }
 
     /**
@@ -84,7 +129,7 @@ public class Squadron implements SpaceObject {
      * @return the value of stellarSystem
      */
     public StellarSystem getStellarSystem() {
-        return stellarSystem;
+        return stellarSystemProperty().getValue();
     }
 
     /**
@@ -93,7 +138,7 @@ public class Squadron implements SpaceObject {
      * @param stellarSystem new value of stellarSystem
      */
     public void setStellarSystem(StellarSystem stellarSystem) {
-        this.stellarSystem = stellarSystem;
+        this.stellarSystemProperty().setValue(stellarSystem);
     }
 
     /**

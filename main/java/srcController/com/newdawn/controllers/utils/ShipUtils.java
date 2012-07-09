@@ -6,8 +6,8 @@ import com.newdawn.model.ships.orders.Order;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -16,9 +16,9 @@ import java.util.List;
 public class ShipUtils {
 
     public static StellarSystem calculateContextualStellarSystem(Squadron squadron) {
-        LinkedList<Order> orders = squadron.getQueuedOrders();
-        
-        Order lastOrder = orders.isEmpty() ? null : orders.getLast();
+        ObservableList<Order> orders = squadron.getPlottedOrders();
+
+        Order lastOrder = orders.isEmpty() ? null : orders.get(orders.size() - 1);
         return calculateContextualStellarSystem(squadron, lastOrder);
     }
 
@@ -34,7 +34,7 @@ public class ShipUtils {
         //TODO Add the treatment of other type of order
         return contextualSystem;
     }
-    
+
     private static List<Order> getAvailableOrders(Squadron squadron, SpaceObject object) {
         List<Order> toReturn = new ArrayList<>();
         return toReturn;

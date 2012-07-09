@@ -5,6 +5,7 @@
 package com.newdawn.model.ships.orders;
 
 import com.newdawn.model.ships.Squadron;
+import javafx.beans.property.ReadOnlyStringProperty;
 
 /**
  *
@@ -22,12 +23,19 @@ public abstract class Order {
         return taskGroup;
     }
 
+    public abstract ReadOnlyStringProperty shortDescriptionProperty();
+    public abstract ReadOnlyStringProperty longDescriptionProperty();
+
     public abstract void applyOrder();
 
-    public abstract String getShortDescription();
+    public String getShortDescription() {
+        return shortDescriptionProperty().getValue();
+    }
 
-    public abstract String getLongDescription();
-    
+    public String getLongDescription() {
+        return longDescriptionProperty().getValue();
+    }
+
     public abstract boolean isOrderAccomplished();
 
     public abstract void finalizeOrder();

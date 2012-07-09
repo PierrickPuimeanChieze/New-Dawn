@@ -1,6 +1,5 @@
 package com.newdawn.gui;
 
-import java.math.BigInteger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
@@ -10,7 +9,8 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import javax.swing.SwingWorker;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *

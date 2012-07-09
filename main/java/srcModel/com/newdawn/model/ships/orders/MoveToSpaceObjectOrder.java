@@ -6,12 +6,17 @@ package com.newdawn.model.ships.orders;
 
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.SpaceObject;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author Pierrick Puimean-Chieze
  */
 public class MoveToSpaceObjectOrder extends MoveOrder {
+
+    private SimpleStringProperty shortDescriptionProperty;
+    private SimpleStringProperty longDescriptionProperty;
 
     public MoveToSpaceObjectOrder(SpaceObject destination, Squadron taskGroup) {
         super(destination, taskGroup);
@@ -23,16 +28,22 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
     }
 
     @Override
-    public String getShortDescription() {
-        if (true) {
+    public ReadOnlyStringProperty shortDescriptionProperty() {
+        if (shortDescriptionProperty == null) {
+            shortDescriptionProperty = new SimpleStringProperty("Move To: " + getDestination().
+                    getName());
         }
-        return "Move To: " + getDestination().getName();
+        return shortDescriptionProperty;
     }
 
     @Override
-    public String getLongDescription() {
-        return "Following this order, the task group " + getTaskGroup().getName() + " will try to move to " + getDestination().
-                getName();
+    public ReadOnlyStringProperty longDescriptionProperty() {
+        if (longDescriptionProperty == null) {
+            longDescriptionProperty = new SimpleStringProperty("Following this order, the task group " + getTaskGroup().
+                    getName() + " will try to move to " + getDestination().
+                    getName());
+        }
+        return longDescriptionProperty;
     }
 
     @Override
