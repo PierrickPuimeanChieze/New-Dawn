@@ -122,6 +122,7 @@ public class Squadron implements SpaceObject {
      *
      * @return the value of name
      */
+    @Override
     public String getName() {
         return nameProperty().getValue();
     }
@@ -140,6 +141,7 @@ public class Squadron implements SpaceObject {
      *
      * @return the value of stellarSystem
      */
+    @Override
     public StellarSystem getStellarSystem() {
         return stellarSystemProperty().getValue();
     }
@@ -183,6 +185,7 @@ public class Squadron implements SpaceObject {
      *
      * @return the value of positionY
      */
+    @Override
     public double getPositionY() {
         return positionYProperty().getValue();
     }
@@ -208,6 +211,7 @@ public class Squadron implements SpaceObject {
      *
      * @return the value of positionX
      */
+    @Override
     public double getPositionX() {
         return positionXProperty().getValue();
     }
@@ -273,4 +277,11 @@ public class Squadron implements SpaceObject {
     public ObservableList<OrderFactory> getOrderFactories() {
         return FXCollections.unmodifiableObservableList(orderFactories);
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"[name="+getName()+"]";
+    }
+    
+    
 }
