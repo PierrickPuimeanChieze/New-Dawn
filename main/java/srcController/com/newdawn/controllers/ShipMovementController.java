@@ -4,8 +4,10 @@
  */
 package com.newdawn.controllers;
 
+import com.newdawn.controllers.utils.ShipUtils;
 import com.newdawn.model.ships.Squadron;
-import java.awt.geom.Point2D;
+
+import javafx.geometry.Point2D;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,36 +20,23 @@ public class ShipMovementController {
     void moveTaskGroup(long second, Squadron taskGroup) {
         if (taskGroup.getDestination() != null) {
             double traveledDistance = taskGroup.getSpeed() * second;
-            double destinationDistance = Point2D.distance(taskGroup.getPositionX(), taskGroup.
-                    getPositionY(), taskGroup.getDestination().getPositionX(), taskGroup.
-                    getDestination().getPositionY());
+            Point2D taskGroupPosition = new Point2D(taskGroup.getPositionX(), taskGroup.
+                    getPositionY());
+            Point2D destinationPosition = new Point2D(taskGroup.getDestination().
+                    getPositionX(), taskGroup.getDestination().getPositionY());
+            double destinationDistance = taskGroupPosition.distance(destinationPosition);
             if (destinationDistance < traveledDistance) {
                 taskGroup.setPositionX(taskGroup.getDestination().getPositionX());
                 taskGroup.setPositionY(taskGroup.getDestination().getPositionY());
-                taskGroup.setDestination(null);
             } else {
-                Point2D.Double newPositionForShip = calculateIntermediateCoordinate(new Point2D.Double(taskGroup.
-                        getPositionX(), taskGroup.getPositionY()), new Point2D.Double(taskGroup.
-                        getDestination().getPositionX(), taskGroup.
-                        getDestination().getPositionY()), traveledDistance);
+                Point2D newPositionForShip = ShipUtils.
+                        calculateIntermediateCoordinate(taskGroupPosition, destinationPosition, traveledDistance);
 
 
-                taskGroup.setPositionX(newPositionForShip.x);
-                taskGroup.setPositionY(newPositionForShip.y);
+                taskGroup.setPositionX(newPositionForShip.getX());
+                taskGroup.setPositionY(newPositionForShip.getY());
             }
         }
 
-    }
-
-    public Point2D.Double calculateIntermediateCoordinate(Point2D.Double origine, Point2D.Double destination, double intermediateDistance) {
-
-        Point2D.Double intermediateCoordinate = new Point2D.Double();
-
-        double lc = Point2D.distance(origine.x, origine.y, destination.x, destination.y);
-
-        intermediateCoordinate.x = (intermediateDistance * (destination.x - origine.x)) / lc + origine.x;
-        intermediateCoordinate.y = (intermediateDistance * (destination.y - origine.y)) / lc + origine.y;
-
-        return intermediateCoordinate;
     }
 }

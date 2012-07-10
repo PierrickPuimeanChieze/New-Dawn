@@ -7,9 +7,10 @@ package com.newdawn.model.ships.orders;
 import com.newdawn.controllers.utils.ShipUtils;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.SpaceObject;
-import java.awt.geom.Point2D;
+
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Point2D;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -73,11 +74,14 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
         if (getTaskGroup().getDestination() != null) {
             //We calculate the maximum traveled distance during the increment
             double traveledDistance = getTaskGroup().getSpeed() * incrementSize;
+            Point2D squadronPosition = new Point2D(getTaskGroup().getPositionX(), getTaskGroup().
+                    getPositionY());
+            Point2D destinationPosition = new Point2D(getTaskGroup().
+                    getDestination().
+                    getPositionX(), getTaskGroup().getDestination().getPositionY());
+
             //We calculate the distance to the destination 
-            double destinationDistance = Point2D.distance(getTaskGroup().
-                    getPositionX(), getTaskGroup().
-                    getPositionY(), getTaskGroup().getDestination().getPositionX(), getTaskGroup().
-                    getDestination().getPositionY());
+            double destinationDistance = squadronPosition.distance(destinationPosition);
             //If the maximum traveled distance is enough to reach the destination
             if (destinationDistance < traveledDistance) {
                 //We move the squadron to the destination
@@ -90,15 +94,12 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
                 getTaskGroup().setDestination(null);
 
             } else {
-                Point2D.Double newPositionForShip = ShipUtils.
-                        calculateIntermediateCoordinate(new Point2D.Double(getTaskGroup().
-                        getPositionX(), getTaskGroup().getPositionY()), new Point2D.Double(getTaskGroup().
-                        getDestination().getPositionX(), getTaskGroup().
-                        getDestination().getPositionY()), traveledDistance);
+                Point2D newPositionForShip = ShipUtils.
+                        calculateIntermediateCoordinate(squadronPosition, destinationPosition, traveledDistance);
 
 
-                getTaskGroup().setPositionX(newPositionForShip.x);
-                getTaskGroup().setPositionY(newPositionForShip.y);
+                getTaskGroup().setPositionX(newPositionForShip.getX());
+                getTaskGroup().setPositionY(newPositionForShip.getY());
             }
         }
     }

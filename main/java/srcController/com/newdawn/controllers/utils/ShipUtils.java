@@ -3,12 +3,10 @@ package com.newdawn.controllers.utils;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.ships.orders.MoveOrder;
 import com.newdawn.model.ships.orders.Order;
-import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
+
 import javafx.collections.ObservableList;
+import javafx.geometry.Point2D;
 
 /**
  *
@@ -36,15 +34,16 @@ public class ShipUtils {
         return contextualSystem;
     }
 
-    public static Point2D.Double calculateIntermediateCoordinate(Point2D.Double origine, Point2D.Double destination, double intermediateDistance) {
+    public static Point2D calculateIntermediateCoordinate(Point2D origine, Point2D destination, double intermediateDistance) {
 
-        Point2D.Double intermediateCoordinate = new Point2D.Double();
-
-        double lc = Point2D.distance(origine.x, origine.y, destination.x, destination.y);
-
-        intermediateCoordinate.x = (intermediateDistance * (destination.x - origine.x)) / lc + origine.x;
-        intermediateCoordinate.y = (intermediateDistance * (destination.y - origine.y)) / lc + origine.y;
-
-        return intermediateCoordinate;
+//        Point2D intermediateCoordinate =
+//                double lc = Point2D.distance(origine.x, origine.y, destination.x, destination.y);
+        double lc = origine.distance(destination);
+//        intermediateCoordinate.x =;
+//        intermediateCoordinate.y =
+        return new Point2D((intermediateDistance * (destination.getX() - origine.
+                getY())) / lc + origine.getX(), (intermediateDistance * (destination.
+                getY() - origine.getY())) / lc + origine.getY());
+//        return intermediateCoordinate;
     }
 }
