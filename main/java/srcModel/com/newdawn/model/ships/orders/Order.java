@@ -16,7 +16,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  */
 public abstract class Order {
 
-    private final Squadron taskGroup;
+    private final Squadron squadron;
     private BooleanProperty finishedProperty = new SimpleBooleanProperty(this, "finished", false);
     private BooleanProperty appliedProperty = new SimpleBooleanProperty(this, "applied", false);
 
@@ -64,12 +64,12 @@ public abstract class Order {
         this.finishedProperty.setValue(finished);
     }
 
-    protected Order(Squadron taskGroup) {
-        this.taskGroup = taskGroup;
+    protected Order(Squadron squadron) {
+        this.squadron = squadron;
     }
 
-    public Squadron getTaskGroup() {
-        return taskGroup;
+    public Squadron getSquadron() {
+        return squadron;
     }
 
     public abstract ReadOnlyStringProperty shortDescriptionProperty();

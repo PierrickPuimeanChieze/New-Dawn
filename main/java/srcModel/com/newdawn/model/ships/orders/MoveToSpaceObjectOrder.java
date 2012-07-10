@@ -30,9 +30,9 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
 
     @Override
     public void applyOrder() {
-        LOG.trace("order [" + getShortDescription() + "] applied to squadron [" + getTaskGroup().
+        LOG.trace("order [" + getShortDescription() + "] applied to squadron [" + getSquadron().
                 getName() + "]");
-        getTaskGroup().setDestination(getDestination());
+        getSquadron().setDestination(getDestination());
         setApplied(true);
     }
 
@@ -48,7 +48,7 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
     @Override
     public ReadOnlyStringProperty longDescriptionProperty() {
         if (longDescriptionProperty == null) {
-            longDescriptionProperty = new SimpleStringProperty("Following this order, the task group " + getTaskGroup().
+            longDescriptionProperty = new SimpleStringProperty("Following this order, the task group " + getSquadron().
                     getName() + " will try to move to " + getDestination().
                     getName());
         }
@@ -57,49 +57,49 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
 
     @Override
     public boolean isOrderAccomplished() {
-        return getDestination().getPositionX() == getTaskGroup().getPositionX() && getDestination().
-                getPositionY() == getTaskGroup().getPositionY();
+        return getDestination().getPositionX() == getSquadron().getPositionX() && getDestination().
+                getPositionY() == getSquadron().getPositionY();
     }
 
     @Override
     public void finalizeOrder() {
-        LOG.trace("[" + getShortDescription() + "] order for squadron [" + getTaskGroup().
+        LOG.trace("[" + getShortDescription() + "] order for squadron [" + getSquadron().
                 getName() + "] finalized");
-        getTaskGroup().setSpeed(0);
-        getTaskGroup().setDestination(null);
+        getSquadron().setSpeed(0);
+        getSquadron().setDestination(null);
     }
 
     @Override
     public void executeOrder(long incrementSize) {
-        if (getTaskGroup().getDestination() != null) {
+        if (getSquadron().getDestination() != null) {
             //We calculate the maximum traveled distance during the increment
-            double traveledDistance = getTaskGroup().getSpeed() * incrementSize;
-            Point2D squadronPosition = new Point2D(getTaskGroup().getPositionX(), getTaskGroup().
+            double traveledDistance = getSquadron().getSpeed() * incrementSize;
+            Point2D squadronPosition = new Point2D(getSquadron().getPositionX(), getSquadron().
                     getPositionY());
-            Point2D destinationPosition = new Point2D(getTaskGroup().
+            Point2D destinationPosition = new Point2D(getSquadron().
                     getDestination().
-                    getPositionX(), getTaskGroup().getDestination().getPositionY());
+                    getPositionX(), getSquadron().getDestination().getPositionY());
 
             //We calculate the distance to the destination 
             double destinationDistance = squadronPosition.distance(destinationPosition);
             //If the maximum traveled distance is enough to reach the destination
             if (destinationDistance < traveledDistance) {
                 //We move the squadron to the destination
-                getTaskGroup().setPositionX(getTaskGroup().getDestination().
+                getSquadron().setPositionX(getSquadron().getDestination().
                         getPositionX());
-                getTaskGroup().setPositionY(getTaskGroup().getDestination().
+                getSquadron().setPositionY(getSquadron().getDestination().
                         getPositionY());
                 //We mark the order as finished
                 setFinished(true);
-                getTaskGroup().setDestination(null);
+                getSquadron().setDestination(null);
 
             } else {
                 Point2D newPositionForShip = ShipUtils.
                         calculateIntermediateCoordinate(squadronPosition, destinationPosition, traveledDistance);
 
 
-                getTaskGroup().setPositionX(newPositionForShip.getX());
-                getTaskGroup().setPositionY(newPositionForShip.getY());
+                getSquadron().setPositionX(newPositionForShip.getX());
+                getSquadron().setPositionY(newPositionForShip.getY());
             }
         }
     }
