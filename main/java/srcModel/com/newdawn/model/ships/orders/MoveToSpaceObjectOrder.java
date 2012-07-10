@@ -65,7 +65,6 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
     public void finalizeOrder() {
         LOG.trace("[" + getShortDescription() + "] order for squadron [" + getSquadron().
                 getName() + "] finalized");
-        getSquadron().setSpeed(0);
         getSquadron().setDestination(null);
     }
 
