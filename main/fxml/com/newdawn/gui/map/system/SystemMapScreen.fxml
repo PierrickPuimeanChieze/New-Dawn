@@ -6,13 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.map.system.SystemMapScreen">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.map.system.SystemMapScreen">
   <children>
-    <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <children>
-        <ListView fx:id="stellarSystemListView" onMouseClicked="#handleClickOnStellarSystemsListView" prefHeight="400.0" prefWidth="180.0" />
-        <TabPane fx:id="systemViewerTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS" />
-      </children>
-    </HBox>
+    <ListView fx:id="stellarSystemListView" onMouseClicked="#handleClickOnStellarSystemsListView" prefHeight="400.0" prefWidth="180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <TabPane fx:id="systemViewerTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="180.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
   </children>
 </AnchorPane>

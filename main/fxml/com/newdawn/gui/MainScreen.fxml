@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.MainScreen">
+  <children>
+    <MenuBar prefHeight="24.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="File" />
+        <Menu mnemonicParsing="false" text="Screens">
+          <items>
+            <MenuItem id="" mnemonicParsing="false" onAction="#showScreenTabAction" text="System Map Screen" fx:id="systemMapScreenMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" style="" text="Fleet Management Screen" fx:id="fleetManagementScreenMenuItem" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
+      <items>
+        <Button fx:id="fiveSecButton" mnemonicParsing="false" onAction="#pushDurationButton" text="5s" />
+        <Button id="thirtySecondsButton" fx:id="thirtySecButton" mnemonicParsing="false" onAction="#pushDurationButton" text="30s" />
+        <Button fx:id="fiveMinButton" mnemonicParsing="false" onAction="#pushDurationButton" text="5m" />
+        <Button fx:id="twentyMinButton" mnemonicParsing="false" onAction="#pushDurationButton" text="20m" />
+        <Button fx:id="oneHourButton" mnemonicParsing="false" onAction="#pushDurationButton" text="1h" />
+        <Button fx:id="threeHourButton" mnemonicParsing="false" onAction="#pushDurationButton" text="3h" />
+        <Button fx:id="eightHourButton" mnemonicParsing="false" onAction="#pushDurationButton" text="8h" />
+        <Button fx:id="oneDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="1d" />
+        <Button fx:id="fiveDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="5d" />
+        <Button fx:id="thirtyDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="30d" />
+      </items>
+    </ToolBar>
+    <TabPane fx:id="screensTabPane" prefHeight="345.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+      <tabs>
+        <Tab fx:id="systemMapScreenTab" text="Systems Map">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab fx:id="fleetManagementScreenTab" text="Fleet Management">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>
