@@ -24,6 +24,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -31,6 +33,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class SystemViewer extends ScrollPane {
 
+    private static final Log LOG = LogFactory.getLog(SystemViewer.class);
     private Group global = new Group();
     private Group components = new Group();
 //    private double zoomLevel = 1;
@@ -48,6 +51,13 @@ public class SystemViewer extends ScrollPane {
 //    private Set<Orbit> registeredOrbit = new HashSet<Orbit>();
     public SystemViewer() {
         this.setPannable(true);
+        this.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+                LOG.debug(arg2 ? "Focused" : "Not Focused");
+            }
+        });
         background = new Rectangle();
         background.setFill(Color.BISQUE);
         global.getChildren().add(background);

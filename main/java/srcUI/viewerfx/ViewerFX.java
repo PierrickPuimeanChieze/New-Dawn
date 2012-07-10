@@ -9,7 +9,10 @@ import com.newdawn.controllers.InitialisationController;
 import com.newdawn.model.system.StellarSystem;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -66,8 +69,6 @@ public class ViewerFX extends Application {
                     getResourceAsStream("/com/newdawn/gui/MainScreen.fxml"));
 
             final Scene scene = new Scene(mainScreen);
-
-
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex) {

@@ -19,6 +19,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -57,12 +59,37 @@ public class FleetManagementScreen implements Initializable {
     @FXML
     private ListView plottedOrdersListView;
     private ObjectProperty<Squadron> squadronProperty;
+    private ObjectProperty<StellarSystem> stellarSystemProperty;
 
+//    private static
     public ObjectProperty<Squadron> squadronProperty() {
         if (squadronProperty == null) {
             squadronProperty = new SimpleObjectProperty<>(this, "squadron");
+            squadronProperty.addListener(new ChangeListener<Squadron>() {
+
+                @Override
+                public void changed(ObservableValue<? extends Squadron> arg0, Squadron arg1, Squadron arg2) {
+                    LOG.debug("squadron changed from " + arg1 + " to " + arg2);
+                }
+            });
         }
         return squadronProperty;
+    }
+
+    private ObjectProperty<StellarSystem> stellarSystemProperty() {
+        if (stellarSystemProperty == null) {
+            stellarSystemProperty = new SimpleObjectProperty<>(this, "stellarSystem");
+            ObjectBinding<StellarSystem> select = Bindings.select(squadronProperty(), "contextualStellarSystem");
+            stellarSystemProperty.bind(select);
+            stellarSystemProperty.addListener(new ChangeListener<StellarSystem>() {
+
+                @Override
+                public void changed(ObservableValue<? extends StellarSystem> arg0, StellarSystem arg1, StellarSystem arg2) {
+                    LOG.debug("stellar System changed from" + arg1 + " to " + arg2);
+                }
+            });
+        }
+        return stellarSystemProperty;
     }
 
     /**
@@ -118,19 +145,40 @@ public class FleetManagementScreen implements Initializable {
     }
 
     private void initAvailableLocationsTreeView() {
-        availableLocationsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", String.class, null));
-        ObjectBinding<Object> select = Bindings.select(squadronProperty(), "contextualStellarSystem");
-        final ObjectBinding<Object> contextualStellarSystemBinding = Bindings.
-                select(squadronProperty(), "contextualStellarSystem");
 
-        //TODO replace by a custom selectBinding
-        contextualStellarSystemBinding.addListener(new InvalidationListener() {
+        availableLocationsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", String.class, null));
+        //TODO replace by a custom SelectBinding, one day
+        final ObjectBinding<TreeItem> contextualStellarSystemBinding = new ObjectBinding<TreeItem>() {
+
+            final ChangeListener<StellarSystem> contextualStellarSystemListener = new ChangeListener<StellarSystem>() {
+
+                @Override
+                public void changed(ObservableValue<? extends StellarSystem> arg0, StellarSystem arg1, StellarSystem arg2) {
+                    invalidate();
+                }
+            };
+
+            {
+                squadronProperty().addListener(new ChangeListener<Squadron>() {
+
+                    @Override
+                    public void changed(ObservableValue<? extends Squadron> arg0, Squadron arg1, Squadron arg2) {
+                        invalidate();
+                        if (arg1 != null) {
+                            arg1.contextualStellarSystemProperty().
+                                    removeListener(contextualStellarSystemListener);
+                        }
+                        if (arg2 != null) {
+                            arg2.contextualStellarSystemProperty().addListener(contextualStellarSystemListener);
+                        }
+                    }
+                });
+            }
 
             @Override
-            public void invalidated(Observable arg0) {
-                LOG.trace("contextualStellarSystemBinding invalidated");
+            protected TreeItem computeValue() {
                 if (getSquadron() == null) {
-                    availableLocationsTreeView.setRoot(null);
+                    return null;
                 } else {
                     StellarSystem stellarSystem = getSquadron().
                             getContextualStellarSystem();
@@ -152,13 +200,11 @@ public class FleetManagementScreen implements Initializable {
                             squadronRoot.getChildren().add(new TreeItem(squadronChild));
                         }
                     }
-                    availableLocationsTreeView.setRoot(root);
-
+                    return root;
                 }
-                contextualStellarSystemBinding.getValue();
             }
-        });
-
+        };
+        availableLocationsTreeView.rootProperty().bind(contextualStellarSystemBinding);
         root.getChildren().add(starRoot);
         root.getChildren().add(planetRoot);
         root.getChildren().add(squadronRoot);
@@ -202,7 +248,8 @@ public class FleetManagementScreen implements Initializable {
                     getSelectedItem();
             Order order = orderFactory.createOrder(getSquadron());
             getSquadron().getPlottedOrders().add(order);
-            LOG.trace("Added Order "+order.getShortDescription()+" to "+getSquadron().getName());
+            LOG.trace("Added Order " + order.getShortDescription() + " to " + getSquadron().
+                    getName());
 
         }
     }
