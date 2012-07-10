@@ -67,4 +67,11 @@ public class StellarSystem implements Serializable {
         }
         return squadronsProperty;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"[name="+getName()+"]";
+    }
+    
+    
 }
