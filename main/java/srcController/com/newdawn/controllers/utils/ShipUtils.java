@@ -36,14 +36,10 @@ public class ShipUtils {
 
     public static Point2D calculateIntermediateCoordinate(Point2D origine, Point2D destination, double intermediateDistance) {
 
-//        Point2D intermediateCoordinate =
-//                double lc = Point2D.distance(origine.x, origine.y, destination.x, destination.y);
         double lc = origine.distance(destination);
-//        intermediateCoordinate.x =;
-//        intermediateCoordinate.y =
         return new Point2D((intermediateDistance * (destination.getX() - origine.
-                getY())) / lc + origine.getX(), (intermediateDistance * (destination.
+                getX())) / lc + origine.getX(), (intermediateDistance * (destination.
                 getY() - origine.getY())) / lc + origine.getY());
-//        return intermediateCoordinate;
+
     }
 }
