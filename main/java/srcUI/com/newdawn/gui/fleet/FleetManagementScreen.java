@@ -3,6 +3,7 @@ package com.newdawn.gui.fleet;
 import com.newdawn.controllers.GameData;
 import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
+import com.newdawn.gui.Utils;
 import com.newdawn.model.ships.Ship;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.ships.orders.Order;
@@ -13,8 +14,6 @@ import com.newdawn.model.system.Star;
 import com.newdawn.model.system.StellarSystem;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.ObjectProperty;
@@ -26,6 +25,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +58,7 @@ public class FleetManagementScreen implements Initializable {
     @FXML
     private ListView<OrderFactory> availableOrdersListView;
     @FXML
-    private ListView plottedOrdersListView;
+    private ListView<Order> plottedOrdersListView;
     private ObjectProperty<Squadron> squadronProperty;
     private ObjectProperty<StellarSystem> stellarSystemProperty;
 
@@ -116,7 +117,8 @@ public class FleetManagementScreen implements Initializable {
 
     private void initPlottedOrdersListView() {
         plottedOrdersListView.setCellFactory(new PropertyListCellFactory("shortDescription", null));
-        plottedOrdersListView.itemsProperty().bind(Bindings.select(squadronProperty(), "plottedOrders"));
+        ObjectBinding<ObservableList<Order>> select = Bindings.select(squadronProperty(), "plottedOrders");
+        plottedOrdersListView.itemsProperty().bind(select);
     }
 
     private void initAvailableOrders() {
@@ -253,4 +255,13 @@ public class FleetManagementScreen implements Initializable {
 
         }
     }
+    
+    public void keyPressedOnPlottedOrdersListView(KeyEvent event) {
+        LOG.trace(Utils.formatKeyEvent(event));
+        if (event.getCode() == KeyCode.DELETE) {
+            Order selectedOrder = plottedOrdersListView.getSelectionModel().getSelectedItem();
+            getSquadron().getPlottedOrders().remove(selectedOrder);
+        }
+    }
+
 }
