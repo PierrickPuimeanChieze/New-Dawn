@@ -31,7 +31,7 @@ public class Squadron implements SpaceObject {
     private ObjectProperty<ObservableList<Ship>> shipsProperty;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
-    private SpaceObject destination;
+    private ObjectProperty<SpaceObject> destinationProperty;
     private ObjectProperty<StellarSystem> stellarSystemProperty;
     private ObjectProperty<StellarSystem> contextualStellarSystemProperty;
     private DoubleProperty speedProperty;
@@ -83,10 +83,11 @@ public class Squadron implements SpaceObject {
 
                 @Override
                 public void onChanged(Change<? extends Order> change) {
-                    if (getCurrentOrder() != null && !getCurrentOrder().isApplied()) {
+                    if (getCurrentOrder() != null && !getCurrentOrder().
+                            isApplied()) {
                         getCurrentOrder().applyOrder();
                     } else if (getCurrentOrder() == null) {
-                        LOG.trace("no more order for squadron "+getName());
+                        LOG.trace("no more order for squadron " + getName());
                         setDestination(null);
                     }
                 }
@@ -155,13 +156,20 @@ public class Squadron implements SpaceObject {
         this.stellarSystemProperty().setValue(stellarSystem);
     }
 
+    public ObjectProperty<SpaceObject> destinationProperty() {
+        if (destinationProperty == null) {
+            destinationProperty = new SimpleObjectProperty<>(this, "destination");
+        }
+        return destinationProperty;
+    }
+
     /**
      * Get the value of destination
      *
      * @return the value of destination
      */
     public SpaceObject getDestination() {
-        return destination;
+        return destinationProperty().getValue();
     }
 
     /**
@@ -170,7 +178,7 @@ public class Squadron implements SpaceObject {
      * @param destination new value of destination
      */
     public void setDestination(SpaceObject destination) {
-        this.destination = destination;
+        destinationProperty().setValue(destination);
     }
 
     public DoubleProperty positionYProperty() {
@@ -280,8 +288,6 @@ public class Squadron implements SpaceObject {
 
     @Override
     public String toString() {
-        return super.toString()+"[name="+getName()+"]";
+        return super.toString() + "[name=" + getName() + "]";
     }
-    
-    
 }
