@@ -21,6 +21,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -59,6 +60,14 @@ public class FleetManagementScreen implements Initializable {
     private ListView<OrderFactory> availableOrdersListView;
     @FXML
     private ListView<Order> plottedOrdersListView;
+    @FXML
+    private CheckBox asteroidsFilterCheckBox;
+    @FXML
+    private CheckBox starsFilterCheckBox;
+    @FXML
+    private CheckBox planetsFilterCheckBox;
+    @FXML
+    private CheckBox squadronFilterCheckBox;
     private ObjectProperty<Squadron> squadronProperty;
     private ObjectProperty<StellarSystem> stellarSystemProperty;
 
@@ -207,9 +216,20 @@ public class FleetManagementScreen implements Initializable {
             }
         };
         availableLocationsTreeView.rootProperty().bind(contextualStellarSystemBinding);
-        root.getChildren().add(starRoot);
-        root.getChildren().add(planetRoot);
-        root.getChildren().add(squadronRoot);
+        updateFilters(null);
+    }
+
+    public void updateFilters(ActionEvent event) {
+        root.getChildren().clear();
+        if (starsFilterCheckBox.isSelected()) {
+            root.getChildren().add(starRoot);
+        }
+        if (planetsFilterCheckBox.isSelected()) {
+            root.getChildren().add(planetRoot);
+        }
+        if (squadronFilterCheckBox.isSelected()) {
+            root.getChildren().add(squadronRoot);
+        }
     }
 
     private void initShipListView() {
@@ -255,13 +275,13 @@ public class FleetManagementScreen implements Initializable {
 
         }
     }
-    
+
     public void keyPressedOnPlottedOrdersListView(KeyEvent event) {
         LOG.trace(Utils.formatKeyEvent(event));
         if (event.getCode() == KeyCode.DELETE) {
-            Order selectedOrder = plottedOrdersListView.getSelectionModel().getSelectedItem();
+            Order selectedOrder = plottedOrdersListView.getSelectionModel().
+                    getSelectedItem();
             getSquadron().getPlottedOrders().remove(selectedOrder);
         }
     }
-
 }

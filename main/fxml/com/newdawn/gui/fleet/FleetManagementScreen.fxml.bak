@@ -71,7 +71,7 @@
                             <CheckBox fx:id="starsFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Stars" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                             <CheckBox fx:id="planetsFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Planets" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                             <CheckBox fx:id="asteroidsFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Asteroids" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                            <CheckBox fx:id="squadronFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Squadron" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                            <CheckBox fx:id="squadronFilterCheckBox" mnemonicParsing="false" selected="true" text="Squadron" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                           </children>
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
