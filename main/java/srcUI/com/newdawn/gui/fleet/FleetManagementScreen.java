@@ -1,5 +1,6 @@
 package com.newdawn.gui.fleet;
 
+
 import com.newdawn.controllers.GameData;
 import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
@@ -31,7 +32,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import viewerfx.ViewerFX;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -39,6 +40,9 @@ import viewerfx.ViewerFX;
  */
 public class FleetManagementScreen implements Initializable {
 
+    @Autowired
+    private GameData gameData;
+    
     private static Log LOG = LogFactory.getLog(FleetManagementScreen.class);
     private TreeItem planetRoot = new TreeItem("Planets");
     private TreeItem root = new TreeItem();
@@ -71,6 +75,11 @@ public class FleetManagementScreen implements Initializable {
     private ObjectProperty<Squadron> squadronProperty;
     private ObjectProperty<StellarSystem> stellarSystemProperty;
 
+    public FleetManagementScreen() {
+        System.out.println("TEST");
+    }
+
+    
 //    private static
     public ObjectProperty<Squadron> squadronProperty() {
         if (squadronProperty == null) {
@@ -113,9 +122,7 @@ public class FleetManagementScreen implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        final GameData gameData = ViewerFX.getCurrentApplication().
-                getSprintContainer().getBean(GameData.class);
-        initSystemListView(gameData);
+        initSystemListView();
         initSquadronListView();
         initSquadronInformation();
         initShipListView();
@@ -254,7 +261,7 @@ public class FleetManagementScreen implements Initializable {
 
     }
 
-    private void initSystemListView(final GameData gameData) {
+    private void initSystemListView() {
         //        systemListView = new ListView<>(gameData.getStellarSystems());
         systemListView.setItems(gameData.getStellarSystems());
         systemListView.setCellFactory(new PropertyListCellFactory<StellarSystem>("name", null));

@@ -17,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
+import org.springframework.beans.factory.annotation.Autowired;
 import viewerfx.ViewerFX;
 
 /**
@@ -24,7 +25,8 @@ import viewerfx.ViewerFX;
  * @author Pierrick Puimean-Chieze
  */
 public class MainScreen implements Initializable {
-
+    @Autowired
+    private MainController mainController;
     @FXML
     private Button fiveSecButton;
     @FXML
@@ -58,17 +60,17 @@ public class MainScreen implements Initializable {
     private Tab fleetManagementScreenTab;
     private AnchorPane systemMapScreen;
     private AnchorPane fleetManagementScreen;
-
+    
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         fleetManagementScreenTab.setContent(getFleetManagementScreen());
         systemMapScreenTab.setContent(getSystemMapScreen());
-
+        
         fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
         fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
         systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F3));
         systemMapScreenMenuItem.setUserData(systemMapScreenTab);
-
+        
         screensTabPane.getTabs().removeAll(systemMapScreenTab, fleetManagementScreenTab);
         fiveSecButton.setUserData(5);
         thirtySecButton.setUserData(30);
@@ -80,14 +82,16 @@ public class MainScreen implements Initializable {
         oneDayButton.setUserData(24 * 3600);
         fiveDayButton.setUserData(5 * 24 * 3600);
         thirtyDayButton.setUserData(30 * 24 * 3600);
-        
+
 //        screensTabPane.setStyle("-fx-background-color:#000000");
     }
-
+    
     public AnchorPane getSystemMapScreen() {
         if (systemMapScreen == null) {
             try {
                 FXMLLoader test = new FXMLLoader();
+                test.setControllerFactory(new SpringFXControllerFactory(ViewerFX.
+                        getCurrentApplication().getSprintContainer()));
                 systemMapScreen = (AnchorPane) test.load(getClass().
                         getResourceAsStream("/com/newdawn/gui/map/system/SystemMapScreen.fxml"));
             } catch (IOException ex) {
@@ -98,12 +102,14 @@ public class MainScreen implements Initializable {
         }
         return systemMapScreen;
     }
-
+    
     public AnchorPane getFleetManagementScreen() {
         if (fleetManagementScreen == null) {
             try {
                 FXMLLoader test = new FXMLLoader();
-
+                test.setControllerFactory(
+                        new SpringFXControllerFactory(ViewerFX.
+                        getCurrentApplication().getSprintContainer()));
                 fleetManagementScreen = (AnchorPane) test.load(getClass().
                         getResourceAsStream("/com/newdawn/gui/fleet/FleetManagementScreen.fxml"));
             } catch (IOException ex) {
@@ -114,11 +120,11 @@ public class MainScreen implements Initializable {
         }
         return fleetManagementScreen;
     }
-
+    
     @FXML
     public void showScreenTabAction(ActionEvent event) {
         Object data = Utils.getUserData(event.getSource());
-        if (data != null && data  instanceof Tab) {
+        if (data != null && data instanceof Tab) {
             Tab tabToShow = (Tab) data;
             if (screensTabPane.getTabs().contains(tabToShow)) {
                 screensTabPane.getSelectionModel().select(tabToShow);
@@ -127,14 +133,12 @@ public class MainScreen implements Initializable {
             }
         }
     }
-
+    
     @FXML
     public void pushDurationButton(ActionEvent event) {
         Object data = Utils.getUserData(event.getSource());
         if (data != null && data instanceof Integer) {
             Integer duration = (Integer) data;
-            MainController mainController = ViewerFX.getCurrentApplication().
-                    getSprintContainer().getBean(MainController.class);
             mainController.runIncrements(duration);
         }
     }

@@ -12,6 +12,7 @@ import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 /**
@@ -20,9 +21,11 @@ import org.xml.sax.SAXException;
  */
 public class InitialisationController {
 
+    @Autowired
     private GameData gameData;
+    @Autowired
     private Config config;
-
+    
     public Config getConfig() {
         return config;
     }

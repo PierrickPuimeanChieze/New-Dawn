@@ -22,6 +22,8 @@ import javafx.scene.input.MouseEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -29,6 +31,8 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class SystemMapScreen implements Initializable {
 
+    @Autowired
+    private GameData gameData;
     private Map<StellarSystem, Tab> openedTabs = new HashMap<>();
     @FXML
     private ListView<StellarSystem> stellarSystemListView;
@@ -49,9 +53,8 @@ public class SystemMapScreen implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        BeanFactory factory = viewerfx.ViewerFX.getCurrentApplication().
+        ApplicationContext factory = viewerfx.ViewerFX.getCurrentApplication().
                 getSprintContainer();
-        GameData gameData = factory.getBean(GameData.class);
         Bindings.bindContent(stellarSystemListView.getItems(), gameData.
                 getStellarSystems());
         stellarSystemListView.setCellFactory(new PropertyListCellFactory<StellarSystem>("name", null));

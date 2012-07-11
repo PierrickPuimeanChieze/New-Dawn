@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class Config {
 
     private int subPulse = 5;
+    
     private String initDefaultDeltaValue;
 
     /**

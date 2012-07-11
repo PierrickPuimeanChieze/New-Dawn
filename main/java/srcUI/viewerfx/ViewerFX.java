@@ -6,6 +6,7 @@ package viewerfx;
 
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
+import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.system.StellarSystem;
 import java.io.IOException;
 import javafx.application.Application;
@@ -27,7 +28,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Pierrick Puimean-Chieze
  */
 public class ViewerFX extends Application {
-
+    
     private static ViewerFX currentApplication;
     private ApplicationContext sprintContainer;
     private static Log LOG = LogFactory.getLog(ViewerFX.class);
@@ -36,19 +37,19 @@ public class ViewerFX extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
+        
         launch(args);
     }
-
+    
     @Override
     public void init() throws Exception {
         super.init();
-
+        
         ViewerFX.currentApplication = this;
-
+        
         sprintContainer = new ClassPathXmlApplicationContext("/spring/newdawn.xml");
-
-
+        
+        
         InitialisationController initialisationController = sprintContainer.
                 getBean(InitialisationController.class);
         final StellarSystem solarSystem = SollarSystemBuilder.getIt(initialisationController);
@@ -58,16 +59,17 @@ public class ViewerFX extends Application {
         GameData gameData = sprintContainer.getBean(GameData.class);
         gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
     }
-
+    
     @Override
     public void start(Stage primaryStage) {
-
+        
         try {
             FXMLLoader loader = new FXMLLoader();
+            loader.setControllerFactory(new SpringFXControllerFactory(getSprintContainer()));
             AnchorPane mainScreen;
             mainScreen = (AnchorPane) loader.load(getClass().
                     getResourceAsStream("/com/newdawn/gui/MainScreen.fxml"));
-
+            
             final Scene scene = new Scene(mainScreen);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -76,12 +78,12 @@ public class ViewerFX extends Application {
             throw new RuntimeException(ex);
         }
     }
-
+    
     public static ViewerFX getCurrentApplication() {
         return currentApplication;
     }
-
-    public BeanFactory getSprintContainer() {
+    
+    public ApplicationContext getSprintContainer() {
         return sprintContainer;
     }
 }
