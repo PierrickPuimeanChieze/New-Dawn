@@ -7,11 +7,13 @@ package com.newdawn.controllers;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.ships.orders.Order;
 import javafx.collections.ObservableList;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Pierrick Puimean-Chieze
  */
+@Component
 public class OrderController {
 
     public final void updateOrders(Squadron taskGroup) {

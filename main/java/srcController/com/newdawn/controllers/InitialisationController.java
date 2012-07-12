@@ -13,12 +13,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 /**
  *
  * @author Pierrick Puimean-Chieze
  */
+@Component
 public class InitialisationController {
 
     @Autowired

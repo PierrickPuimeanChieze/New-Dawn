@@ -7,15 +7,7 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.1.xsd">
     <context:annotation-config/>
+    <context:component-scan base-package="com.newdawn.controllers"/>
+    
     <import resource="classpath:/spring/fxcontrollers.xml"/> 
-    <bean name="gameData" class="com.newdawn.controllers.GameData" />
-    <bean name="config" class="com.newdawn.controllers.Config">
-        <property name="initDefaultDeltaValue" value="0.0"/>
-    </bean>
-    <bean name="fleetManagementController" class="com.newdawn.controllers.FleetManagementController" />
-    <bean name="celestialBodyMovementController" class="com.newdawn.controllers.CelestialBodyMovementController"/>
-    <bean name="shipMovementController" class="com.newdawn.controllers.ShipMovementController"/>
-    <bean name="orderController" class="com.newdawn.controllers.OrderController"/>
-    <bean name="initialisationController" class="com.newdawn.controllers.InitialisationController"/>
-    <bean name="mainController" class="com.newdawn.controllers.MainController"/>
 </beans>
