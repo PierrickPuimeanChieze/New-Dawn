@@ -2,7 +2,6 @@ package com.newdawn.model.colony;
 
 import com.newdawn.controllers.Config;
 import com.newdawn.model.system.Planet;
-import com.sun.javafx.binding.SelectBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -37,6 +36,33 @@ public class Colony {
     private LongProperty agriculturePopulationProperty;
     private LongProperty servicesPopulationProperty;
     private LongProperty industryPopulationProperty;
+    private StringProperty nameProperty;
+
+    public StringProperty nameProperty() {
+        if (nameProperty == null) {
+            nameProperty = new SimpleStringProperty(this, "name");
+        }
+        return nameProperty;
+    }
+
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return nameProperty().getValue();
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.nameProperty().setValue(name);
+    }
+
 
     public ReadOnlyLongProperty industryPopulationProperty() {
         if (industryPopulationProperty == null) {
