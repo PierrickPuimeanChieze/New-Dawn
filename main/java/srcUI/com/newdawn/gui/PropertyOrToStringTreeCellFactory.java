@@ -1,5 +1,6 @@
 package com.newdawn.gui;
 
+import com.sun.javafx.property.PropertyReference;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
@@ -15,35 +16,42 @@ import javafx.util.Callback;
  * @author Pierrick Puimean-Chieze
  */
 public class PropertyOrToStringTreeCellFactory implements Callback<TreeView, TreeCell> {
-    
-    private Class<?> toStringClass;
+
+    private Class<?>[] toStringClasses;
     EventHandler<MouseEvent> mouseEventHandler;
     private final String propertyName;
-    
-    public PropertyOrToStringTreeCellFactory(String propertyName, Class<?> toStringClass, EventHandler<MouseEvent> mouseEventHandler) {
+
+    public PropertyOrToStringTreeCellFactory(String propertyName, EventHandler<MouseEvent> mouseEventHandler, Class<?>... toStringClasses) {
         this.propertyName = propertyName;
         this.mouseEventHandler = mouseEventHandler;
-        this.toStringClass = toStringClass;
+        this.toStringClasses = toStringClasses;
     }
-    
+
     @Override
     public TreeCell call(TreeView arg0) {
-        
+
         final TreeCell toReturn = new TreeCell();
-        
+
         toReturn.itemProperty().addListener(new ChangeListener() {
-            
+
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
                 if (arg2 == null) {
                     toReturn.setText("null");
+                    return;
                 }
-                else if (toStringClass.isAssignableFrom(arg2.getClass())) {
-                    toReturn.setText(arg2.toString());
-                } else {
-                    final StringBinding selectString = Bindings.selectString(arg0, propertyName);
-                    toReturn.setText(selectString.get());
+                for (Class<?> class1 : toStringClasses) {
+                    if (class1.isAssignableFrom(arg2.getClass())) {
+                        toReturn.setText(arg2.toString());
+                        return;
+                    }
+//                    final StringBinding selectString =;
+//                    toReturn.setText(selectString.get());
                 }
+                toReturn.textProperty().unbind();
+                toReturn.textProperty().bind( Bindings.selectString(arg0, propertyName));
+//                toReturn.setText(propertyReference.getProperty(arg2).
+//                        getValue().toString());
             }
         });
         return toReturn;

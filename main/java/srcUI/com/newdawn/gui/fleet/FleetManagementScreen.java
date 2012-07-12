@@ -158,7 +158,7 @@ public class FleetManagementScreen implements Initializable {
 
     private void initAvailableLocationsTreeView() {
 
-        availableLocationsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", String.class, null));
+        availableLocationsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", null, String.class));
         //TODO replace by a custom SelectBinding, one day
         final ObjectBinding<TreeItem> contextualStellarSystemBinding = new ObjectBinding<TreeItem>() {
 
