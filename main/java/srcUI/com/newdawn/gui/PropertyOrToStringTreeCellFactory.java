@@ -31,27 +31,27 @@ public class PropertyOrToStringTreeCellFactory implements Callback<TreeView, Tre
     public TreeCell call(TreeView arg0) {
 
         final TreeCell toReturn = new TreeCell();
+        toReturn.textProperty().bind(Bindings.selectString(toReturn.itemProperty(), propertyName));
 
         toReturn.itemProperty().addListener(new ChangeListener() {
 
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
                 if (arg2 == null) {
-                    toReturn.setText("null");
+                    toReturn.setText(null);
                     return;
                 }
                 for (Class<?> class1 : toStringClasses) {
                     if (class1.isAssignableFrom(arg2.getClass())) {
+                        toReturn.textProperty().unbind();
                         toReturn.setText(arg2.toString());
                         return;
                     }
-//                    final StringBinding selectString =;
-//                    toReturn.setText(selectString.get());
                 }
-                toReturn.textProperty().unbind();
-                toReturn.textProperty().bind( Bindings.selectString(arg0, propertyName));
-//                toReturn.setText(propertyReference.getProperty(arg2).
-//                        getValue().toString());
+                if (!toReturn.textProperty().isBound()) {
+                    toReturn.textProperty().bind(Bindings.selectString(toReturn.
+                            itemProperty(), propertyName));
+                }
             }
         });
         return toReturn;
