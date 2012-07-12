@@ -1,10 +1,10 @@
 package com.newdawn.gui.economic;
 
+import com.newdawn.controllers.Config;
 import com.newdawn.model.colony.Colony;
 import com.sun.javafx.binding.SelectBinding;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import static javafx.beans.binding.Bindings.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,7 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -53,9 +53,9 @@ public class ColonyEconomicScreen implements Initializable {
     @FXML //  fx:id="totalPopulationLabel"
     private Label totalPopulationLabel; // Value injected by FXMLLoader
     private ObjectProperty<Colony> colonyProperty;
-    @FXML
-    private TextField testTextField;
 
+    @Autowired
+    private Config config;
     public ObjectProperty<Colony> colonyProperty() {
         if (colonyProperty == null) {
             colonyProperty = new SimpleObjectProperty<>(this, "colony");
@@ -88,7 +88,6 @@ public class ColonyEconomicScreen implements Initializable {
         assert industryPopulationLabel != null : "fx:id=\"industryPopulationLabel\" was not injected: check your FXML file 'ColonyEconomicScreen.fxml'.";
         assert servicePopulationLabel != null : "fx:id=\"servicePopulationLabel\" was not injected: check your FXML file 'ColonyEconomicScreen.fxml'.";
         assert totalPopulationLabel != null : "fx:id=\"totalPopulationLabel\" was not injected: check your FXML file 'ColonyEconomicScreen.fxml'.";
-        assert testTextField != null;
 
         // initialize your logic here: all @FXML variables will have been injected
 
@@ -96,6 +95,9 @@ public class ColonyEconomicScreen implements Initializable {
         agriculturePopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "agriculturePopulation"));
         servicePopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "servicesPopulation"));
         industryPopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "industryPopulation"));
-        annualGrowRateLabel.textProperty().bind(format("%.2s%%", selectFloat(colonyProperty(), "populationGrowRate").multiply(12)));
+
+
+        annualGrowRateLabel.textProperty().bind(format("%.2s%%", selectFloat(colonyProperty(), "populationGrowRate").
+                multiply(config.getPopulationGrowRateAnnualMultiplicator())));
     }
 }

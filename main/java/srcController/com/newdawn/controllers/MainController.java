@@ -4,10 +4,12 @@
  */
 package com.newdawn.controllers;
 
+import com.newdawn.model.colony.Colony;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.Satellite;
 import com.newdawn.model.system.StellarSystem;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,6 +33,8 @@ public class MainController {
     private OrderController orderController;
     @Autowired
     private Config config;
+    @Autowired
+    private ColonyController colonyIncreaseController;
 
     public Config getConfig() {
         return config;
@@ -115,7 +119,7 @@ public class MainController {
 
     private void runIncrements(long increments, long subPulse) {
         LOGGER.entering(MainController.class.getName(), "runIncrements", new Object[]{increments, subPulse});
-        LOGGER.finest("Running " + increments + "increments");
+        LOGGER.log(Level.FINEST, "Running {0} increments", increments);
         for (int i = 0; i < increments; i++) {
             LOGGER.finest("Running increment " + i);
             runSubPulse(subPulse);
@@ -138,6 +142,10 @@ public class MainController {
                 getOrderController().startExecutionOrder(taskGroup);
                 getShipMovementController().moveTaskGroup(second, taskGroup);
                 getOrderController().updateOrders(taskGroup);
+            }
+            
+            for (Colony colony : system.getColonies()) {
+                colonyIncreaseController.calculateColonyPopulationAndWealth(colony, second);
             }
         }
         LOGGER.exiting(MainController.class.getName(), "runSubPulse");

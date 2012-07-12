@@ -46,7 +46,6 @@
                 </GridPane>
               </content>
             </TitledPane>
-            <TextField fx:id="testTextField" editable="false" layoutX="371.0" layoutY="92.0" prefWidth="200.0" text="TextField" />
           </children>
         </AnchorPane>
       </content>

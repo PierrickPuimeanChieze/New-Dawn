@@ -15,8 +15,17 @@ public class Config {
 
     private int subPulse = 5;
     private String initDefaultDeltaValue = "π";
+    //TODO remove the table storage
     private int[] popRepartition = {5, 75, 20};
 
+    /**
+     * This field store the period of the population growth.
+     */
+    private int populationGrowPeriod = 24*3600*30;
+    /**
+     * This field store the multiplicator to apply to the colonies' grow rate for getting the annual grow rate
+     */
+    private int populationGrowRateAnnualMultiplicator = 12;
     /**
      * Get the value of initDefaultDeltaValue
      *
@@ -50,4 +59,14 @@ public class Config {
     public int getIndustriesPopulationPart() {
         return popRepartition[2];
     }
+
+    public int getPopulationGrowPeriod() {
+        return populationGrowPeriod;
+    }
+
+    public int getPopulationGrowRateAnnualMultiplicator() {
+        return populationGrowRateAnnualMultiplicator;
+    }
+    
+    
 }

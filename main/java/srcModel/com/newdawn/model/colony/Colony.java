@@ -37,6 +37,51 @@ public class Colony {
     private LongProperty servicesPopulationProperty;
     private LongProperty industryPopulationProperty;
     private StringProperty nameProperty;
+    private long populationGrowCounter = 0;
+    private IntegerProperty wealthProductionProperty;
+
+    public IntegerProperty wealthProductionProperty() {
+        if (wealthProductionProperty == null) {
+            wealthProductionProperty = new SimpleIntegerProperty(this, "wealthProduction");
+        }
+        return wealthProductionProperty;
+    }
+
+    /**
+     * Get the value of wealthProduction
+     *
+     * @return the value of wealthProduction
+     */
+    public int getWealthProduction() {
+        return wealthProductionProperty().getValue();
+    }
+
+    /**
+     * Set the value of wealthProduction
+     *
+     * @param wealthProduction new value of wealthProduction
+     */
+    public void setWealthProduction(int wealthProduction) {
+        this.wealthProductionProperty().setValue(wealthProduction);
+    }
+
+    /**
+     * Get the value of populationGrowCounter
+     *
+     * @return the value of populationGrowCounter
+     */
+    public long getPopulationGrowCounter() {
+        return populationGrowCounter;
+    }
+
+    /**
+     * Set the value of populationGrowCounter
+     *
+     * @param populationGrowCounter new value of populationGrowCounter
+     */
+    public void setPopulationGrowCounter(long populationGrowCounter) {
+        this.populationGrowCounter = populationGrowCounter;
+    }
 
     public StringProperty nameProperty() {
         if (nameProperty == null) {
@@ -62,7 +107,6 @@ public class Colony {
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
-
 
     public ReadOnlyLongProperty industryPopulationProperty() {
         if (industryPopulationProperty == null) {

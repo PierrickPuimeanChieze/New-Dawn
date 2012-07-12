@@ -32,6 +32,7 @@
         <Button fx:id="oneDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="1d" />
         <Button fx:id="fiveDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="5d" />
         <Button fx:id="thirtyDayButton" mnemonicParsing="false" onAction="#pushDurationButton" text="30d" />
+        <Button mnemonicParsing="false" onAction="#launchTest" text="Test" />
       </items>
     </ToolBar>
     <TabPane fx:id="screensTabPane" prefHeight="345.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">

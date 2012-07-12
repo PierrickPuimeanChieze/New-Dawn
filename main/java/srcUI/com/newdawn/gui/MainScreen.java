@@ -1,14 +1,21 @@
 package com.newdawn.gui;
 
+import com.newdawn.controllers.ColonyController;
+import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.MainController;
 import com.newdawn.gui.economic.ColonyEconomicScreen;
 import com.newdawn.gui.fleet.FleetManagementScreen;
 import com.newdawn.model.colony.Colony;
+import com.newdawn.model.system.Planet;
+import com.sun.javafx.binding.ContentBinding;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +39,10 @@ public class MainScreen implements Initializable {
 
     @Autowired
     private MainController mainController;
+    @Autowired
+    private ColonyController colonyController;
+    @Autowired
+    private GameData gameData;
     @FXML
     private Button fiveSecButton;
     @FXML
@@ -78,7 +89,7 @@ public class MainScreen implements Initializable {
 
         economicScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
         economicScreenMenuItem.setUserData(economicScreenTab);
-        
+
         systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F3));
         systemMapScreenMenuItem.setUserData(systemMapScreenTab);
 
@@ -159,16 +170,29 @@ public class MainScreen implements Initializable {
     }
 
     private Node getEconomicScreen() {
-        Colony test = new Colony();
-        test.setPopulation(5_050_000);
-        test.setPopulationGrowRate(1);
-        FXMLLoader loader = new FXMLLoader();
+
+        Bindings.bindContent(new ArrayList<>(), FXCollections.
+                observableArrayList());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/economic/EconomicScreen.fxml"));
+        loader.setControllerFactory(
+                new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
+                getSprintContainer()));
         try {
-            Node toReturn = (Node)loader.load(getClass().getResourceAsStream("/com/newdawn/gui/economic/ColonyEconomicScreen.fxml"));
-            ((ColonyEconomicScreen)loader.getController()).setColony(test);
+            Node toReturn = (Node) loader.load();
+//            ((ColonyEconomicScreen)loader.getController()).setColony(test);
             return toReturn;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @FXML
+    public void launchTest(ActionEvent event) {
+        Colony test = new Colony();
+        test.setPopulation(100_000_000);
+        test.setPopulationGrowRate(1);
+        test.setName("Test");
+        Planet planet = gameData.getStellarSystems().get(0).getPlanets().get(0);
+        colonyController.updateSystemWithColony(planet, test);
     }
 }

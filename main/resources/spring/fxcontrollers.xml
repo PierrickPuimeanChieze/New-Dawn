@@ -10,4 +10,6 @@
     <bean name="fleetManagementScreen" class="com.newdawn.gui.fleet.FleetManagementScreen"/>
     <bean name="mainScreen" class="com.newdawn.gui.MainScreen"/>
     <bean name="systemMapScreen" class="com.newdawn.gui.map.system.SystemMapScreen"/>
+    <bean name="colonyEconomicScreen" class="com.newdawn.gui.economic.ColonyEconomicScreen"/>
+    <bean name="economicScreen" class="com.newdawn.gui.economic.EconomicScreen"/>
 </beans>
