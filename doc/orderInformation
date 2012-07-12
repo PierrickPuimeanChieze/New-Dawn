@@ -1,0 +1,11 @@
+Move order : 
+Move the orbital bodies (planets, asteroids, star)
+Move the squadron 
+
+Colony increasement : 
+For each colony
+Population and income
+Add the time of the increment to the colony counter
+if the time cumuled is over a month
+    add the income
+    increase the population
