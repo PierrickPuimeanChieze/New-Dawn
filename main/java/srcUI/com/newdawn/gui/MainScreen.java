@@ -1,6 +1,9 @@
 package com.newdawn.gui;
 
 import com.newdawn.controllers.MainController;
+import com.newdawn.gui.economic.ColonyEconomicScreen;
+import com.newdawn.gui.fleet.FleetManagementScreen;
+import com.newdawn.model.colony.Colony;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -25,6 +29,7 @@ import viewerfx.ViewerFX;
  * @author Pierrick Puimean-Chieze
  */
 public class MainScreen implements Initializable {
+
     @Autowired
     private MainController mainController;
     @FXML
@@ -48,6 +53,8 @@ public class MainScreen implements Initializable {
     @FXML
     private Button thirtyDayButton;
     @FXML
+    private MenuItem economicScreenMenuItem;
+    @FXML
     private MenuItem systemMapScreenMenuItem;
     @FXML
     private MenuItem fleetManagementScreenMenuItem;
@@ -55,22 +62,29 @@ public class MainScreen implements Initializable {
     private TabPane screensTabPane;
     //TODO See to move them to the fxml
     @FXML
+    private Tab economicScreenTab;
+    @FXML
     private Tab systemMapScreenTab;
     @FXML
     private Tab fleetManagementScreenTab;
     private AnchorPane systemMapScreen;
     private AnchorPane fleetManagementScreen;
-    
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         fleetManagementScreenTab.setContent(getFleetManagementScreen());
         systemMapScreenTab.setContent(getSystemMapScreen());
+        economicScreenTab.setContent(getEconomicScreen());
+
+        economicScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
+        economicScreenMenuItem.setUserData(economicScreenTab);
         
-        fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
-        fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
         systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F3));
         systemMapScreenMenuItem.setUserData(systemMapScreenTab);
-        
+
+        fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
+        fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
+
         screensTabPane.getTabs().removeAll(systemMapScreenTab, fleetManagementScreenTab);
         fiveSecButton.setUserData(5);
         thirtySecButton.setUserData(30);
@@ -85,7 +99,7 @@ public class MainScreen implements Initializable {
 
 //        screensTabPane.setStyle("-fx-background-color:#000000");
     }
-    
+
     public AnchorPane getSystemMapScreen() {
         if (systemMapScreen == null) {
             try {
@@ -102,7 +116,7 @@ public class MainScreen implements Initializable {
         }
         return systemMapScreen;
     }
-    
+
     public AnchorPane getFleetManagementScreen() {
         if (fleetManagementScreen == null) {
             try {
@@ -112,6 +126,7 @@ public class MainScreen implements Initializable {
                         getCurrentApplication().getSprintContainer()));
                 fleetManagementScreen = (AnchorPane) test.load(getClass().
                         getResourceAsStream("/com/newdawn/gui/fleet/FleetManagementScreen.fxml"));
+
             } catch (IOException ex) {
                 Logger.getLogger(ViewerFX.class.getName()).
                         log(Level.SEVERE, null, ex);
@@ -120,7 +135,7 @@ public class MainScreen implements Initializable {
         }
         return fleetManagementScreen;
     }
-    
+
     @FXML
     public void showScreenTabAction(ActionEvent event) {
         Object data = Utils.getUserData(event.getSource());
@@ -133,13 +148,27 @@ public class MainScreen implements Initializable {
             }
         }
     }
-    
+
     @FXML
     public void pushDurationButton(ActionEvent event) {
         Object data = Utils.getUserData(event.getSource());
         if (data != null && data instanceof Integer) {
             Integer duration = (Integer) data;
             mainController.runIncrements(duration);
+        }
+    }
+
+    private Node getEconomicScreen() {
+        Colony test = new Colony();
+        test.setPopulation(5_050_000);
+        test.setPopulationGrowRate(1);
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            Node toReturn = (Node)loader.load(getClass().getResourceAsStream("/com/newdawn/gui/economic/ColonyEconomicScreen.fxml"));
+            ((ColonyEconomicScreen)loader.getController()).setColony(test);
+            return toReturn;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

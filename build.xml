@@ -3,7 +3,7 @@
     <property name="build.dir" value="${basedir}/target"/>
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
-    <property name="fx.jar" value="${user.dir}/javafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
+    <property name="fx.jar" value="${user.dir}/bjavafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
     <property name="main.class.name" value="viewerfx.ViewerFX"/>
     <property name="lib.dir" location="lib"/>
     <property name="logging.conf.file" value="logging.properties"/>

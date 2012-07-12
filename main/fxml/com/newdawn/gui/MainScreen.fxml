@@ -13,6 +13,7 @@
         <Menu mnemonicParsing="false" text="File" />
         <Menu mnemonicParsing="false" text="Screens">
           <items>
+            <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" text="Economic Screen" fx:id="economicScreenMenuItem" />
             <MenuItem id="" mnemonicParsing="false" onAction="#showScreenTabAction" text="System Map Screen" fx:id="systemMapScreenMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" style="" text="Fleet Management Screen" fx:id="fleetManagementScreenMenuItem" />
           </items>
@@ -35,6 +36,11 @@
     </ToolBar>
     <TabPane fx:id="screensTabPane" prefHeight="345.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
       <tabs>
+        <Tab fx:id="economicScreenTab" text="Economic">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
         <Tab fx:id="systemMapScreenTab" text="Systems Map">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

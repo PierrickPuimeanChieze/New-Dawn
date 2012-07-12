@@ -75,12 +75,6 @@ public class FleetManagementScreen implements Initializable {
     private ObjectProperty<Squadron> squadronProperty;
     private ObjectProperty<StellarSystem> stellarSystemProperty;
 
-    public FleetManagementScreen() {
-        System.out.println("TEST");
-    }
-
-    
-//    private static
     public ObjectProperty<Squadron> squadronProperty() {
         if (squadronProperty == null) {
             squadronProperty = new SimpleObjectProperty<>(this, "squadron");

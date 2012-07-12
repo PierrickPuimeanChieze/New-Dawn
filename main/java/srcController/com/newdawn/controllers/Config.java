@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 public class Config {
 
     private int subPulse = 5;
-    
     private String initDefaultDeltaValue;
+    private int[] popRepartition = {5, 75, 20};
 
     /**
      * Get the value of initDefaultDeltaValue
@@ -37,5 +37,17 @@ public class Config {
 
     public int getSubPulse() {
         return subPulse;
+    }
+
+    public int getAgriculturePopulationPart() {
+        return popRepartition[0];
+    }
+
+    public int getServicesPopulationPart() {
+        return popRepartition[1];
+    }
+
+    public int getIndustriesPopulationPart() {
+        return popRepartition[2];
     }
 }
