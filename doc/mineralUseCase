@@ -1,7 +1,9 @@
-CCME = Corps Celeste Mineralement Exploitable
+---Acronymes---
+CCME = Corps Celeste Mineralement Exploitable : planetes asteroids ou autres corps celeste pouvant faire l'objet de prospection.
+---Reperages---
 Chaque CCME dispose d'un level de compétence pour le reperage initial.
-Ce depot peut être rempli independamment par une equipe au sol ou un vaisseau. 
-Un vaisseau, toutefois, le rempli plus vite.
+Ce level peut être rempli independamment par une equipe au sol ou un vaisseau, contrairement aux autres levels qui ne peuvent être rempli que par une equipe. 
+Un vaisseau, toutefois, le rempli plus vite, proportionnellement au niveau de compétence total.
 Lorsqu'il est rempli, ce niveau de compétence donne accès au dépots initiaux du CMME
 
 Chaque CCME dispose également d'un niveau de finalisation. Lorsque ce dépot est rempli, il confirme qu'il n'y a plus de dépots accessible sur le CCME ("l'equipe X confirme que tous les depots sur le corps Y ont été reperés). Ce dépot peut être le dépot initial, auquel cas le CCME ne contient pas de mineraux exploitable.
@@ -9,10 +11,13 @@ Chaque CCME dispose également d'un niveau de finalisation. Lorsque ce dépot es
 Chaque CCME dispose ensuite d'un ensemble de depot
 Chaque depot correspond a une somme fixe de mineral
 Chaque depot dispose de d'unlevels de compétence : un level necessaire pour reperer la localisation du dépot. Un depot ne peut commencer a être exploité que lorsque sa localisation est reperée.
-Losqu'une equipe effectue des recherches, elle commence par tenter de localiser le depot avec le moins de compétence necessaire, avant de passer au suivant, et ainsi de suite.
+
+---Remplissage d'un level---
+Tous les 5 jours (a définir dans le config), l'equipe ou le vaisseau rempli un level d'une quantité de point de reperage egale a la différence entre le skill demandé par celui-ci et le niveau effectif de l'equipe ou du vaisseau.
+Le level rempli est celui demandant le moins de skill.
+Lorsqu'un level est rempli, le ou les depots associés sont localiser et donc exploitables. Dans le cas du level de finalisation, le corps est marqué comme complétement prospecté.
 Lorsque l'equipe n'a pas le niveau pour localiser le depot suivant ou pour remplir le niveau de finalisation, elle en informe le joueur ("Il semblerait qu'il reste des depots de mineraux sur X, mais l'equipe Y n'a pas le niveau de compétence pour les reperer...)
-
-
+---Gain d'XP---
 Detecter les dépots initiaux d'un CCME, localiser un depot intermediaire ou remplir le niveau de finalisation constitue une action recompensable en XP pour l'equipe de Geology ou l'equipage du vaiseau ayant effectuer la recherche
 a noter que dans le cas d'une equipe, tous les membres de l'equipe reçoivent la totalité des XP sur leurs compétence geology, excepté le leader. Pour celui-ci, les XP sont repartis entre sa compétence Leadership et sa compétence Geology. La repartition se fait selon la formule suivante : 
 % en leadership = (taille de l'equipe -1)*10
