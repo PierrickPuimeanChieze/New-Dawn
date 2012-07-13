@@ -34,7 +34,7 @@ public class Mineral {
      * @param name new value of name
      */
     public void setName(String name) {
-        this.nameProperty.setValue(name);
+        this.nameProperty().setValue(name);
     }
 
 }
