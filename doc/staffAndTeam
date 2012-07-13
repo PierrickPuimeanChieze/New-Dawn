@@ -2,7 +2,10 @@
 A staff is a people who can be used in a position in an empire. 
 A Staff is either a Naval Officer, a Ground Force officer, a Scientist or a Civilian administrator. Any type of staff can be a field team member or leader
 ---Skill and XP---
-A staff can have a 
+A skill have a level and an XP reserve. 
+Each time the XP reserve reach 100, the skill gain 10 points.
+To gain XP points, the staff must benefits of XP gain action. Each action give XP to one or more skill of each staff benificiting of it.
+If a Staff dosesn't have a skill, this skill is generally considered as having a level of 0.
 --Staff Position--
 ---Naval officer--
 A Naval officer can take command of a starship. His skills influence the performance of the ships.
