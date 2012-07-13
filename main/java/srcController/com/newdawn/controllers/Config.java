@@ -24,6 +24,7 @@ public class Config {
     private int populationGrowPeriod = 24*3600*30;
     /**
      * This field store the multiplicator to apply to the colonies' grow rate for getting the annual grow rate
+     * //TODO try to link this field to populationGrowPeriod
      */
     private int populationGrowRateAnnualMultiplicator = 12;
     /**
