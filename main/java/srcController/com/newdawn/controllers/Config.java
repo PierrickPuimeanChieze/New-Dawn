@@ -4,6 +4,8 @@
  */
 package com.newdawn.controllers;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,6 +29,35 @@ public class Config {
      * //TODO try to link this field to populationGrowPeriod
      */
     private int populationGrowRateAnnualMultiplicator = 12;
+    
+    private IntegerProperty factoryProductionRateProperty;
+
+    public IntegerProperty factoryProductionRateProperty() {
+        if (factoryProductionRateProperty == null) {
+            factoryProductionRateProperty = new SimpleIntegerProperty(this, "factoryProductionRate");
+        }
+        return factoryProductionRateProperty;
+    }
+
+    /**
+     * Get the value of factoryProductionRate
+     *
+     * @return the value of factoryProductionRate
+     */
+    public int getFactoryProductionRate() {
+        return factoryProductionRateProperty().getValue();
+    }
+
+    /**
+     * Set the value of factoryProductionRate
+     *
+     * @param factoryProductionRate new value of factoryProductionRate
+     */
+    public void setFactoryProductionRate(int factoryProductionRate) {
+        this.factoryProductionRateProperty().setValue(factoryProductionRate);
+    }
+
+
     /**
      * Get the value of initDefaultDeltaValue
      *

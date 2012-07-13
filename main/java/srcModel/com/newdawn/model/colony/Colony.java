@@ -40,6 +40,35 @@ public class Colony {
     private long populationGrowCounter = 0;
     private IntegerProperty wealthProductionProperty;
 
+    private IntegerProperty factoryCountProperty;
+
+    
+    public IntegerProperty factoryCountProperty() {
+        if (factoryCountProperty == null) {
+            factoryCountProperty = new SimpleIntegerProperty(this, "factoryCount", 0);
+        }
+        return factoryCountProperty;
+    }
+
+    /**
+     * Get the value of factoryCount
+     *
+     * @return the value of factoryCount
+     */
+    public int getFactoryCount() {
+        return factoryCountProperty().getValue();
+    }
+
+    /**
+     * Set the value of factoryCount
+     *
+     * @param factoryCount new value of factoryCount
+     */
+    public void setFactoryCount(int factoryCount) {
+        this.factoryCountProperty().setValue(factoryCount);
+    }
+
+
     public IntegerProperty wealthProductionProperty() {
         if (wealthProductionProperty == null) {
             wealthProductionProperty = new SimpleIntegerProperty(this, "wealthProduction");
