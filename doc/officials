@@ -18,10 +18,10 @@ TODO
 A science team is composed of Official. 
 Only Scientist can be member or leader of a science team.
 A Science team has one leader, other scientists of team are called team member.
-The max amount of team member is a least of two, and can be up to 10, depending of the leadership competency of the leader. each 12.5 % of skill give access to another team member.
+TODO :Team size
 Please refer to the scienceUseCase for how a science team work.
 ---Field Team--
 A field team is composed of Official, one of them being the leader and other the team members. Every official can be part of a field team, regardless of her type.
-The max numbers of team members follow the same rules as the science team.
+The max amount of team member is a least of one, and can be up to 9, depending of the leadership competency of the leader, taking the team to a total max size of ten. each 12.5 % of skill give access to another team member.
 A field team can either be a geological team , a diplomatical team or an intelligence team TODO : xenologist team ?
 Please refer to other documents for details of the differents type. TODO

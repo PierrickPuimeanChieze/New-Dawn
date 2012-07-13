@@ -1,3 +1,5 @@
+package com.newdawn.model.personnel;
+
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.MapProperty;
@@ -8,11 +10,11 @@ import javafx.collections.ObservableMap;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class StaffMember {
+public class PersonnelMember {
     private String name;
-    private MapProperty<Skill, IntegerProperty> skillLevelsProperty;
+    private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
-    public MapProperty<Skill, IntegerProperty> skillLevelsProperty() {
+    public MapProperty<Skill, SkillLevel> skillLevelsProperty() {
         if (skillLevelsProperty == null) {
             skillLevelsProperty = new SimpleMapProperty<>(this, "skillLevels");
         }
@@ -24,7 +26,7 @@ public class StaffMember {
      *
      * @return the value of skillLevels
      */
-    public ObservableMap<Skill, IntegerProperty> getSkillLevels() {
+    public ObservableMap<Skill, SkillLevel> getSkillLevels() {
         return skillLevelsProperty().getValue();
     }
 
@@ -33,7 +35,7 @@ public class StaffMember {
      *
      * @param skillLevels new value of skillLevels
      */
-    public void setSkillLevels(ObservableMap<Skill, IntegerProperty> skillLevels) {
+    public void setSkillLevels(ObservableMap<Skill, SkillLevel> skillLevels) {
         this.skillLevelsProperty().setValue(skillLevels);
     }
 

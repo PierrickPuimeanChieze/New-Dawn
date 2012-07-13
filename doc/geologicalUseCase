@@ -17,8 +17,19 @@ Tous les 5 jours (a définir dans le config), l'equipe ou le vaisseau rempli un 
 Le level rempli est celui demandant le moins de skill.
 Lorsqu'un level est rempli, le ou les depots associés sont localiser et donc exploitables. Dans le cas du level de finalisation, le corps est marqué comme complétement prospecté.
 Lorsque l'equipe n'a pas le niveau pour localiser le depot suivant ou pour remplir le niveau de finalisation, elle en informe le joueur ("Il semblerait qu'il reste des depots de mineraux sur X, mais l'equipe Y n'a pas le niveau de compétence pour les reperer...)
+
+---Competence Effective---
+Pour calculer la competence effective d'une equipe, 
+on commence par calculer la competence effective de chaque membre.
+Cette competence effective se calcule de la maniere suivante : 
+competence réelle + (competence du leader/100)*competence leadership du leader
+on additionne toutes ses compétence, puis on additionne la competence du leader, 
+divisée par la taille total de l'equipe
+On arrondi cette somme a l'entier le plus proche, ce qui nous donne la 
+competence effective de l'equipe.
 ---Gain d'XP---
 Detecter les dépots initiaux d'un CCME, localiser un depot intermediaire ou remplir le niveau de finalisation constitue une action recompensable en XP pour l'equipe de Geology ou l'equipage du vaiseau ayant effectuer la recherche
 a noter que dans le cas d'une equipe, tous les membres de l'equipe reçoivent la totalité des XP sur leurs compétence geology, excepté le leader. Pour celui-ci, les XP sont repartis entre sa compétence Leadership et sa compétence Geology. La repartition se fait selon la formule suivante : 
 % en leadership = (taille de l'equipe -1)*10
 % en geology = 100 - % en leadership
+

@@ -11,4 +11,5 @@
     
     <import resource="classpath:/spring/fxcontrollers.xml"/> 
     <import resource="classpath:/spring/mineral.xml"/> 
+    <import resource="classpath:/spring/skills.xml"/> 
 </beans>
