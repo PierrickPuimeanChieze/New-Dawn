@@ -7,8 +7,35 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean id="firstMineral" name="mineral_1" class="com.newdawn.model.mineral.Mineral"/>
-    <bean id="secondMineral" name="mineral_2" class="com.newdawn.model.mineral.Mineral"/>
-    <bean id="thirdMineral" name="mineral_3" class="com.newdawn.model.mineral.Mineral"/>
+    <bean id="mineral_1" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Duranium"/>
+    </bean>
+    <bean id="mineral_2" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Neutronium"/>
+    </bean>
+    <bean id="mineral_3" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Corbomite"/>
+    </bean>
+    <bean id="mineral_4" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Tritanium"/>
+    </bean>
+    <bean id="mineral_5" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Boronide"/>
+    </bean>
+    <bean id="mineral_6" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Mercassium"/>
+    </bean>
+    <bean id="mineral_7" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Vendarite"/>
+    </bean>
+    <bean id="mineral_8" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Sorium"/>
+    </bean>
+    <bean id="mineral_9" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Uridium"/>
+    </bean>
+    <bean id="mineral_10" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Corundium"/>
+    </bean>
         
 </beans>
