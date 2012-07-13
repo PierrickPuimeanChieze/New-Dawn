@@ -46,6 +46,11 @@
                 </GridPane>
               </content>
             </TitledPane>
+            <TitledPane animated="false" layoutX="341.0" layoutY="8.0" text="untitled">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
           </children>
         </AnchorPane>
       </content>
