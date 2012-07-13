@@ -1,27 +1,27 @@
---Staff--
-A staff is a people who can be used in a position in an empire. 
-A Staff is either a Naval Officer, a Ground Force officer, a Scientist or a Civilian administrator. Any type of staff can be a field team member or leader
+--Official--
+An official is a people who can be used in a position in an empire. 
+An official is either a Naval Officer, a Ground Force officer, a Scientist or a Civilian administrator. Any type of official can be a field team member or leader
 ---Skill and XP---
 A skill have a level and an XP reserve. 
 Each time the XP reserve reach 100, the skill gain 10 points.
-To gain XP points, the staff must benefits of XP gain action. Each action give XP to one or more skill of each staff benificiting of it.
-If a Staff dosesn't have a skill, this skill is generally considered as having a level of 0.
---Staff Position--
+To gain XP points, the official must benefits of XP gain action. Each action give XP to one or more skill of each official benefiting of it.
+If an official doesn't have a skill, this skill is generally considered as having a level of 0.
+--Official Position--
 ---Naval officer--
 A Naval officer can take command of a starship. His skills influence the performance of the ships.
-A naval officer can also take command, or be a flag staff member of a squadron, a task force, a fleet or a military sector. TODO : Details
+A naval officer can also take command, or be a flag official member of a squadron, a task force, a fleet or a military sector. TODO : Details
 ---Ground Force officer---
 TODO
 ---Civilian Administrator---
 TODO
 ---Science team---
-A science team is composed of Staff. 
+A science team is composed of Official. 
 Only Scientist can be member or leader of a science team.
 A Science team has one leader, other scientists of team are called team member.
 The max amount of team member is a least of two, and can be up to 10, depending of the leadership competency of the leader. each 12.5 % of skill give access to another team member.
 Please refer to the scienceUseCase for how a science team work.
 ---Field Team--
-A field team is composed of Staff, one of them being the leader and other the team members. Every staff can be part of a field team, regardless of her type.
+A field team is composed of Official, one of them being the leader and other the team members. Every official can be part of a field team, regardless of her type.
 The max numbers of team members follow the same rules as the science team.
 A field team can either be a geological team , a diplomatical team or an intelligence team TODO : xenologist team ?
 Please refer to other documents for details of the differents type. TODO
