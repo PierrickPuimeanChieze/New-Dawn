@@ -10,6 +10,7 @@ import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.system.StellarSystem;
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
@@ -72,6 +73,7 @@ public class ViewerFX extends Application {
             mainScreen = (AnchorPane) loader.load();
 
             final Scene scene = new Scene(mainScreen);
+            primaryStage.titleProperty().bind(Bindings.format("Date : %s         Total wealth : %d", null, currentApplication.getSprintContainer().getBean(GameData.class).wealthProperty()));
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex) {
