@@ -14,31 +14,31 @@ public abstract class PersonnelMember {
 
     private String name;
     private ObjectProperty<PersonnelLocalisation> localisationProperty;
-    private ObjectProperty<Assignement> assignementProperty;
+    private ObjectProperty<Assignment> assignmentProperty;
 
-    public ObjectProperty<Assignement> assignementProperty() {
-        if (assignementProperty == null) {
-            assignementProperty = new SimpleObjectProperty<>(this, "assignement");
+    public ObjectProperty<Assignment> assignmentProperty() {
+        if (assignmentProperty == null) {
+            assignmentProperty = new SimpleObjectProperty<>(this, "assignement");
         }
-        return assignementProperty;
+        return assignmentProperty;
     }
 
     /**
-     * Get the value of assignement
+     * Get the value of assignment
      *
-     * @return the value of assignement
+     * @return the value of assignment
      */
-    public Assignement getAssignement() {
-        return assignementProperty().getValue();
+    public Assignment getAssignment() {
+        return assignmentProperty().getValue();
     }
 
     /**
-     * Set the value of assignement
+     * Set the value of assignment
      *
-     * @param assignement new value of assignement
+     * @param assignement new value of assignment
      */
-    public void setAssignement(Assignement assignement) {
-        this.assignementProperty().setValue(assignement);
+    public void setAssignment(Assignment assignement) {
+        this.assignmentProperty().setValue(assignement);
     }
 
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
