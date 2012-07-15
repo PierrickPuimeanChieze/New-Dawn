@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
 public class Ship implements SpaceObject, PersonnelLocalisation {
 
     private double maxSpeed;
-    private Squadron taskGroup;
+    private Squadron squadron;
     private StringProperty nameProperty;
 
     /**
@@ -48,12 +48,12 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
         return nameProperty;
     }
 
-    public Squadron getTaskGroup() {
-        return taskGroup;
+    public Squadron getSquadron() {
+        return squadron;
     }
 
-    public void setTaskGroup(Squadron taskGroup) {
-        this.taskGroup = taskGroup;
+    public void setSquadron(Squadron squadron) {
+        this.squadron = squadron;
     }
 
     public double getMaxSpeed() {
@@ -70,7 +70,7 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
      * @return the value of destination
      */
     public SpaceObject getDestination() {
-        return taskGroup.getDestination();
+        return squadron.getDestination();
     }
 
     /**
@@ -79,21 +79,21 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
      * @return the value of speed
      */
     public double getSpeed() {
-        return taskGroup.getSpeed();
+        return squadron.getSpeed();
     }
 
     public StellarSystem getStellarSystem() {
-        return taskGroup.getStellarSystem();
+        return squadron.getStellarSystem();
     }
 
     @Override
     public double getPositionX() {
-        return taskGroup.getPositionX();
+        return squadron.getPositionX();
     }
 
     @Override
     public double getPositionY() {
-        return taskGroup.getPositionY();
+        return squadron.getPositionY();
     }
 
     @Override
