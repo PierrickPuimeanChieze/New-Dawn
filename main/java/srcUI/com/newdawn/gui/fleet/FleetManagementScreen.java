@@ -220,6 +220,7 @@ public class FleetManagementScreen implements Initializable {
         updateFilters(null);
     }
 
+    //TODO Maybe used a filtered list, here, with binding
     public void updateFilters(ActionEvent event) {
         root.getChildren().clear();
         if (starsFilterCheckBox.isSelected()) {
