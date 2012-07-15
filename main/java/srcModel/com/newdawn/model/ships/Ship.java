@@ -4,6 +4,7 @@
  */
 package com.newdawn.model.ships;
 
+import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
@@ -15,7 +16,7 @@ import javafx.collections.ObservableList;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class Ship implements SpaceObject {
+public class Ship implements SpaceObject, PersonnelLocalisation {
 
     private double maxSpeed;
     private Squadron taskGroup;

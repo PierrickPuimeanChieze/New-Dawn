@@ -1,6 +1,7 @@
 package com.newdawn.model.colony;
 
 import com.newdawn.controllers.Config;
+import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.system.Planet;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.*;
@@ -28,7 +29,7 @@ class PercentBinding extends LongBinding {
     }
 }
 
-public class Colony {
+public class Colony implements PersonnelLocalisation {
 
     private final Config config;
     private ObjectProperty<Planet> colonizedPlanetProperty;
@@ -39,10 +40,8 @@ public class Colony {
     private StringProperty nameProperty;
     private long populationGrowCounter = 0;
     private IntegerProperty wealthProductionProperty;
-
     private IntegerProperty factoryCountProperty;
 
-    
     public IntegerProperty factoryCountProperty() {
         if (factoryCountProperty == null) {
             factoryCountProperty = new SimpleIntegerProperty(this, "factoryCount", 0);
@@ -67,7 +66,6 @@ public class Colony {
     public void setFactoryCount(int factoryCount) {
         this.factoryCountProperty().setValue(factoryCount);
     }
-
 
     public IntegerProperty wealthProductionProperty() {
         if (wealthProductionProperty == null) {
