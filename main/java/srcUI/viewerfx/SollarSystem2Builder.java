@@ -69,7 +69,7 @@ public class SollarSystem2Builder {
 
         Ship testShip = new Ship();
         testShip.setMaxSpeed(4000 * 1000);
-        testShip.setTaskGroup(testTG);
+        testShip.setSquadron(testTG);
         testShip.setName("saassa");
         testTG.getShips().add(testShip);
         testTG.setPositionX(57950000);
