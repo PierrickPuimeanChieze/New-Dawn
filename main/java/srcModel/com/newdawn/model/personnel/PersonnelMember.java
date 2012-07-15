@@ -14,6 +14,33 @@ public abstract class PersonnelMember {
 
     private String name;
     private ObjectProperty<PersonnelLocalisation> localisationProperty;
+    private ObjectProperty<Assignement> assignementProperty;
+
+    public ObjectProperty<Assignement> assignementProperty() {
+        if (assignementProperty == null) {
+            assignementProperty = new SimpleObjectProperty<>(this, "assignement");
+        }
+        return assignementProperty;
+    }
+
+    /**
+     * Get the value of assignement
+     *
+     * @return the value of assignement
+     */
+    public Assignement getAssignement() {
+        return assignementProperty().getValue();
+    }
+
+    /**
+     * Set the value of assignement
+     *
+     * @param assignement new value of assignement
+     */
+    public void setAssignement(Assignement assignement) {
+        this.assignementProperty().setValue(assignement);
+    }
+
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
     public ObjectProperty<PersonnelLocalisation> localisationProperty() {
