@@ -1,6 +1,8 @@
 package com.newdawn.model.mineral;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 /**
@@ -11,25 +13,25 @@ public class MineralDeposit {
 
     public static enum MineralDepositStatus {
 
-        UNKNOWN, EXPECTED, DISCOVERED;
+        UNKNOWN, DISCOVERED;
     }
+    private final Mineral mineral;
+    private int skillLevelToDiscover;
+    private IntegerProperty discoveryPointsProperty;
 
-    public MineralDeposit(int skillLevelToDiscover, int skillLevelToExpect, int quantity) {
+
+    private long quantity;
+    private ObjectProperty<MineralDepositStatus> statusProperty;
+
+    public MineralDeposit(Mineral mineral, int skillLevelToDiscover, int skillLevelToExpect, int quantity) {
         this.skillLevelToDiscover = skillLevelToDiscover;
-        this.skillLevelToExpect = skillLevelToExpect;
+        this.mineral = mineral;
         this.quantity = quantity;
     }
-    
-    
-    private int skillLevelToDiscover;
-    private int skillLevelToExpect;
-    private long quantity;
-
-    private ObjectProperty<MineralDepositStatus> statusProperty;
 
     public ObjectProperty<MineralDepositStatus> statusProperty() {
         if (statusProperty == null) {
-            statusProperty = new SimpleObjectProperty<MineralDepositStatus>(this, "status");
+            statusProperty = new SimpleObjectProperty<>(this, "status");
         }
         return statusProperty;
     }
@@ -52,20 +54,40 @@ public class MineralDeposit {
         this.statusProperty.setValue(status);
     }
 
-
     public long getQuantity() {
         return quantity;
     }
 
-    public int getSkillLevelToDiscover() {
+    public Integer getSkillLevelToDiscover() {
         return skillLevelToDiscover;
     }
 
-    public int getSkillLevelToExpect() {
-        return skillLevelToExpect;
+    public Mineral getMineral() {
+        return mineral;
+    }
+    
+    public IntegerProperty discoveryPointsProperty() {
+        if (discoveryPointsProperty == null) {
+            discoveryPointsProperty = new SimpleIntegerProperty(this, "discoveryPoints");
+        }
+        return discoveryPointsProperty;
     }
 
-    
-    
-    
+    /**
+     * Get the value of discoveryPoints
+     *
+     * @return the value of discoveryPoints
+     */
+    public int getDiscoveryPoints() {
+        return discoveryPointsProperty().getValue();
+    }
+
+    /**
+     * Set the value of discoveryPoints
+     *
+     * @param discoveryPoints new value of discoveryPoints
+     */
+    public void setDiscoveryPoints(int discoveryPoints) {
+        this.discoveryPointsProperty().setValue(discoveryPoints);
+    }
 }

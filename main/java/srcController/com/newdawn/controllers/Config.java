@@ -19,7 +19,7 @@ public class Config {
     private String initDefaultDeltaValue = "π";
     //TODO remove the table storage
     private int[] popRepartition = {5, 75, 20};
-
+    
     /**
      * This field store the period of the population growth.
      */

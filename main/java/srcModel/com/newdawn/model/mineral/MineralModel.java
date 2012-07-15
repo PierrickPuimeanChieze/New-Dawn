@@ -1,23 +1,57 @@
 package com.newdawn.model.mineral;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import static com.newdawn.model.mineral.MineralDeposit.MineralDepositStatus;
+import com.sun.javafx.collections.transformation.SortedList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /**
  *
  * @author Pierrick Puimean-Chieze
  */
 public class MineralModel {
 
-    private Map<MineralDepositStatus, List<MineralDeposit>> levelByStatus = new HashMap<>();
+    private final Mineral mineral;
+    private long initialQuantity;
+    private boolean initialDiscovered = false;
+    private boolean finalized = false;
+    private ObservableList<MineralDeposit> undiscoveredDeposits = FXCollections.
+            observableArrayList();
+    private ObservableList<MineralDeposit> discoveredDeposits = FXCollections.
+            observableArrayList();
     private LongProperty extractedProperty;
     private LongProperty discoveredProperty;
     private LongProperty remainingProperty;
 
-    
+    public MineralModel(Mineral mineral, long initialQuantity, List<MineralDeposit> deposits) {
+        this.mineral = mineral;
+        this.initialQuantity = initialQuantity;
+        for (MineralDeposit mineralDeposit : deposits) {
+            assert mineralDeposit.getStatus() == MineralDepositStatus.UNKNOWN : "Not all of the deposit of a newly created MineralModel are UNKNOWN";
+        }
+
+
+        this.undiscoveredDeposits.addAll(deposits);
+        Collections.sort(undiscoveredDeposits, new Comparator<MineralDeposit>() {
+
+            @Override
+            public int compare(MineralDeposit arg0, MineralDeposit arg1) {
+                return arg0.getSkillLevelToDiscover().compareTo(arg1.
+                        getSkillLevelToDiscover());
+            }
+        });
+    }
+
+    public Mineral getMineral() {
+        return mineral;
+    }
+
     public LongProperty remainingProperty() {
         if (remainingProperty == null) {
             remainingProperty = new SimpleLongProperty(this, "remaining", 0);
@@ -34,16 +68,6 @@ public class MineralModel {
     public long getRemaining() {
         return remainingProperty().getValue();
     }
-
-    /**
-     * Set the value of remaining
-     *
-     * @param remaining new value of remaining
-     */
-    private void setRemaining(long remaining) {
-        this.remainingProperty().setValue(remaining);
-    }
-
 
     public LongProperty discoveredProperty() {
         if (discoveredProperty == null) {
@@ -70,7 +94,6 @@ public class MineralModel {
         this.discoveredProperty().setValue(discovered);
     }
 
-
     public LongProperty extractedProperty() {
         if (extractedProperty == null) {
             extractedProperty = new SimpleLongProperty(this, "extracted", 0);
@@ -78,7 +101,6 @@ public class MineralModel {
         return extractedProperty;
     }
 
-    
     /**
      * Get the value of extracted
      *
@@ -97,39 +119,56 @@ public class MineralModel {
         this.extractedProperty().setValue(extracted);
     }
 
-
-    public List<MineralDeposit> getDiscoveredLevels() {
-        return levelByStatus.get(MineralDepositStatus.DISCOVERED);
+    public List<MineralDeposit> getDiscoveredDeposits() {
+        return undiscoveredDeposits;
     }
 
-    public List<MineralDeposit> getExpectedLevels() {
-        return levelByStatus.get(MineralDepositStatus.EXPECTED);
-    }
- 
-    public List<MineralDeposit> getUnknownLevels() {
-        return levelByStatus.get(MineralDepositStatus.UNKNOWN);
+    public List<MineralDeposit> getUnknownDeposits() {
+        return discoveredDeposits;
     }
 
+    public long getInitialQuantity() {
+        return initialQuantity;
+    }
+
+    public boolean isFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(boolean finalized) {
+        this.finalized = finalized;
+    }
+
+    //TODO try to use a binding
     private void updateTotalDiscoveredQuantity() {
-        long total = 0;
-        for (MineralDeposit level : getDiscoveredLevels()) {
-            total += level.getQuantity();
+        if (initialDiscovered) {
+            long total = initialQuantity;
+            for (MineralDeposit level : getDiscoveredDeposits()) {
+                total += level.getQuantity();
+            }
+            setDiscovered(total);
+        } else {
+            setDiscovered(0);
         }
-        setDiscovered(total);
     }
-    
 
     public void addExtracted(long extractedQuantity) {
-        setExtracted(getExtracted()+extractedQuantity);
+        setExtracted(getExtracted() + extractedQuantity);
     }
 
-    public void discoverDeposit(MineralDeposit mineralDeposit) {
-        assert mineralDeposit.getStatus() == MineralDepositStatus.EXPECTED;
-        assert getExpectedLevels().contains(mineralDeposit);
-        mineralDeposit.setStatus(MineralDepositStatus.DISCOVERED);
-        getExpectedLevels().remove(mineralDeposit);
-        getDiscoveredLevels().add(mineralDeposit);
+    public void discoverInitial() {
+        initialDiscovered = true;
         updateTotalDiscoveredQuantity();
     }
 
+    public void discoverDeposit(MineralDeposit mineralDeposit) {
+        assert initialDiscovered;
+        assert mineralDeposit.getStatus() == MineralDepositStatus.UNKNOWN;
+        //Normally, we can't discover another deposit than the first available
+        assert getUnknownDeposits().indexOf(mineralDeposit) == 0;
+        mineralDeposit.setStatus(MineralDepositStatus.DISCOVERED);
+        getUnknownDeposits().remove(mineralDeposit);
+        getDiscoveredDeposits().add(mineralDeposit);
+        updateTotalDiscoveredQuantity();
+    }
 }

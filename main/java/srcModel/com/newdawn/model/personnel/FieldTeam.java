@@ -1,7 +1,6 @@
 package com.newdawn.model.personnel;
 
 import org.springframework.beans.BeansException;
-import org.springframework.stereotype.Component;
 import viewerfx.ViewerFX;
 
 /**

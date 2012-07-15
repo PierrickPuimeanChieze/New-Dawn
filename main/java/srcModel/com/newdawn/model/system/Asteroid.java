@@ -13,7 +13,7 @@ import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
  */
 public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
 
-    private MinerallyExploitableBodyModel minerallyExploitableBodyModel = new MinerallyExploitableBodyModel();
+    private MinerallyExploitableBodyModel minerallyExploitableBodyModel;
 
     public Asteroid(Orbit orbit, long diameter) {
         super(orbit, diameter);
