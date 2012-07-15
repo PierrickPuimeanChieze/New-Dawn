@@ -10,7 +10,7 @@ import javafx.collections.ObservableMap;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class PersonnelMember {
+public abstract class PersonnelMember {
     private String name;
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
