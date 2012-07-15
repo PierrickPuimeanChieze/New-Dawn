@@ -24,9 +24,11 @@ public class GeologicalController {
                     getMinerallyExploitableBodyModel();
             oldModel.setGeologicalTeam(null);
         }
-        MinerallyExploitableBodyModel newModel = body.
-                getMinerallyExploitableBodyModel();
-        newModel.setGeologicalTeam(team);
+        if (body != null) {
+            MinerallyExploitableBodyModel newModel = body.
+                    getMinerallyExploitableBodyModel();
+            newModel.setGeologicalTeam(team);
+        }
         team.setBodyProspected(body);
     }
 
@@ -43,7 +45,8 @@ public class GeologicalController {
             team.setInternalCounter(0);
             long teamCumulatedSkill = team.getCumulatedSkillLevel();
             if (!bodyModel.isInitialDiscovered()) {
-                long newInitialDiscoveryPoints = bodyModel.getInitialDiscoveryPoints() + teamCumulatedSkill;
+                long newInitialDiscoveryPoints = bodyModel.
+                        getInitialDiscoveryPoints() + teamCumulatedSkill;
                 if (newInitialDiscoveryPoints >= bodyModel.
                         getPointsMaxForInitialDiscovery()) {
                     bodyModel.discoverInitialQuantities();
@@ -52,37 +55,45 @@ public class GeologicalController {
                     bodyModel.setInitialDiscoveryPoints(newInitialDiscoveryPoints);
                 }
 
-            } else if (bodyModel.getFinalisationSkill()<=teamCumulatedSkill) {
-                long newFinalisationPoints = bodyModel.getFinalizationPoints()+teamCumulatedSkill-bodyModel.getFinalisationSkill();
-                if (newFinalisationPoints>=bodyModel.getPointNeededForFinalization()) {
+            } else if (bodyModel.getFinalisationSkill() <= teamCumulatedSkill) {
+                long newFinalisationPoints = bodyModel.getFinalizationPoints() + teamCumulatedSkill - bodyModel.
+                        getFinalisationSkill();
+                if (newFinalisationPoints >= bodyModel.
+                        getPointNeededForFinalization()) {
                     //TODO EVENT
                     bodyModel.finalizeProspection();
                 } else {
                     bodyModel.setFinalizationPoints(newFinalisationPoints);
                 }
             } else {
-                List<MineralDeposit> mostAccessiblesDeposit = bodyModel.getMostAccessiblesDeposit();
-                assert mostAccessiblesDeposit.size() >0;
-                
+                List<MineralDeposit> mostAccessiblesDeposit = bodyModel.
+                        getMostAccessiblesDeposit();
+                assert mostAccessiblesDeposit.size() > 0;
+
                 MineralDeposit inspectedDeposit = null;
                 //we get the mineral Deposit already inspected;
                 for (MineralDeposit mineralDeposit : mostAccessiblesDeposit) {
-                    if (inspectedDeposit == null || mineralDeposit.getDiscoveryPoints()>inspectedDeposit.getDiscoveryPoints()) {
+                    if (inspectedDeposit == null || mineralDeposit.
+                            getDiscoveryPoints() > inspectedDeposit.
+                            getDiscoveryPoints()) {
                         inspectedDeposit = mineralDeposit;
                     }
                 }
                 //If the team has a skill level too low to make a prospection
-                if (inspectedDeposit.getSkillLevelToDiscover()>= teamCumulatedSkill) {
+                if (inspectedDeposit.getSkillLevelToDiscover() >= teamCumulatedSkill) {
                     //TODO EVENT
                 } else {
-                    long newDiscoveryPoints = inspectedDeposit.getDiscoveryPoints()+teamCumulatedSkill-inspectedDeposit.getSkillLevelToDiscover();
-                    if (newDiscoveryPoints>=config.getPointsToDiscoverGeologicalDeposit()) {
+                    long newDiscoveryPoints = inspectedDeposit.
+                            getDiscoveryPoints() + teamCumulatedSkill - inspectedDeposit.
+                            getSkillLevelToDiscover();
+                    if (newDiscoveryPoints >= config.
+                            getPointsToDiscoverGeologicalDeposit()) {
                         inspectedDeposit.getMineralModel().discoverDeposit(inspectedDeposit);
                     } else {
                         inspectedDeposit.setDiscoveryPoints(newDiscoveryPoints);
                     }
                 }
-                
+
             }
         } else {
             team.setInternalCounter(newCounter);
