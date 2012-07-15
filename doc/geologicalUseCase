@@ -4,9 +4,10 @@ CCME = Corps Celeste Mineralement Exploitable : planetes asteroids ou autres cor
 Chaque CCME dispose d'un level de compétence a zero pour le reperage initial.
 Ce level peut être rempli independamment par une equipe au sol ou un vaisseau, contrairement aux autres levels qui ne peuvent être rempli que par une equipe. 
 Un vaisseau, toutefois, le rempli plus vite, proportionnellement au niveau de compétence total.
+A noter qu'il est également possible de faire travailler une equipe et un vaisseau sur le même CCME pour le reperage initial.
 Lorsqu'il est rempli, ce niveau de compétence donne accès au dépots initiaux du CMME
 
-Chaque CCME dispose également d'un niveau de finalisation. Lorsque ce dépot est rempli, il confirme qu'il n'y a plus de dépots accessible sur le CCME ("l'equipe X confirme que tous les depots sur le corps Y ont été reperés). Ce dépot peut être le dépot initial, auquel cas le CCME ne contient pas de mineraux exploitable.
+Chaque CCME dispose également d'un niveau de finalisation. Lorsque ce niveau est rempli, il confirme qu'il n'y a plus de dépots accessible sur le CCME ("l'equipe X confirme que tous les depots sur le corps Y ont été reperés). Ce dépot peut être le dépot initial, auquel cas le CCME ne contient pas de mineraux exploitable.
 
 Chaque CCME dispose ensuite d'un ensemble de depot
 Chaque depot correspond a une somme fixe de mineral

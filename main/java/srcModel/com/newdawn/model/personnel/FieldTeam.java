@@ -7,7 +7,9 @@ import viewerfx.ViewerFX;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class FieldTeam extends Team {
+public abstract class FieldTeam extends Team {
+
+    private int internalCounter = 0;
 
     private int calculateMaxSize() {
         Skill leadershipSkill = ViewerFX.getCurrentApplication().
@@ -16,29 +18,6 @@ public class FieldTeam extends Team {
                 getLevel();
         int additionalTeamMemberSize = (int) (leaderLeadershipLevel / 12.5);
         return 2 + additionalTeamMemberSize;
-    }
-
-    public static enum Type {
-
-        GEOLOGICAL("geology"), INTELLIGENCE("intelligence"), DIPLOMACY("diplomacy");
-        private String skillBeanId;
-
-        private Type(String skillBeanId) {
-            this.skillBeanId = skillBeanId;
-        }
-
-        public String getSkillBeanId() {
-            return skillBeanId;
-        }
-    }
-    private Type type;
-
-    public FieldTeam(Type type) {
-        this.type = type;
-    }
-
-    public Type getType() {
-        return type;
     }
 
     @Override
@@ -50,25 +29,33 @@ public class FieldTeam extends Team {
         return null;
     }
 
+    public int getInternalCounter() {
+        return internalCounter;
+    }
+
+    public void setInternalCounter(int internalCounter) {
+        this.internalCounter = internalCounter;
+    }
+
     public long getCumulatedSkillLevel() {
         Skill teamSkill = getTeamSkill();
         Skill leadershipSkill = ViewerFX.getCurrentApplication().
                 getSprintContainer().getBean("leadership", Skill.class);
-        double leaderLeadershipSkillLevel = getLeader().getSkillLevels().get(leadershipSkill).getLevel();
-        double leaderTeamSkillLevel = getLeader().getSkillLevels().get(teamSkill).getLevel();
+        double leaderLeadershipSkillLevel = getLeader().getSkillLevels().get(leadershipSkill).
+                getLevel();
+        double leaderTeamSkillLevel = getLeader().getSkillLevels().get(teamSkill).
+                getLevel();
         double cumulatedSkillLevel = 0.0;
         for (PersonnelMember teamMember : getTeamMembers()) {
             cumulatedSkillLevel += teamMember.getSkillLevels().get(teamSkill).
                     getLevel();
         }
-        cumulatedSkillLevel += ((leaderTeamSkillLevel/100.0)*leaderLeadershipSkillLevel)*getTeamMembers().size();
-        cumulatedSkillLevel += leaderTeamSkillLevel/getTeamMembers().size();
-        return  Math.round(cumulatedSkillLevel);
+        cumulatedSkillLevel += ((leaderTeamSkillLevel / 100.0) * leaderLeadershipSkillLevel) * getTeamMembers().
+                size();
+        cumulatedSkillLevel += leaderTeamSkillLevel / getTeamMembers().size();
+        return Math.round(cumulatedSkillLevel);
 
     }
 
-    public Skill getTeamSkill() throws BeansException {
-        return ViewerFX.getCurrentApplication().
-                getSprintContainer().getBean(getType().getSkillBeanId(), Skill.class);
-    }
+    protected abstract Skill getTeamSkill() throws BeansException;
 }

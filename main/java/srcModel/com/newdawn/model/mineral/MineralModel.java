@@ -34,6 +34,8 @@ public class MineralModel {
         this.initialQuantity = initialQuantity;
         for (MineralDeposit mineralDeposit : deposits) {
             assert mineralDeposit.getStatus() == MineralDepositStatus.UNKNOWN : "Not all of the deposit of a newly created MineralModel are UNKNOWN";
+            assert mineralDeposit.getMineralModel() == null;
+            mineralDeposit.setMineralModel(this);
         }
 
 
@@ -135,10 +137,6 @@ public class MineralModel {
         return finalized;
     }
 
-    public void setFinalized(boolean finalized) {
-        this.finalized = finalized;
-    }
-
     //TODO try to use a binding
     private void updateTotalDiscoveredQuantity() {
         if (initialDiscovered) {
@@ -170,5 +168,9 @@ public class MineralModel {
         getUnknownDeposits().remove(mineralDeposit);
         getDiscoveredDeposits().add(mineralDeposit);
         updateTotalDiscoveredQuantity();
+    }
+
+    void finalizeProspection() {
+        finalized = true;
     }
 }

@@ -19,7 +19,7 @@ public class Config {
     private String initDefaultDeltaValue = "π";
     //TODO remove the table storage
     private int[] popRepartition = {5, 75, 20};
-    
+    private int maxValueForTeamInternalTimeCounter = 432000;
     /**
      * This field store the period of the population growth.
      */
@@ -29,9 +29,14 @@ public class Config {
      * //TODO try to link this field to populationGrowPeriod
      */
     private int populationGrowRateAnnualMultiplicator = 12;
-    
+    private int pointsToDiscoverGeologicalDeposit = 100;
     private IntegerProperty factoryProductionRateProperty;
 
+    public int getPointsToDiscoverGeologicalDeposit() {
+        return pointsToDiscoverGeologicalDeposit;
+    }
+
+    
     public IntegerProperty factoryProductionRateProperty() {
         if (factoryProductionRateProperty == null) {
             factoryProductionRateProperty = new SimpleIntegerProperty(this, "factoryProductionRate");
@@ -98,6 +103,10 @@ public class Config {
 
     public int getPopulationGrowRateAnnualMultiplicator() {
         return populationGrowRateAnnualMultiplicator;
+    }
+
+    public int getMaxValueForTeamInternalTimeCounter() {
+        return maxValueForTeamInternalTimeCounter;
     }
     
     

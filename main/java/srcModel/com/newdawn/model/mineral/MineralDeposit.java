@@ -1,9 +1,6 @@
 package com.newdawn.model.mineral;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 
 /**
  *
@@ -15,20 +12,18 @@ public class MineralDeposit {
 
         UNKNOWN, DISCOVERED;
     }
-    private final Mineral mineral;
+    private MineralModel mineralModel;
     private int skillLevelToDiscover;
-    private IntegerProperty discoveryPointsProperty;
-
-
+    private LongProperty discoveryPointsProperty;
     private long quantity;
     private ObjectProperty<MineralDepositStatus> statusProperty;
 
-    public MineralDeposit(Mineral mineral, int skillLevelToDiscover, int skillLevelToExpect, int quantity) {
+    public MineralDeposit(int skillLevelToDiscover, int quantity) {
         this.skillLevelToDiscover = skillLevelToDiscover;
-        this.mineral = mineral;
         this.quantity = quantity;
     }
 
+    
     public ObjectProperty<MineralDepositStatus> statusProperty() {
         if (statusProperty == null) {
             statusProperty = new SimpleObjectProperty<>(this, "status");
@@ -62,13 +57,19 @@ public class MineralDeposit {
         return skillLevelToDiscover;
     }
 
-    public Mineral getMineral() {
-        return mineral;
+    public MineralModel getMineralModel() {
+        return mineralModel;
     }
+
+    void setMineralModel(MineralModel mineralModel) {
+        this.mineralModel = mineralModel;
+    }
+
     
-    public IntegerProperty discoveryPointsProperty() {
+    
+    public LongProperty discoveryPointsProperty() {
         if (discoveryPointsProperty == null) {
-            discoveryPointsProperty = new SimpleIntegerProperty(this, "discoveryPoints");
+            discoveryPointsProperty = new SimpleLongProperty(this, "discoveryPoints");
         }
         return discoveryPointsProperty;
     }
@@ -78,7 +79,7 @@ public class MineralDeposit {
      *
      * @return the value of discoveryPoints
      */
-    public int getDiscoveryPoints() {
+    public long getDiscoveryPoints() {
         return discoveryPointsProperty().getValue();
     }
 
@@ -87,7 +88,7 @@ public class MineralDeposit {
      *
      * @param discoveryPoints new value of discoveryPoints
      */
-    public void setDiscoveryPoints(int discoveryPoints) {
+    public void setDiscoveryPoints(long discoveryPoints) {
         this.discoveryPointsProperty().setValue(discoveryPoints);
     }
 }
