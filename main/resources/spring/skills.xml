@@ -8,16 +8,16 @@
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <bean id="leadership" class="com.newdawn.model.personnel.Skill">
-        <property name="name" value="Leadership"/>
+        <constructor-arg value="Leadership"/>
     </bean>
     <bean id="geology" class="com.newdawn.model.personnel.Skill">
-        <property name="name" value="Geology"/>
+        <constructor-arg value="Geology"/>
     </bean>
     <bean id="diplomacy" class="com.newdawn.model.personnel.Skill">
-        <property name="name" value="Diplomacy"/>
+        <constructor-arg value="Diplomacy"/>
     </bean>
     <bean id="intelligence" class="com.newdawn.model.personnel.Skill">
-        <property name="name" value="Intelligence"/>
+        <constructor-arg value="Intelligence"/>
     </bean>
         
 </beans>
