@@ -12,4 +12,5 @@
     <bean name="systemMapScreen" class="com.newdawn.gui.map.system.SystemMapScreen"/>
     <bean name="colonyEconomicScreen" class="com.newdawn.gui.economic.ColonyEconomicScreen"/>
     <bean name="economicScreen" class="com.newdawn.gui.economic.EconomicScreen"/>
+    <bean name="personnelManagementScreen" class="com.newdawn.gui.personnel.PersonnelManagementScreen"/>
 </beans>

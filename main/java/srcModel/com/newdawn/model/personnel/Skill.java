@@ -16,6 +16,4 @@ public class Skill {
     public String getName() {
         return name;
     }
-    
-    
 }

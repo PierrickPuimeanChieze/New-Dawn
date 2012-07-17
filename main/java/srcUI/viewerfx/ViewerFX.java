@@ -8,19 +8,19 @@ import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
 import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.system.StellarSystem;
+import com.sun.javafx.collections.MyFilteredList;
+import com.sun.javafx.collections.transformation.Matcher;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -58,6 +58,7 @@ public class ViewerFX extends Application {
         StellarSystem testSystem = initialisationController.createSystem(getClass().
                 getResourceAsStream("/testSystem.xml"));
         GameData gameData = sprintContainer.getBean(GameData.class);
+
         gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
     }
 
@@ -67,14 +68,15 @@ public class ViewerFX extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().
                     getResource("/com/newdawn/gui/MainScreen.fxml"));
-            loader.
-                    setControllerFactory(new SpringFXControllerFactory(getSprintContainer()));
+            loader.setControllerFactory(new SpringFXControllerFactory(getSprintContainer()));
             AnchorPane mainScreen;
             mainScreen = (AnchorPane) loader.load();
 
             final Scene scene = new Scene(mainScreen);
-            primaryStage.titleProperty().bind(Bindings.format("Date : %s         Total wealth : %d", null, currentApplication.getSprintContainer().getBean(GameData.class).wealthProperty()));
+            primaryStage.titleProperty().bind(Bindings.format("Date : %s         Total wealth : %d", null, currentApplication.
+                    getSprintContainer().getBean(GameData.class).wealthProperty()));
             primaryStage.setScene(scene);
+
             primaryStage.show();
         } catch (IOException ex) {
             LOG.fatal(null, ex);

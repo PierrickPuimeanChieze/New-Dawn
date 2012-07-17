@@ -5,6 +5,7 @@
 package com.newdawn.controllers;
 
 import com.newdawn.model.colony.Colony;
+import com.newdawn.model.personnel.PersonnelMember;
 import com.newdawn.model.system.StellarSystem;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 /**
  *
  * @author Pierrick Puimean-Chieze
+ * TODO Move some gameData info to an EmpireGameData
  */
 @Component
 public class GameData {
@@ -26,8 +28,11 @@ public class GameData {
     private ObservableList<StellarSystem> populatedStellarSystems = FXCollections.
             observableArrayList();
     private LongProperty wealthProperty;
+    private ObservableList<PersonnelMember> personnelMembers = FXCollections.
+            observableArrayList();
 
     public LongProperty wealthProperty() {
+
         if (wealthProperty == null) {
             wealthProperty = new SimpleLongProperty(this, "wealth", 0);
         }
@@ -51,7 +56,6 @@ public class GameData {
     public void setWealth(long wealth) {
         this.wealthProperty().setValue(wealth);
     }
-
 
     {
         stellarSystems.addListener(new ListChangeListener<StellarSystem>() {
@@ -83,7 +87,12 @@ public class GameData {
     }
 
     public ObservableList<StellarSystem> getPopulatedStellarSystems() {
+        //Maybe return an unmodifiable list
         return populatedStellarSystems;
+    }
+
+    public ObservableList<PersonnelMember> getPersonnelMembers() {
+        return personnelMembers;
     }
     
     

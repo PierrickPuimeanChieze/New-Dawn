@@ -4,6 +4,8 @@ import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.MainController;
 import com.newdawn.model.colony.Colony;
+import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.system.Planet;
 import java.io.IOException;
 import java.net.URL;
@@ -18,10 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.layout.AnchorPane;
@@ -67,6 +66,8 @@ public class MainScreen implements Initializable {
     @FXML
     private MenuItem fleetManagementScreenMenuItem;
     @FXML
+    private MenuItem personnelManagementScreenMenuItem;
+    @FXML
     private TabPane screensTabPane;
     //TODO See to move them to the fxml
     @FXML
@@ -74,8 +75,13 @@ public class MainScreen implements Initializable {
     @FXML
     private Tab systemMapScreenTab;
     @FXML
+    private Tab personnelManagementScreenTab;
+    @FXML
     private Tab fleetManagementScreenTab;
+    //TODO use include in MainScreen.fxml
+    private Node economicScreen;
     private AnchorPane systemMapScreen;
+    private Node personnelManagementScreen;
     private AnchorPane fleetManagementScreen;
 
     @Override
@@ -83,12 +89,16 @@ public class MainScreen implements Initializable {
         fleetManagementScreenTab.setContent(getFleetManagementScreen());
         systemMapScreenTab.setContent(getSystemMapScreen());
         economicScreenTab.setContent(getEconomicScreen());
-
+        personnelManagementScreenTab.setContent(getPersonnelManagementScreen());
+        
         economicScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
         economicScreenMenuItem.setUserData(economicScreenTab);
 
         systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F3));
         systemMapScreenMenuItem.setUserData(systemMapScreenTab);
+
+        personnelManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F4));
+        personnelManagementScreenMenuItem.setUserData(personnelManagementScreenTab);
 
         fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
         fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
@@ -168,19 +178,33 @@ public class MainScreen implements Initializable {
 
     private Node getEconomicScreen() {
 
-        Bindings.bindContent(new ArrayList<>(), FXCollections.
-                observableArrayList());
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/economic/EconomicScreen.fxml"));
-        loader.setControllerFactory(
-                new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
-                getSprintContainer()));
-        try {
-            Node toReturn = (Node) loader.load();
-//            ((ColonyEconomicScreen)loader.getController()).setColony(test);
-            return toReturn;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        if (economicScreen == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/economic/EconomicScreen.fxml"));
+            loader.setControllerFactory(
+                    new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
+                    getSprintContainer()));
+            try {
+                economicScreen = (Node) loader.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+        return economicScreen;
+    }
+
+    public Node getPersonnelManagementScreen() {
+        if (personnelManagementScreen == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/personnel/PersonnelManagementScreen.fxml"));
+            loader.setControllerFactory(
+                    new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
+                    getSprintContainer()));
+            try {
+                personnelManagementScreen = (Node) loader.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        return personnelManagementScreen;
     }
 
     @FXML
@@ -192,5 +216,18 @@ public class MainScreen implements Initializable {
         test.setName("Test");
         Planet planet = gameData.getStellarSystems().get(0).getPlanets().get(0);
         colonyController.updateSystemWithColony(planet, test);
+
+        Scientist testScientist1 = new Scientist();
+        testScientist1.setName("testScientist1");
+        testScientist1.setLocalization(test);
+        Scientist testScientist2 = new Scientist();
+        testScientist2.setName("testScientist2");
+        testScientist2.setLocalization(test);
+
+        NavalOfficer navalOfficer1 = new NavalOfficer();
+        navalOfficer1.setName("navalOfficer1");
+        navalOfficer1.setLocalization(test);
+
+        gameData.getPersonnelMembers().addAll(testScientist1, testScientist2, navalOfficer1);
     }
 }

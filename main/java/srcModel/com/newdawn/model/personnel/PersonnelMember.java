@@ -1,9 +1,6 @@
 package com.newdawn.model.personnel;
 
-import javafx.beans.property.MapProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableMap;
 
 /**
@@ -12,8 +9,8 @@ import javafx.collections.ObservableMap;
  */
 public abstract class PersonnelMember {
 
-    private String name;
-    private ObjectProperty<PersonnelLocalisation> localisationProperty;
+    private StringProperty nameProperty;
+    private ObjectProperty<PersonnelLocalisation> localizationProperty;
     private ObjectProperty<Assignment> assignmentProperty;
 
     public ObjectProperty<Assignment> assignmentProperty() {
@@ -40,32 +37,56 @@ public abstract class PersonnelMember {
     public void setAssignment(Assignment assignement) {
         this.assignmentProperty().setValue(assignement);
     }
-
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
-    public ObjectProperty<PersonnelLocalisation> localisationProperty() {
-        if (localisationProperty == null) {
-            localisationProperty = new SimpleObjectProperty<>(this, "localisation");
+    public ObjectProperty<PersonnelLocalisation> localizationProperty() {
+        if (localizationProperty == null) {
+            localizationProperty = new SimpleObjectProperty<>(this, "localisation");
         }
-        return localisationProperty;
+        return localizationProperty;
     }
 
     /**
-     * Get the value of localisation
+     * Get the value of localization
      *
-     * @return the value of localisation
+     * @return the value of localization
      */
-    public PersonnelLocalisation getLocalisation() {
-        return localisationProperty().getValue();
+    public PersonnelLocalisation getLocalization() {
+        return localizationProperty().getValue();
     }
 
     /**
-     * Set the value of localisation
+     * Set the value of localization
      *
-     * @param localisation new value of localisation
+     * @param localisation new value of localization
      */
-    public void setLocalisation(PersonnelLocalisation localisation) {
-        this.localisationProperty().setValue(localisation);
+    public void setLocalization(PersonnelLocalisation localization) {
+        this.localizationProperty().setValue(localization);
+    }
+
+    public StringProperty nameProperty() {
+        if (nameProperty == null) {
+            nameProperty = new SimpleStringProperty(this, "name");
+        }
+        return nameProperty;
+    }
+
+    /**
+     * Get the value of name
+     *
+     * @return the value of name
+     */
+    public String getName() {
+        return nameProperty().getValue();
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @param name new value of name
+     */
+    public void setName(String name) {
+        this.nameProperty().setValue(name);
     }
 
     public MapProperty<Skill, SkillLevel> skillLevelsProperty() {
