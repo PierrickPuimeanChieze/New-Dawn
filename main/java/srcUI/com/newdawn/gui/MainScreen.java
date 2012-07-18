@@ -6,15 +6,14 @@ import com.newdawn.controllers.MainController;
 import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Scientist;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.system.Planet;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -90,7 +89,7 @@ public class MainScreen implements Initializable {
         systemMapScreenTab.setContent(getSystemMapScreen());
         economicScreenTab.setContent(getEconomicScreen());
         personnelManagementScreenTab.setContent(getPersonnelManagementScreen());
-        
+
         economicScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
         economicScreenMenuItem.setUserData(economicScreenTab);
 
@@ -103,7 +102,7 @@ public class MainScreen implements Initializable {
         fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
         fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
 
-        screensTabPane.getTabs().removeAll(systemMapScreenTab, fleetManagementScreenTab);
+        screensTabPane.getTabs().removeAll(systemMapScreenTab, fleetManagementScreenTab, economicScreenTab);
         fiveSecButton.setUserData(5);
         thirtySecButton.setUserData(30);
         fiveMinButton.setUserData(5 * 60);
@@ -209,6 +208,10 @@ public class MainScreen implements Initializable {
 
     @FXML
     public void launchTest(ActionEvent event) {
+        Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("leadership", Skill.class);
+        SkillLevel skillLevel = new SkillLevel(geoSkill);
+        skillLevel.setLevel(75);
+        gameData.getPersonnelMembers().get(0).skillLevelsProperty().put(geoSkill, skillLevel);
         Colony test = new Colony();
         test.setPopulation(100_000_000);
         test.setPopulationGrowRate(1);
@@ -228,6 +231,6 @@ public class MainScreen implements Initializable {
         navalOfficer1.setName("navalOfficer1");
         navalOfficer1.setLocalization(test);
 
-        gameData.getPersonnelMembers().addAll(testScientist1, testScientist2, navalOfficer1);
+//        gameData.getPersonnelMembers().addAll(testScientist1, testScientist2, navalOfficer1);
     }
 }

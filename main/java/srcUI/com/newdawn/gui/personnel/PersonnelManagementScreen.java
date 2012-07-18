@@ -1,28 +1,31 @@
 package com.newdawn.gui.personnel;
 
 import com.newdawn.controllers.GameData;
-import com.newdawn.model.personnel.CivilianAdministrators;
-import com.newdawn.model.personnel.GroundForceOfficers;
-import com.newdawn.model.personnel.NavalOfficer;
-import com.newdawn.model.personnel.PersonnelMember;
-import com.newdawn.model.personnel.Scientist;
-import com.newdawn.model.personnel.Skill;
+import com.newdawn.gui.PropertyListCellFactory;
+import com.newdawn.model.personnel.*;
 import com.sun.javafx.collections.CompositeMatcher;
-import com.sun.javafx.collections.MyFilteredList;
-import com.sun.javafx.collections.transformation.FilterableList;
 import com.sun.javafx.collections.transformation.Matcher;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +39,12 @@ public class PersonnelManagementScreen
 
     @Autowired
     private GameData gameData;
-    private MyFilteredList<PersonnelMember> personnelMemberFilteredList;
+    @Autowired
+    private Skill[] skills;
+    private ObservableList<PersonnelMember> personnelMemberFilteredList = FXCollections.
+            observableArrayList();
     private final CompositeMatcher<PersonnelMember> compositeMatcher = new CompositeMatcher<>();
+    private final CompositeMatcher<PersonnelMember> skillFiltersMatcher = new CompositeMatcher<>();
     private final Matcher<PersonnelMember> typePersonnelMemberMatcher = new Matcher<PersonnelMember>() {
 
         @Override
@@ -51,6 +58,8 @@ public class PersonnelManagementScreen
                     isSelected());
         }
     };
+    @FXML
+    private Map<Skill, TableColumn<PersonnelMember, Number>> skillFiltersColumn = new HashMap<>();
     @FXML //  fx:id="civilianAdministratorCheckBox"
     private CheckBox civilianAdministratorCheckBox; // Value injected by FXMLLoader
     @FXML //  fx:id="filteredPersonnelTableView"
@@ -70,15 +79,16 @@ public class PersonnelManagementScreen
     @FXML //  fx:id="skillFilterComboBox"
     private ComboBox<Skill> skillFilterComboBox; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFilterMaxValueColumn"
-    private TableColumn<SkillFilter, Integer> skillFilterMaxValueColumn; // Value injected by FXMLLoader
+    private TableColumn<SkillFilter, Number> skillFilterMaxValueColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFilterMaxValueComponent"
     private TextField skillFilterMaxValueComponent; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFilterMinValueColumn"
-    private TableColumn<SkillFilter, Integer> skillFilterMinValueColumn; // Value injected by FXMLLoader
+    private TableColumn<SkillFilter, Number> skillFilterMinValueColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFilterMinValueComponent"
     private TextField skillFilterMinValueComponent; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFiltersNameColumn"
-    private TableColumn<SkillFilter, Integer> skillFiltersNameColumn; // Value injected by FXMLLoader
+    private TableColumn<SkillFilter, String> skillFiltersNameColumn; // Value injected by FXMLLoader
+    //TODO make this table editable
     @FXML //  fx:id="skillFiltersTableView"
     private TableView<SkillFilter> skillFiltersTableView; // Value injected by FXMLLoader
 
@@ -99,21 +109,152 @@ public class PersonnelManagementScreen
         assert skillFilterMinValueComponent != null : "fx:id=\"skillFilterMinValueComponent\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFiltersNameColumn != null : "fx:id=\"skillFiltersNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFiltersTableView != null : "fx:id=\"skillFiltersTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
-
-        personnelMemberFilteredList = new MyFilteredList<>(gameData.
-                getPersonnelMembers(), compositeMatcher, FilterableList.FilterMode.BATCH);
-        compositeMatcher.getMatchers().add(typePersonnelMemberMatcher);
-        personnelNameColumn.setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
-        Bindings.bindContent(filteredPersonnelTableView.getItems(), personnelMemberFilteredList);
         // initialize your logic here: all @FXML variables will have been injected
-    }
 
-    public void updateFilters(ActionEvent event) {
-        personnelMemberFilteredList.filter();
-    }
-    
-    public void addSkillFilter(ActionEvent event) {
+        compositeMatcher.getMatchers().add(typePersonnelMemberMatcher);
+        compositeMatcher.getMatchers().add(skillFiltersMatcher);
+        personnelNameColumn.setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
+        personnelTypeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<PersonnelMember, String> arg0) {
+                if (arg0.getValue() instanceof Scientist) {
+                    return new SimpleStringProperty("Scientist");
+                }
+                if (arg0.getValue() instanceof NavalOfficer) {
+                    return new SimpleStringProperty("Naval Officer");
+
+                }
+                if (arg0.getValue() instanceof GroundForceOfficers) {
+                    return new SimpleStringProperty("Ground Force Officers");
+                }
+
+                if (arg0.getValue() instanceof CivilianAdministrators) {
+                    return new SimpleStringProperty("Civilian Administrators");
+                }
+                throw new IllegalArgumentException("Wrong type of PersonnelMember");
+            }
+        });
+        Bindings.bindContent(filteredPersonnelTableView.getItems(), personnelMemberFilteredList);
+        filteredPersonnelTableView.getSelectionModel().selectedItemProperty().
+                addListener(new ChangeListener<PersonnelMember>() {
+
+            @Override
+            public void changed(ObservableValue<? extends PersonnelMember> arg0, PersonnelMember arg1, PersonnelMember arg2) {
+
+                System.out.println(arg2 == null ? null : arg2.getName());
+            }
+        });
+        gameData.getPersonnelMembers().addListener(new ListChangeListener<PersonnelMember>() {
+
+            @Override
+            public void onChanged(Change<? extends PersonnelMember> arg0) {
+                updateFilters(null);
+            }
+        });
+
+        //<editor-fold defaultstate="collapsed" desc="Initialization of the filters tab">
+        skillFilterComboBox.getItems().addAll(skills);
+        PropertyListCellFactory<Skill> propertyListCellFactory = new PropertyListCellFactory<>("name", null);
+        skillFilterComboBox.setButtonCell(new ListCell<Skill>() {
+
+            @Override
+            protected void updateItem(Skill arg0, boolean arg1) {
+                super.updateItem(arg0, arg1);
+                if (arg1 || arg0 == null) {
+                    this.setText(null);
+                } else {
+                    this.setText(arg0.getName());
+                }
+            }
+        });
+        skillFilterComboBox.setCellFactory(propertyListCellFactory);
+        skillFiltersNameColumn.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<SkillFilter, String> arg0) {
+                return Bindings.selectString(arg0.getValue().skillProperty(), "name");
+            }
+
+
+        });
         
+        skillFilterMinValueColumn.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<SkillFilter, Number> arg0) {
+                return arg0.getValue().minValueProperty();
+            }
+        });
+        skillFilterMaxValueColumn.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Number>, ObservableValue<Number>>() {
+
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<SkillFilter, Number> arg0) {
+                return arg0.getValue().maxValueProperty();
+            }
+        });
+        skillFiltersTableView.getItems().addListener(new ListChangeListener<SkillFilter>() {
+
+            @Override
+            public void onChanged(Change<? extends SkillFilter> arg0) {
+                while (arg0.next()) {
+                    for (SkillFilter skillFilter : arg0.getAddedSubList()) {
+                        final Skill skill = skillFilter.getSkill();
+                        TableColumn<PersonnelMember, Number> skillColumn = new TableColumn<>(skill.
+                                getName());
+                        skillColumn.setCellValueFactory(new Callback<CellDataFeatures<PersonnelMember, Number>, ObservableValue<Number>>() {
+
+                            @Override
+                            public ObservableValue<Number> call(CellDataFeatures<PersonnelMember, Number> arg0) {
+                                PersonnelMember personnelMember = arg0.getValue();
+                                ObjectBinding<SkillLevel> valueAt = Bindings.
+                                        valueAt(personnelMember.getSkillLevels(), skill);
+                                IntegerBinding selectInteger = Bindings.
+                                        selectInteger(valueAt, "level");
+                                return selectInteger;
+                            }
+                        });
+                        filteredPersonnelTableView.getColumns().add(skillColumn);
+                    }
+
+                    for (SkillFilter skillFilter : arg0.getRemoved()) {
+                        final Skill skill = skillFilter.getSkill();
+                        TableColumn<PersonnelMember, Number> column = skillFiltersColumn.
+                                remove(skill);
+                        if (column != null) {
+                            filteredPersonnelTableView.getColumns().remove(column);
+                        }
+                    }
+                }
+            }
+        });
+        Bindings.bindContent(skillFiltersMatcher.getMatchers(), skillFiltersTableView.getItems());
+        //</editor-fold>
+        updateFilters(null);
     }
 
+    //TODO Try to use a filtered List
+    public void updateFilters(ActionEvent event) {
+        personnelMemberFilteredList.clear();
+        for (PersonnelMember personnelMember : gameData.getPersonnelMembers()) {
+            if (compositeMatcher.matches(personnelMember)) {
+                personnelMemberFilteredList.add(personnelMember);
+            }
+        }
+
+    }
+
+    public void addSkillFilter(ActionEvent event) {
+        final Skill skill = skillFilterComboBox.getSelectionModel().
+                getSelectedItem();
+        SkillFilter skillFilter = new SkillFilter();
+        skillFilter.setSkill(skill);
+        skillFilter.setMinValue(Integer.parseInt(skillFilterMinValueComponent.
+                getText()));
+        skillFilter.setMaxValue(Integer.parseInt(skillFilterMaxValueComponent.
+                getText()));
+        skillFiltersTableView.getItems().add(skillFilter);
+        compositeMatcher.getMatchers().add(skillFilter);
+        updateFilters(event);
+    }
 }

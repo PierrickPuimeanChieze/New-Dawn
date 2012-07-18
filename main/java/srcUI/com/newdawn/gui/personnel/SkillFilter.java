@@ -1,7 +1,10 @@
 
 package com.newdawn.gui.personnel;
 
+import com.newdawn.model.personnel.PersonnelMember;
 import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
+import com.sun.javafx.collections.transformation.Matcher;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,7 +14,7 @@ import javafx.beans.property.SimpleObjectProperty;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class SkillFilter {
+public class SkillFilter implements  Matcher<PersonnelMember> {
 
     private ObjectProperty<Skill> skillProperty;
     private IntegerProperty minValueProperty;
@@ -92,6 +95,16 @@ public class SkillFilter {
      */
     public void setSkill(Skill skill) {
         this.skillProperty().setValue(skill);
+    }
+
+    @Override
+    public boolean matches(PersonnelMember e) {
+        final SkillLevel skillLevel = e.skillLevelsProperty().get(getSkill());
+        if (skillLevel == null) {
+            return false;
+        }
+        final int level = skillLevel.getLevel();
+        return level>=getMinValue() && level <= getMaxValue();
     }
 
 }

@@ -4,9 +4,15 @@
  */
 package viewerfx;
 
+import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
 import com.newdawn.gui.SpringFXControllerFactory;
+import com.newdawn.model.colony.Colony;
+import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
+import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.StellarSystem;
 import com.sun.javafx.collections.MyFilteredList;
 import com.sun.javafx.collections.transformation.Matcher;
@@ -58,8 +64,22 @@ public class ViewerFX extends Application {
         StellarSystem testSystem = initialisationController.createSystem(getClass().
                 getResourceAsStream("/testSystem.xml"));
         GameData gameData = sprintContainer.getBean(GameData.class);
-
         gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
+        Colony test2 = new Colony();
+        test2.setPopulation(100_000_000);
+        test2.setPopulationGrowRate(1);
+        test2.setWealthProduction(500);
+        test2.setName("Test");
+        Planet planet = solarSystem2.getPlanets().get(1);
+        sprintContainer.getBean(ColonyController.class).updateSystemWithColony(planet, test2);
+        NavalOfficer navalOfficer1 = new NavalOfficer();
+        navalOfficer1.setName("navalOfficer2");
+        navalOfficer1.setLocalization(test2);
+        Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
+        SkillLevel geologySkillLevel = new SkillLevel(geologySkill);
+        geologySkillLevel.setLevel(50);
+        navalOfficer1.getSkillLevels().put( geologySkill, geologySkillLevel);
+        gameData.getPersonnelMembers().add(navalOfficer1);
     }
 
     @Override

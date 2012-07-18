@@ -1,8 +1,9 @@
 package com.sun.javafx.collections;
 
 import com.sun.javafx.collections.transformation.Matcher;
-import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -10,14 +11,14 @@ import java.util.List;
  */
 public class CompositeMatcher<E> implements Matcher<E> {
 
-    private List<Matcher<E>> matchers = new ArrayList<>();
+    private ObservableList<Matcher<E>> matchers = FXCollections.observableArrayList();
 
     /**
      * Get the value of matchers
      *
      * @return the value of matchers
      */
-    public List<Matcher<E>> getMatchers() {
+    public ObservableList<Matcher<E>> getMatchers() {
         return matchers;
     }
 

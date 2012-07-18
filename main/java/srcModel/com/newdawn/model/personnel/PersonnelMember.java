@@ -1,6 +1,7 @@
 package com.newdawn.model.personnel;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 /**
@@ -12,6 +13,7 @@ public abstract class PersonnelMember {
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
     private ObjectProperty<Assignment> assignmentProperty;
+    private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
     public ObjectProperty<Assignment> assignmentProperty() {
         if (assignmentProperty == null) {
@@ -37,7 +39,6 @@ public abstract class PersonnelMember {
     public void setAssignment(Assignment assignement) {
         this.assignmentProperty().setValue(assignement);
     }
-    private MapProperty<Skill, SkillLevel> skillLevelsProperty;
 
     public ObjectProperty<PersonnelLocalisation> localizationProperty() {
         if (localizationProperty == null) {
@@ -91,7 +92,8 @@ public abstract class PersonnelMember {
 
     public MapProperty<Skill, SkillLevel> skillLevelsProperty() {
         if (skillLevelsProperty == null) {
-            skillLevelsProperty = new SimpleMapProperty<>(this, "skillLevels");
+            ObservableMap<Skill, SkillLevel> observableHashMap = FXCollections.observableHashMap();
+            skillLevelsProperty = new SimpleMapProperty<>(this, "skillLevels", observableHashMap);
         }
         return skillLevelsProperty;
     }
