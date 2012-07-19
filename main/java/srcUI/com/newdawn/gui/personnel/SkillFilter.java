@@ -100,10 +100,13 @@ public class SkillFilter implements  Matcher<PersonnelMember> {
     @Override
     public boolean matches(PersonnelMember e) {
         final SkillLevel skillLevel = e.skillLevelsProperty().get(getSkill());
+        final int level;
         if (skillLevel == null) {
-            return false;
+            level = 0;
+        } else {
+            level = skillLevel.getLevel();
         }
-        final int level = skillLevel.getLevel();
+        
         return level>=getMinValue() && level <= getMaxValue();
     }
 

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -153,7 +152,7 @@ public class PersonnelManagementScreen
             }
         });
 
-        //<editor-fold defaultstate="collapsed" desc="Initialization of the filters tab">
+        //<editor-fold defaultstate="collapsed" desc="Initialization of the skill filters tab">
         skillFilterComboBox.getItems().addAll(skills);
         PropertyListCellFactory<Skill> propertyListCellFactory = new PropertyListCellFactory<>("name", null);
         skillFilterComboBox.setButtonCell(new ListCell<Skill>() {
@@ -207,10 +206,15 @@ public class PersonnelManagementScreen
                             @Override
                             public ObservableValue<Number> call(CellDataFeatures<PersonnelMember, Number> arg0) {
                                 PersonnelMember personnelMember = arg0.getValue();
-                                ObjectBinding<SkillLevel> valueAt = Bindings.
-                                        valueAt(personnelMember.getSkillLevels(), skill);
                                 IntegerBinding selectInteger = Bindings.
-                                        selectInteger(valueAt, "level");
+                                        selectInteger(personnelMember.skillLevelsProperty().valueAt(skill), "level");
+                                selectInteger.addListener(new ChangeListener<Number>() {
+
+                                    @Override
+                                    public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                                        updateFilters(null);
+                                    }
+                                });
                                 return selectInteger;
                             }
                         });

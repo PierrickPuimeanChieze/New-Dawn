@@ -208,10 +208,12 @@ public class MainScreen implements Initializable {
 
     @FXML
     public void launchTest(ActionEvent event) {
-        Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("leadership", Skill.class);
-        SkillLevel skillLevel = new SkillLevel(geoSkill);
+        Skill leadSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("leadership", Skill.class);
+        Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("geology", Skill.class);
+        SkillLevel skillLevel = new SkillLevel(leadSkill);
         skillLevel.setLevel(75);
-        gameData.getPersonnelMembers().get(0).skillLevelsProperty().put(geoSkill, skillLevel);
+        gameData.getPersonnelMembers().get(0).skillLevelsProperty().put(leadSkill, skillLevel);
+
         Colony test = new Colony();
         test.setPopulation(100_000_000);
         test.setPopulationGrowRate(1);
