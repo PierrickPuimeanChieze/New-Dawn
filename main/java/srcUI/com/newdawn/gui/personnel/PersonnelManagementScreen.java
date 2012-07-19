@@ -88,6 +88,7 @@ public class PersonnelManagementScreen
     @FXML //  fx:id="skillFiltersNameColumn"
     private TableColumn<SkillFilter, String> skillFiltersNameColumn; // Value injected by FXMLLoader
     //TODO make this table editable
+    //TODO Allow the users to delete a filter
     @FXML //  fx:id="skillFiltersTableView"
     private TableView<SkillFilter> skillFiltersTableView; // Value injected by FXMLLoader
 
