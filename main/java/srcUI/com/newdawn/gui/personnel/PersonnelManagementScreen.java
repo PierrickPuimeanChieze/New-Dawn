@@ -1,5 +1,6 @@
 package com.newdawn.gui.personnel;
 
+import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
 import com.newdawn.gui.PropertyListCellFactory;
@@ -53,6 +54,8 @@ public class PersonnelManagementScreen
     };
     @Autowired
     private Skill[] skills;
+    @Autowired
+    private TeamController teamController;
     private ObservableList<PersonnelMember> personnelMemberFilteredList = FXCollections.
             observableArrayList();
     private final CompositeMatcher<PersonnelMember> compositeMatcher = new CompositeMatcher<>();
@@ -108,7 +111,13 @@ public class PersonnelManagementScreen
     private PersonnelDetailsPane detailsPaneController; // Value injected by FXMLLoader
     @FXML
     private ListView<SkillLevel> skillsListView;
-
+    //TODO implements the filter
+    @FXML
+    private ComboBox assignmentsFilterComboBox;
+    @FXML
+    private ListView<Assignment> assigmentsListView;
+    @FXML //  fx:id="createTeamMenuItem"
+    private MenuItem createTeamMenuItem; // Value injected by FXMLLoader
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert civilianAdministratorCheckBox != null : "fx:id=\"civilianAdministratorCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
@@ -127,7 +136,9 @@ public class PersonnelManagementScreen
         assert skillFiltersNameColumn != null : "fx:id=\"skillFiltersNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFiltersTableView != null : "fx:id=\"skillFiltersTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillsListView != null;
-
+        assert assignmentsFilterComboBox != null;
+        assert assigmentsListView != null;
+        assert createTeamMenuItem != null : "fx:id=\"createTeamMenuItem\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         // initialize your logic here: all @FXML variables will have been injected
         //<editor-fold defaultstate="collapsed" desc="Initialization of the compositeMatcher">
         compositeMatcher.getMatchers().add(typePersonnelMemberMatcher);
@@ -287,6 +298,8 @@ public class PersonnelManagementScreen
         });
 
         updateFilters(null);
+        
+        createTeamMenuItem.disableProperty().bind(Bindings.select(filteredPersonnelTableView.selectionModelProperty(), "selectedItem").isNull());
     }
 
     //TODO Try to use a filtered List
@@ -298,7 +311,7 @@ public class PersonnelManagementScreen
         for (PersonnelMember personnelMember : gameData.getPersonnelMembers()) {
             if (compositeMatcher.matches(personnelMember)) {
                 personnelMemberFilteredList.add(personnelMember);
-                
+
                 personnelMember.getSkillLevels().addListener(mapChangeListener);
 
             }
@@ -338,4 +351,11 @@ public class PersonnelManagementScreen
             });
         }
     }
+    
+    public void createTeam(ActionEvent event) {
+        PersonnelMember selectedPersonnel = filteredPersonnelTableView.getSelectionModel().getSelectedItem();
+        assert selectedPersonnel != null;
+        teamController.createTeamWithLeader(selectedPersonnel);
+    }
+
 }
