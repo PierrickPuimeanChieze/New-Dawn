@@ -1,5 +1,6 @@
 package com.newdawn.model.personnel;
 
+import com.newdawn.model.personnel.ranks.Rank;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -14,7 +15,17 @@ public abstract class PersonnelMember {
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
     private ObjectProperty<Assignment> assignmentProperty;
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
+    protected ObjectProperty<Rank> rankProperty = new SimpleObjectProperty<>(this, "rank");
 
+    public ReadOnlyObjectProperty<Rank> rankProperty() {
+        return rankProperty;
+    }
+
+    public Rank getRank() {
+        return rankProperty.get();
+    }
+    
+    
     public ObjectProperty<Assignment> assignmentProperty() {
         if (assignmentProperty == null) {
             assignmentProperty = new SimpleObjectProperty<>(this, "assignement");
