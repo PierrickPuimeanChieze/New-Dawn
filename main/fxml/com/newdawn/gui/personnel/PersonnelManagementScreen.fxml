@@ -196,23 +196,18 @@
             </Tab>
           </tabs>
         </TabPane>
-        <ScrollPane id="ScrollPane" prefViewportHeight="400.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <ScrollPane id="ScrollPane" fitToWidth="true" prefViewportHeight="400.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
           <content>
-            <TableView fx:id="filteredPersonnelTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <TableView fx:id="filteredPersonnelTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0">
               <columns>
-                <TableColumn text="Type" fx:id="personnelTypeColumn">
-                  <prefWidth>
-                    <Long fx:value="100" />
-                  </prefWidth>
-                </TableColumn>
                 <TableColumn text="Rank" fx:id="personnelRankColumn">
                   <prefWidth>
-                    <Long fx:value="100" />
+                    <Long fx:value="120" />
                   </prefWidth>
                 </TableColumn>
                 <TableColumn text="Name" fx:id="personnelNameColumn">
                   <prefWidth>
-                    <Long fx:value="120" />
+                    <Long fx:value="150" />
                   </prefWidth>
                 </TableColumn>
               </columns>
@@ -222,9 +217,6 @@
               <prefHeight>
                 <Long fx:value="-1" />
               </prefHeight>
-              <prefWidth>
-                <Long fx:value="-1" />
-              </prefWidth>
             </TableView>
           </content>
           <prefViewportWidth>

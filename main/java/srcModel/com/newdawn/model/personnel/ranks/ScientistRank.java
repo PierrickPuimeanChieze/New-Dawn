@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
  */
 public enum ScientistRank implements Rank {
 
-    A0("Scientist");
+    A0("Scientist A0");
     private StringProperty designationProperty = new SimpleStringProperty("designation");
 
     private ScientistRank(String designation) {

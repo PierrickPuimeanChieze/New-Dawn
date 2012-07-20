@@ -10,11 +10,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.binding.*;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -75,8 +73,6 @@ public class PersonnelManagementScreen
     private TableColumn<PersonnelMember, String> personnelNameColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="personnelRankColumn"
     private TableColumn<PersonnelMember, String> personnelRankColumn; // Value injected by FXMLLoader
-    @FXML //  fx:id="personnelTypeColumn"
-    private TableColumn<PersonnelMember, String> personnelTypeColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="scientistFilterCheckBox"
     private CheckBox scientistFilterCheckBox; // Value injected by FXMLLoader
     @FXML //  fx:id="skillFilterComboBox"
@@ -99,7 +95,7 @@ public class PersonnelManagementScreen
     private AnchorPane detailsPane; // Value injected by FXMLLoader
     @FXML //  fx:id="detailsPane"
     private PersonnelDetailsPane detailsPaneController; // Value injected by FXMLLoader
-    
+
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert civilianAdministratorCheckBox != null : "fx:id=\"civilianAdministratorCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
@@ -108,7 +104,7 @@ public class PersonnelManagementScreen
         assert navalOfficerFilterCheckBox != null : "fx:id=\"navalOfficerFilterCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert personnelNameColumn != null : "fx:id=\"personnelNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert personnelRankColumn != null : "fx:id=\"personnelRankColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
-        assert personnelTypeColumn != null : "fx:id=\"personnelTypeColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
+
         assert scientistFilterCheckBox != null : "fx:id=\"scientistFilterCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFilterComboBox != null : "fx:id=\"skillFilterComboBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFilterMaxValueColumn != null : "fx:id=\"skillFilterMaxValueColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
@@ -122,25 +118,14 @@ public class PersonnelManagementScreen
         compositeMatcher.getMatchers().add(typePersonnelMemberMatcher);
         compositeMatcher.getMatchers().add(skillFiltersMatcher);
         personnelNameColumn.setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
-        personnelTypeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, String>, ObservableValue<String>>() {
+        personnelRankColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(CellDataFeatures<PersonnelMember, String> arg0) {
-                if (arg0.getValue() instanceof Scientist) {
-                    return new SimpleStringProperty("Scientist");
-                }
-                if (arg0.getValue() instanceof NavalOfficer) {
-                    return new SimpleStringProperty("Naval Officer");
-
-                }
-                if (arg0.getValue() instanceof GroundForceOfficers) {
-                    return new SimpleStringProperty("Ground Force Officers");
-                }
-
-                if (arg0.getValue() instanceof CivilianAdministrators) {
-                    return new SimpleStringProperty("Civilian Administrators");
-                }
-                throw new IllegalArgumentException("Wrong type of PersonnelMember");
+                final PersonnelMember personnelMember = arg0.getValue();
+                final StringExpression concat = Bindings.selectString(personnelMember.
+                        rankProperty(), "designation");
+                return concat;
             }
         });
         Bindings.bindContent(filteredPersonnelTableView.getItems(), personnelMemberFilteredList);
@@ -243,7 +228,8 @@ public class PersonnelManagementScreen
         Bindings.bindContent(skillFiltersMatcher.getMatchers(), skillFiltersTableView.
                 getItems());
 
-        final ObjectBinding<PersonnelMember> select = Bindings.select(filteredPersonnelTableView.selectionModelProperty(), "selectedItem");
+        final ObjectBinding<PersonnelMember> select = Bindings.select(filteredPersonnelTableView.
+                selectionModelProperty(), "selectedItem");
         detailsPaneController.personnelMemberProperty().bind(select);
         updateFilters(null);
     }
