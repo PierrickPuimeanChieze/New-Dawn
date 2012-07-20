@@ -1,5 +1,6 @@
 package com.newdawn.gui.personnel;
 
+import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
 import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.model.personnel.*;
@@ -11,6 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,7 +95,11 @@ public class PersonnelManagementScreen
     //TODO Allow the users to delete a filter
     @FXML //  fx:id="skillFiltersTableView"
     private TableView<SkillFilter> skillFiltersTableView; // Value injected by FXMLLoader
-
+    @FXML //  fx:id="detailsPane"
+    private AnchorPane detailsPane; // Value injected by FXMLLoader
+    @FXML //  fx:id="detailsPane"
+    private PersonnelDetailsPane detailsPaneController; // Value injected by FXMLLoader
+    
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert civilianAdministratorCheckBox != null : "fx:id=\"civilianAdministratorCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
@@ -175,10 +183,8 @@ public class PersonnelManagementScreen
             public ObservableValue<String> call(CellDataFeatures<SkillFilter, String> arg0) {
                 return Bindings.selectString(arg0.getValue().skillProperty(), "name");
             }
-
-
         });
-        
+
         skillFilterMinValueColumn.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Number>, ObservableValue<Number>>() {
 
             @Override
@@ -208,7 +214,8 @@ public class PersonnelManagementScreen
                             public ObservableValue<Number> call(CellDataFeatures<PersonnelMember, Number> arg0) {
                                 PersonnelMember personnelMember = arg0.getValue();
                                 IntegerBinding selectInteger = Bindings.
-                                        selectInteger(personnelMember.skillLevelsProperty().valueAt(skill), "level");
+                                        selectInteger(personnelMember.
+                                        skillLevelsProperty().valueAt(skill), "level");
                                 selectInteger.addListener(new ChangeListener<Number>() {
 
                                     @Override
@@ -233,8 +240,11 @@ public class PersonnelManagementScreen
                 }
             }
         });
-        Bindings.bindContent(skillFiltersMatcher.getMatchers(), skillFiltersTableView.getItems());
-        //</editor-fold>
+        Bindings.bindContent(skillFiltersMatcher.getMatchers(), skillFiltersTableView.
+                getItems());
+
+        final ObjectBinding<PersonnelMember> select = Bindings.select(filteredPersonnelTableView.selectionModelProperty(), "selectedItem");
+        detailsPaneController.personnelMemberProperty().bind(select);
         updateFilters(null);
     }
 

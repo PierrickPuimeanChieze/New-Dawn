@@ -12,6 +12,7 @@ import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
+import com.newdawn.model.personnel.ranks.NavalRank;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.StellarSystem;
 import com.sun.javafx.collections.MyFilteredList;
@@ -75,6 +76,7 @@ public class ViewerFX extends Application {
         NavalOfficer navalOfficer1 = new NavalOfficer();
         navalOfficer1.setName("navalOfficer2");
         navalOfficer1.setLocalization(test2);
+        navalOfficer1.setRank(NavalRank.A6);
         Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
         SkillLevel geologySkillLevel = new SkillLevel(geologySkill);
         geologySkillLevel.setLevel(50);

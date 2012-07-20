@@ -13,4 +13,5 @@
     <bean name="colonyEconomicScreen" class="com.newdawn.gui.economic.ColonyEconomicScreen"/>
     <bean name="economicScreen" class="com.newdawn.gui.economic.EconomicScreen"/>
     <bean name="personnelManagementScreen" class="com.newdawn.gui.personnel.PersonnelManagementScreen"/>
+    <bean name="personnelDetailsScreen" class="com.newdawn.gui.personnel.PersonnelDetailsPane"/>
 </beans>

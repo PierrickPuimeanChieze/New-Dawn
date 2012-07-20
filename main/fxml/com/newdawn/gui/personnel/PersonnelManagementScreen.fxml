@@ -7,249 +7,285 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
-    <children>
-        <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                    <minHeight>
-                        <Long fx:value="210" />
-                    </minHeight>
-                    <prefHeight>
-                        <Long fx:value="-1" />
-                    </prefHeight>
-                    <prefWidth>
-                        <Long fx:value="-1" />
-                    </prefWidth>
-                    <tabs>
-                        <Tab text="Personnel Type &amp; Rank">
-                            <content>
-                                <ScrollPane id="ScrollPane" fitToWidth="true" minWidth="0.0">
-                                    <content>
-                                        <VBox prefWidth="306.0">
-                                            <children>
-                                                <FlowPane minHeight="0.0" minWidth="0.0">
-                                                    <children>
-                                                        <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
-                                                        <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
-                                                        <CheckBox fx:id="groundOfficerFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
-                                                        <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
-                                                    </children>
-                                                    <prefWidth>
-                                                        <Long fx:value="-1" />
-                                                    </prefWidth>
-                                                </FlowPane>
-                                                <TitledPane expanded="false" minHeight="0.0" minWidth="0.0" text="Naval Officer Filter">
-                                                    <content>
-                                                        <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
-                                                            <children>
-                                                                <CheckBox mnemonicParsing="false" text="Lieutenant Commander" />
-                                                                <CheckBox mnemonicParsing="false" text="Commander" />
-                                                                <CheckBox mnemonicParsing="false" text="Captain" />
-                                                                <CheckBox mnemonicParsing="false" text="Rear Admiral (Green)" />
-                                                                <CheckBox mnemonicParsing="false" text="Rear Admiral (Red)" />
-                                                                <CheckBox mnemonicParsing="false" text="Vice Admiral" />
-                                                                <CheckBox mnemonicParsing="false" text="Admiral" />
-                                                                <CheckBox mnemonicParsing="false" text="Fleet Admiral" />
-                                                            </children>
-                                                        </VBox>
-                                                    </content>
-                                                </TitledPane>
-                                                <TitledPane expanded="false" text="Scientist Filter">
-                                                    <content>
-                                                        <AnchorPane prefHeight="50.0" />
-                                                    </content>
-                                                </TitledPane>
-                                                <TitledPane expanded="false" text="Ground Officer Filter">
-                                                    <content>
-                                                        <AnchorPane prefHeight="50.0" />
-                                                    </content>
-                                                </TitledPane>
-                                                <TitledPane expanded="false" text="Civilian Officer Filter">
-                                                    <content>
-                                                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
-                                                            <prefHeight>
-                                                                <Long fx:value="50" />
-                                                            </prefHeight>
-                                                            <prefWidth>
-                                                                <Long fx:value="-1" />
-                                                            </prefWidth>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </TitledPane>
-                                            </children>
-                                            <maxHeight>
-                                                <Long fx:value="-1" />
-                                            </maxHeight>
-                                            <minHeight>
-                                                <Long fx:value="0" />
-                                            </minHeight>
-                                            <minWidth>
-                                                <Long fx:value="0" />
-                                            </minWidth>
-                                            <prefHeight>
-                                                <Long fx:value="-1" />
-                                            </prefHeight>
-                                        </VBox>
-                                    </content>
-                                    <maxHeight>
-                                        <Long fx:value="-1" />
-                                    </maxHeight>
-                                    <minHeight>
-                                        <Long fx:value="0" />
-                                    </minHeight>
-                                    <prefHeight>
-                                        <Long fx:value="-1" />
-                                    </prefHeight>
-                                    <prefViewportHeight>
-                                        <Long fx:value="200" />
-                                    </prefViewportHeight>
-                                    <prefViewportWidth>
-                                        <Long fx:value="243" />
-                                    </prefViewportWidth>
-                                </ScrollPane>
-                            </content>
-                        </Tab>
-                        <Tab text="Skills">
-                            <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
-                                    <children>
-                                        <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
-                                            <children>
-                                                <HBox id="HBox" alignment="CENTER" spacing="5.0">
-                                                    <children>
-                                                        <Label text="Skill :" />
-                                                        <ComboBox id="skillsComboBox" fx:id="skillFilterComboBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                              
-                                                        </ComboBox>
-                                                    </children>
-                                                </HBox>
-                                                <GridPane>
-                                                    <children>
-                                                        <Label text="Min Value :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                                        <TextField fx:id="skillFilterMinValueComponent" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                                        <Label text="Max Value :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                                        <TextField id="skillFilterMinValueComponent" fx:id="skillFilterMaxValueComponent" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                    </children>
-                                                    <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    </columnConstraints>
-                                                    <rowConstraints>
-                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    </rowConstraints>
-                                                </GridPane>
-                                                <Button mnemonicParsing="false" onAction="#addSkillFilter" text="Add Filter" />
-                                                <ScrollPane id="ScrollPane" VBox.vgrow="ALWAYS">
-                                                    <content>
-                                                        <TableView fx:id="skillFiltersTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                                                            <columns>
-                                                                <TableColumn text="Skill" fx:id="skillFiltersNameColumn">
-                                                                    <prefWidth>
-                                                                        <Long fx:value="140" />
-                                                                    </prefWidth>
-                                                                </TableColumn>
-                                                                <TableColumn text="min" fx:id="skillFilterMinValueColumn">
-                                                                    <prefWidth>
-                                                                        <Long fx:value="75" />
-                                                                    </prefWidth>
-                                                                </TableColumn>
-                                                                <TableColumn prefWidth="75.0" text="Max" fx:id="skillFilterMaxValueColumn" />
-                                                            </columns>
-                                                            <minHeight>
-                                                                <Long fx:value="50" />
-                                                            </minHeight>
-                                                            <minWidth>
-                                                                <Long fx:value="-1" />
-                                                            </minWidth>
-                                                            <prefWidth>
-                                                                <Long fx:value="-1" />
-                                                            </prefWidth>
-                                                        </TableView>
-                                                    </content>
-                                                    <prefViewportHeight>
-                                                        <Long fx:value="120" />
-                                                    </prefViewportHeight>
-                                                    <prefViewportWidth>
-                                                        <Long fx:value="800" />
-                                                    </prefViewportWidth>
-                                                </ScrollPane>
-                                            </children>
-                                            <minHeight>
-                                                <Long fx:value="0" />
-                                            </minHeight>
-                                            <minWidth>
-                                                <Long fx:value="0" />
-                                            </minWidth>
-                                        </VBox>
-                                    </children>
-                                    <prefHeight>
-                                        <Long fx:value="-1" />
-                                    </prefHeight>
-                                    <prefWidth>
-                                        <Long fx:value="-1" />
-                                    </prefWidth>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                    </tabs>
-                </TabPane>
-                <ScrollPane id="ScrollPane" prefViewportHeight="400.0">
-                    <content>
-                        <TableView fx:id="filteredPersonnelTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                            <columns>
-                                <TableColumn text="Type" fx:id="personnelTypeColumn">
-                                    <prefWidth>
-                                        <Long fx:value="100" />
-                                    </prefWidth>
-                                </TableColumn>
-                                <TableColumn text="Rank" fx:id="personnelRankColumn">
-                                    <prefWidth>
-                                        <Long fx:value="100" />
-                                    </prefWidth>
-                                </TableColumn>
-                                <TableColumn text="Name" fx:id="personnelNameColumn">
-                                    <prefWidth>
-                                        <Long fx:value="120" />
-                                    </prefWidth>
-                                </TableColumn>
-                            </columns>
-                            <minHeight>
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
+  <children>
+    <GridPane id="GridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <minHeight>
+            <Long fx:value="0" />
+          </minHeight>
+          <prefHeight>
+            <Long fx:value="120" />
+          </prefHeight>
+          <prefWidth>
+            <Long fx:value="-1" />
+          </prefWidth>
+          <tabs>
+            <Tab text="Personnel Type &amp; Rank">
+              <content>
+                <ScrollPane id="ScrollPane" fitToWidth="true" minWidth="0.0">
+                  <content>
+                    <VBox prefWidth="306.0">
+                      <children>
+                        <FlowPane minHeight="0.0" minWidth="0.0">
+                          <children>
+                            <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
+                            <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
+                            <CheckBox fx:id="groundOfficerFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
+                            <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
+                          </children>
+                          <prefWidth>
+                            <Long fx:value="-1" />
+                          </prefWidth>
+                        </FlowPane>
+                        <TitledPane expanded="false" minHeight="0.0" minWidth="0.0" text="Naval Officer Filter">
+                          <content>
+                            <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+                              <children>
+                                <CheckBox mnemonicParsing="false" text="Lieutenant Commander" />
+                                <CheckBox mnemonicParsing="false" text="Commander" />
+                                <CheckBox mnemonicParsing="false" text="Captain" />
+                                <CheckBox mnemonicParsing="false" text="Rear Admiral (Green)" />
+                                <CheckBox mnemonicParsing="false" text="Rear Admiral (Red)" />
+                                <CheckBox mnemonicParsing="false" text="Vice Admiral" />
+                                <CheckBox mnemonicParsing="false" text="Admiral" />
+                                <CheckBox mnemonicParsing="false" text="Fleet Admiral" />
+                              </children>
+                            </VBox>
+                          </content>
+                        </TitledPane>
+                        <TitledPane expanded="false" text="Scientist Filter">
+                          <content>
+                            <AnchorPane prefHeight="50.0" />
+                          </content>
+                        </TitledPane>
+                        <TitledPane expanded="false" text="Ground Officer Filter">
+                          <content>
+                            <AnchorPane prefHeight="50.0" />
+                          </content>
+                        </TitledPane>
+                        <TitledPane expanded="false" text="Civilian Officer Filter">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+                              <prefHeight>
                                 <Long fx:value="50" />
-                            </minHeight>
-                            <prefHeight>
+                              </prefHeight>
+                              <prefWidth>
                                 <Long fx:value="-1" />
-                            </prefHeight>
-                            <prefWidth>
-                                <Long fx:value="-1" />
-                            </prefWidth>
-                        </TableView>
-                    </content>
-                    <prefViewportWidth>
-                        <Long fx:value="800" />
-                    </prefViewportWidth>
+                              </prefWidth>
+                            </AnchorPane>
+                          </content>
+                        </TitledPane>
+                      </children>
+                      <maxHeight>
+                        <Long fx:value="-1" />
+                      </maxHeight>
+                      <minHeight>
+                        <Long fx:value="0" />
+                      </minHeight>
+                      <minWidth>
+                        <Long fx:value="0" />
+                      </minWidth>
+                      <prefHeight>
+                        <Long fx:value="250" />
+                      </prefHeight>
+                    </VBox>
+                  </content>
+                  <maxHeight>
+                    <Long fx:value="-1" />
+                  </maxHeight>
+                  <minHeight>
+                    <Long fx:value="0" />
+                  </minHeight>
+                  <prefHeight>
+                    <Long fx:value="250" />
+                  </prefHeight>
+                  <prefViewportHeight>
+                    <Long fx:value="200" />
+                  </prefViewportHeight>
+                  <prefViewportWidth>
+                    <Long fx:value="243" />
+                  </prefViewportWidth>
                 </ScrollPane>
-            </children>
-            <minHeight>
-                <Long fx:value="0" />
-            </minHeight>
-            <minWidth>
-                <Long fx:value="0" />
-            </minWidth>
-            <prefHeight>
+              </content>
+            </Tab>
+            <Tab text="Skills">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+                  <children>
+                    <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+                      <children>
+                        <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                          <children>
+                            <Label text="Skill :" />
+                            <ComboBox id="skillsComboBox" fx:id="skillFilterComboBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                          </children>
+                        </HBox>
+                        <GridPane>
+                          <children>
+                            <Label text="Min Value :" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <TextField fx:id="skillFilterMinValueComponent" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                            <Label text="Max Value :" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <TextField id="skillFilterMinValueComponent" fx:id="skillFilterMaxValueComponent" prefWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                          </children>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <Button mnemonicParsing="false" onAction="#addSkillFilter" text="Add Filter" />
+                        <ScrollPane id="ScrollPane" VBox.vgrow="ALWAYS">
+                          <content>
+                            <TableView fx:id="skillFiltersTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                              <columns>
+                                <TableColumn text="Skill" fx:id="skillFiltersNameColumn">
+                                  <prefWidth>
+                                    <Long fx:value="140" />
+                                  </prefWidth>
+                                </TableColumn>
+                                <TableColumn text="min" fx:id="skillFilterMinValueColumn">
+                                  <prefWidth>
+                                    <Long fx:value="75" />
+                                  </prefWidth>
+                                </TableColumn>
+                                <TableColumn prefWidth="75.0" text="Max" fx:id="skillFilterMaxValueColumn" />
+                              </columns>
+                              <minHeight>
+                                <Long fx:value="50" />
+                              </minHeight>
+                              <minWidth>
+                                <Long fx:value="-1" />
+                              </minWidth>
+                              <prefHeight>
+                                <Long fx:value="120" />
+                              </prefHeight>
+                              <prefWidth>
+                                <Long fx:value="-1" />
+                              </prefWidth>
+                            </TableView>
+                          </content>
+                          <prefViewportHeight>
+                            <Long fx:value="120" />
+                          </prefViewportHeight>
+                          <prefViewportWidth>
+                            <Long fx:value="800" />
+                          </prefViewportWidth>
+                        </ScrollPane>
+                      </children>
+                      <minHeight>
+                        <Long fx:value="0" />
+                      </minHeight>
+                      <minWidth>
+                        <Long fx:value="0" />
+                      </minWidth>
+                    </VBox>
+                  </children>
+                  <prefHeight>
+                    <Long fx:value="-1" />
+                  </prefHeight>
+                  <prefWidth>
+                    <Long fx:value="-1" />
+                  </prefWidth>
+                </AnchorPane>
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+        <ScrollPane id="ScrollPane" prefViewportHeight="400.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <content>
+            <TableView fx:id="filteredPersonnelTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <columns>
+                <TableColumn text="Type" fx:id="personnelTypeColumn">
+                  <prefWidth>
+                    <Long fx:value="100" />
+                  </prefWidth>
+                </TableColumn>
+                <TableColumn text="Rank" fx:id="personnelRankColumn">
+                  <prefWidth>
+                    <Long fx:value="100" />
+                  </prefWidth>
+                </TableColumn>
+                <TableColumn text="Name" fx:id="personnelNameColumn">
+                  <prefWidth>
+                    <Long fx:value="120" />
+                  </prefWidth>
+                </TableColumn>
+              </columns>
+              <minHeight>
+                <Long fx:value="50" />
+              </minHeight>
+              <prefHeight>
                 <Long fx:value="-1" />
-            </prefHeight>
-            <prefWidth>
-                <Long fx:value="300" />
-            </prefWidth>
-        </VBox>
-        <TabPane layoutX="516.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" />
-    </children>
-    <prefHeight>
+              </prefHeight>
+              <prefWidth>
+                <Long fx:value="-1" />
+              </prefWidth>
+            </TableView>
+          </content>
+          <prefViewportWidth>
+            <Long fx:value="800" />
+          </prefViewportWidth>
+        </ScrollPane>
+        <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Personnel Member Details" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS">
+          <content>
+            <fx:include fx:id="detailsPane" source="PersonnelDetailsPane.fxml" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <prefHeight>
+                <Long fx:value="-1" />
+              </prefHeight>
+              <prefWidth>
+                <Long fx:value="-1" />
+              </prefWidth>
+            </fx:include>
+          </content>
+        </TitledPane>
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0">
+          <prefWidth>
+            <Long fx:value="300" />
+          </prefWidth>
+        </ColumnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0">
+          <percentWidth>
+            <Long fx:value="-1" />
+          </percentWidth>
+          <prefWidth>
+            <Long fx:value="600" />
+          </prefWidth>
+        </ColumnConstraints>
+      </columnConstraints>
+      <minWidth>
         <Long fx:value="-1" />
-    </prefHeight>
-    <prefWidth>
-        <Long fx:value="-1" />
-    </prefWidth>
+      </minWidth>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
+          <percentHeight>
+            <Long fx:value="35" />
+          </percentHeight>
+        </RowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
+          <percentHeight>
+            <Long fx:value="65" />
+          </percentHeight>
+        </RowConstraints>
+      </rowConstraints>
+    </GridPane>
+  </children>
+  <minHeight>
+    <Long fx:value="0" />
+  </minHeight>
+  <minWidth>
+    <Long fx:value="0" />
+  </minWidth>
+  <prefHeight>
+    <Long fx:value="-1" />
+  </prefHeight>
+  <prefWidth>
+    <Long fx:value="-1" />
+  </prefWidth>
 </AnchorPane>
