@@ -7,17 +7,21 @@ import com.newdawn.model.personnel.*;
 import com.sun.javafx.collections.CompositeMatcher;
 import com.sun.javafx.collections.transformation.Matcher;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.binding.*;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ListChangeListener.Change;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +44,13 @@ public class PersonnelManagementScreen
 
     @Autowired
     private GameData gameData;
+    private final MapChangeListener<Skill, SkillLevel> mapChangeListener = new MapChangeListener<Skill, SkillLevel>() {
+
+        @Override
+        public void onChanged(MapChangeListener.Change<? extends Skill, ? extends SkillLevel> arg0) {
+            updateSkills();
+        }
+    };
     @Autowired
     private Skill[] skills;
     private ObservableList<PersonnelMember> personnelMemberFilteredList = FXCollections.
@@ -95,6 +106,8 @@ public class PersonnelManagementScreen
     private AnchorPane detailsPane; // Value injected by FXMLLoader
     @FXML //  fx:id="detailsPane"
     private PersonnelDetailsPane detailsPaneController; // Value injected by FXMLLoader
+    @FXML
+    private ListView<SkillLevel> skillsListView;
 
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -113,10 +126,15 @@ public class PersonnelManagementScreen
         assert skillFilterMinValueComponent != null : "fx:id=\"skillFilterMinValueComponent\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFiltersNameColumn != null : "fx:id=\"skillFiltersNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert skillFiltersTableView != null : "fx:id=\"skillFiltersTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
-        // initialize your logic here: all @FXML variables will have been injected
+        assert skillsListView != null;
 
+        // initialize your logic here: all @FXML variables will have been injected
+        //<editor-fold defaultstate="collapsed" desc="Initialization of the compositeMatcher">
         compositeMatcher.getMatchers().add(typePersonnelMemberMatcher);
         compositeMatcher.getMatchers().add(skillFiltersMatcher);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Initialization of the filteredPersonnelTableView">
         personnelNameColumn.setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
         personnelRankColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, String>, ObservableValue<String>>() {
 
@@ -145,6 +163,7 @@ public class PersonnelManagementScreen
                 updateFilters(null);
             }
         });
+        //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Initialization of the skill filters tab">
         skillFilterComboBox.getItems().addAll(skills);
@@ -227,22 +246,64 @@ public class PersonnelManagementScreen
         });
         Bindings.bindContent(skillFiltersMatcher.getMatchers(), skillFiltersTableView.
                 getItems());
+//</editor-fold>
 
-        final ObjectBinding<PersonnelMember> select = Bindings.select(filteredPersonnelTableView.
+        final ObjectBinding<PersonnelMember> selectedPersonnel = Bindings.select(filteredPersonnelTableView.
                 selectionModelProperty(), "selectedItem");
-        detailsPaneController.personnelMemberProperty().bind(select);
+
+        detailsPaneController.personnelMemberProperty().bind(selectedPersonnel);
+        skillsListView.setCellFactory(new Callback<ListView<SkillLevel>, ListCell<SkillLevel>>() {
+
+            @Override
+            public ListCell<SkillLevel> call(ListView<SkillLevel> arg0) {
+                final ListCell<SkillLevel> toReturn = new ListCell<>();
+                final ObjectProperty<SkillLevel> itemProperty = toReturn.
+                        itemProperty();
+
+                final StringExpression concat = Bindings.selectString(toReturn.
+                        itemProperty(), "skill", "name").
+                        concat(": ").concat(Bindings.selectInteger(toReturn.
+                        itemProperty(), "level").asString()).
+                        concat(" %");
+
+                //TODO try to use a binding.
+                concat.addListener(new InvalidationListener() {
+
+                    @Override
+                    public void invalidated(Observable arg0) {
+                        toReturn.setText(concat.getValueSafe());
+                    }
+                });
+//                toReturn.textProperty().bind(concat);
+                return toReturn;
+            }
+        });
+        selectedPersonnel.addListener(new ChangeListener<PersonnelMember>() {
+
+            @Override
+            public void changed(ObservableValue<? extends PersonnelMember> arg0, PersonnelMember arg1, PersonnelMember arg2) {
+                updateSkills();
+            }
+        });
+
         updateFilters(null);
     }
 
     //TODO Try to use a filtered List
     public void updateFilters(ActionEvent event) {
+        for (PersonnelMember personnelMember : personnelMemberFilteredList) {
+            personnelMember.getSkillLevels().removeListener(mapChangeListener);
+        }
         personnelMemberFilteredList.clear();
         for (PersonnelMember personnelMember : gameData.getPersonnelMembers()) {
             if (compositeMatcher.matches(personnelMember)) {
                 personnelMemberFilteredList.add(personnelMember);
+                
+                personnelMember.getSkillLevels().addListener(mapChangeListener);
+
             }
         }
-
+        updateSkills();
     }
 
     public void addSkillFilter(ActionEvent event) {
@@ -257,5 +318,24 @@ public class PersonnelManagementScreen
         skillFiltersTableView.getItems().add(skillFilter);
         compositeMatcher.getMatchers().add(skillFilter);
         updateFilters(event);
+    }
+
+    //TODO try to use a binding
+    private void updateSkills() {
+        skillsListView.getItems().clear();
+        PersonnelMember selectedMember = filteredPersonnelTableView.
+                getSelectionModel().getSelectedItem();
+        if (selectedMember != null) {
+            skillsListView.getItems().addAll(selectedMember.getSkillLevels().
+                    values());
+            Collections.sort(skillsListView.getItems(), new Comparator<SkillLevel>() {
+
+                @Override
+                public int compare(SkillLevel arg0, SkillLevel arg1) {
+                    return arg0.getSkill().getName().compareTo(arg1.getSkill().
+                            getName());
+                }
+            });
+        }
     }
 }

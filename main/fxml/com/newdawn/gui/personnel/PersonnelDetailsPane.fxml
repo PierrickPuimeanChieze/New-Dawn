@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelDetailsPane">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelDetailsPane">
   <children>
-    <GridPane id="locationTextField" prefWidth="597.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <GridPane id="locationTextField" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <Label text="Personnel Name :" GridPane.columnIndex="0" GridPane.rowIndex="0">
           <GridPane.margin>
@@ -37,6 +37,9 @@
         </ColumnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
+      <prefWidth>
+        <Long fx:value="-1" />
+      </prefWidth>
       <rowConstraints>
         <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
           <prefHeight>
@@ -56,4 +59,10 @@
       </rowConstraints>
     </GridPane>
   </children>
+  <prefHeight>
+    <Long fx:value="-1" />
+  </prefHeight>
+  <prefWidth>
+    <Long fx:value="-1" />
+  </prefWidth>
 </AnchorPane>

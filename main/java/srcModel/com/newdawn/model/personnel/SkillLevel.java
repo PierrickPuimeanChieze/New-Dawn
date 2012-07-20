@@ -1,7 +1,6 @@
 package com.newdawn.model.personnel;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 
 /**
  *
@@ -9,20 +8,25 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class SkillLevel {
 
-    private Skill skill;
+    private ObjectProperty<Skill> skillProperty = new SimpleObjectProperty<>(this, "skill");
     //TODO replace by a short property
     private IntegerProperty levelProperty;
     //TODO replace by a short property
     private IntegerProperty xpReserveProperty;
 
     public SkillLevel(Skill skill) {
-        this.skill = skill;
+        skillProperty.setValue(skill);
     }
 
     public Skill getSkill() {
-        return skill;
+        return skillProperty.get();
     }
 
+    public ReadOnlyObjectProperty<Skill> skillProperty() {
+        return skillProperty;
+    }
+
+    
     public IntegerProperty levelProperty() {
         if (levelProperty == null) {
             levelProperty = new SimpleIntegerProperty(this, "level", 0);

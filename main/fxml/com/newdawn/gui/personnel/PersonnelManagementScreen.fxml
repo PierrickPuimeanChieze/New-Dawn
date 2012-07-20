@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="680.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
   <children>
     <GridPane id="GridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -235,9 +235,19 @@
             </fx:include>
           </content>
         </TitledPane>
+        <ListView fx:id="skillsListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
       </children>
       <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0">
+        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES">
+          <maxWidth>
+            <Long fx:value="600" />
+          </maxWidth>
+          <minWidth>
+            <Long fx:value="240" />
+          </minWidth>
+          <percentWidth>
+            <Long fx:value="-1" />
+          </percentWidth>
           <prefWidth>
             <Long fx:value="300" />
           </prefWidth>
@@ -248,6 +258,20 @@
           </percentWidth>
           <prefWidth>
             <Long fx:value="600" />
+          </prefWidth>
+        </ColumnConstraints>
+        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES">
+          <maxWidth>
+            <Long fx:value="150" />
+          </maxWidth>
+          <minWidth>
+            <Long fx:value="150" />
+          </minWidth>
+          <percentWidth>
+            <Long fx:value="-1" />
+          </percentWidth>
+          <prefWidth>
+            <Long fx:value="150" />
           </prefWidth>
         </ColumnConstraints>
       </columnConstraints>
@@ -277,7 +301,4 @@
   <prefHeight>
     <Long fx:value="-1" />
   </prefHeight>
-  <prefWidth>
-    <Long fx:value="-1" />
-  </prefWidth>
 </AnchorPane>

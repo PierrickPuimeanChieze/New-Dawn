@@ -1,8 +1,6 @@
 package com.newdawn.gui;
 
-import com.sun.javafx.property.PropertyReference;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
