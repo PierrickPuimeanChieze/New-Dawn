@@ -6,7 +6,9 @@ package com.newdawn.controllers;
 
 import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.system.StellarSystem;
+import java.util.Collections;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
@@ -30,6 +32,27 @@ public class GameData {
     private LongProperty wealthProperty;
     private ObservableList<PersonnelMember> personnelMembers = FXCollections.
             observableArrayList();
+    //TODO all the field teams must be in the same collection, and use filter for use
+    private ObservableList<GeologicalTeam> geologicalTeams = FXCollections.
+            observableArrayList();
+
+    /**
+     * Get the value of geologicalTeams
+     *
+     * @return the value of geologicalTeams
+     */
+    public ObservableList<GeologicalTeam> getGeologicalTeams() {
+        return geologicalTeams;
+    }
+
+    /**
+     * Set the value of geologicalTeams
+     *
+     * @param geologicalTeams new value of geologicalTeams
+     */
+    public void setGeologicalTeams(ObservableList<GeologicalTeam> geologicalTeams) {
+        this.geologicalTeams = geologicalTeams;
+    }
 
     public LongProperty wealthProperty() {
 
@@ -94,6 +117,4 @@ public class GameData {
     public ObservableList<PersonnelMember> getPersonnelMembers() {
         return personnelMembers;
     }
-    
-    
 }

@@ -1,6 +1,7 @@
-package com.newdawn.model.personnel;
+package com.newdawn.model.personnel.team;
 
 import com.newdawn.model.mineral.MinerallyExploitableBody;
+import com.newdawn.model.personnel.Skill;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.springframework.beans.BeansException;

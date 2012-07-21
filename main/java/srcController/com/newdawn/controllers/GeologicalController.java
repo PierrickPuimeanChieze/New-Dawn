@@ -3,7 +3,7 @@ package com.newdawn.controllers;
 import com.newdawn.model.mineral.MineralDeposit;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
-import com.newdawn.model.personnel.GeologicalTeam;
+import com.newdawn.model.personnel.team.GeologicalTeam;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

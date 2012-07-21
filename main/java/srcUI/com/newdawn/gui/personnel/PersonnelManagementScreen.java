@@ -3,6 +3,7 @@ package com.newdawn.gui.personnel;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
+import com.newdawn.controllers.TeamController.FieldTeamType;
 import com.newdawn.gui.PropertyListCellFactory;
 import com.newdawn.model.personnel.*;
 import com.sun.javafx.collections.CompositeMatcher;
@@ -114,6 +115,7 @@ public class PersonnelManagementScreen
     //TODO implements the filter
     @FXML
     private ComboBox assignmentsFilterComboBox;
+    //TODO correct variable name
     @FXML
     private ListView<Assignment> assigmentsListView;
     @FXML //  fx:id="createTeamMenuItem"
@@ -299,6 +301,9 @@ public class PersonnelManagementScreen
 
         updateFilters(null);
         
+
+        Bindings.bindContent(assigmentsListView.getItems(), gameData.getGeologicalTeams());
+        assigmentsListView.setCellFactory(new PropertyListCellFactory<Assignment>("name", null));
         createTeamMenuItem.disableProperty().bind(Bindings.select(filteredPersonnelTableView.selectionModelProperty(), "selectedItem").isNull());
     }
 
@@ -355,7 +360,7 @@ public class PersonnelManagementScreen
     public void createTeam(ActionEvent event) {
         PersonnelMember selectedPersonnel = filteredPersonnelTableView.getSelectionModel().getSelectedItem();
         assert selectedPersonnel != null;
-        teamController.createTeamWithLeader(selectedPersonnel);
+        teamController.createTeamWithLeader(selectedPersonnel, FieldTeamType.GEOLOGICAL);
     }
 
 }
