@@ -1,6 +1,5 @@
 package com.newdawn.model.personnel;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
