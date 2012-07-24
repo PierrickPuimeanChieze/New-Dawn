@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <TreeView fx:id="teamsTreeView" prefHeight="200.0" prefWidth="200.0" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <TableView fx:id="membersTableView" layoutX="200.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0">
+      <columns>
+        <TableColumn prefWidth="75.0" sortable="false" text="Name" fx:id="nameColumn" />
+        <TableColumn prefWidth="75.0" sortable="false" fx:id="skillColumn" />
+      </columns>
+    </TableView>
+    <Label layoutX="200.0" layoutY="14.0" text="Label" />
+    <TitledPane animated="false" layoutY="62.0" text="Leader's information" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0">
+      <content>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+          <children>
+            <Label text="Name" />
+            <TextField fx:id="leaderNameTextField" layoutX="97.0" layoutY="-3.0" prefWidth="200.0" text="TextField" />
+          </children>
+          <prefHeight>
+            <Long fx:value="-1" />
+          </prefHeight>
+          <prefWidth>
+            <Long fx:value="-1" />
+          </prefWidth>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+  </children>
+</AnchorPane>
