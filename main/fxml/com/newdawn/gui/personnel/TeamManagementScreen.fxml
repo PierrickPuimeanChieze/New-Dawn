@@ -15,13 +15,34 @@
         <TableColumn prefWidth="75.0" sortable="false" fx:id="skillColumn" />
       </columns>
     </TableView>
-    <Label layoutX="200.0" layoutY="14.0" text="Label" />
-    <TitledPane animated="false" layoutY="62.0" text="Leader's information" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0">
+    <TitledPane animated="false" layoutY="102.0" text="Leader's information" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0">
       <content>
         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
           <children>
-            <Label text="Name" />
-            <TextField fx:id="leaderNameTextField" layoutX="97.0" layoutY="-3.0" prefWidth="200.0" text="TextField" />
+            <Label text="Name" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="leaderNameTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
+            <Label text="Leadership skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+            <TextField fx:id="leaderLeadershipSkillLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
+            <Label text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
+            <TextField fx:id="leaderTeamSkillLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
+          </children>
+          <prefHeight>
+            <Long fx:value="-1" />
+          </prefHeight>
+          <prefWidth>
+            <Long fx:value="-1" />
+          </prefWidth>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane fx:id="teamInformationTitledPane" animated="false" text="Team information" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <content>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+          <children>
+            <Label text="Assignment" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextField fx:id="assignmentTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
+            <Label text="Location" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+            <TextField id="assignmentTextField" fx:id="locationTextFiedl" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
           </children>
           <prefHeight>
             <Long fx:value="-1" />
