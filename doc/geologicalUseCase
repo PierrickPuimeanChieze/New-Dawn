@@ -1,5 +1,6 @@
 ---Acronymes---
 CCME = Corps Celeste Mineralement Exploitable : planetes asteroids ou autres corps celeste pouvant faire l'objet de prospection.
+
 ---Reperages---
 Chaque CCME dispose d'un level de compétence a zero pour le reperage initial.
 Ce level peut être rempli independamment par une equipe au sol ou un vaisseau, contrairement aux autres levels qui ne peuvent être rempli que par une equipe. 
@@ -12,6 +13,12 @@ Chaque CCME dispose également d'un niveau de finalisation. Lorsque ce niveau es
 Chaque CCME dispose ensuite d'un ensemble de depot
 Chaque depot correspond a une somme fixe de mineral
 Chaque depot dispose de d'unlevels de compétence : un level necessaire pour reperer la localisation du dépot. Un depot ne peut commencer a être exploité que lorsque sa localisation est reperée.
+
+---Assignments---
+Pour qu'une equipe commence a prospecter, plusieurs conditions doivent être remplies
+*Un "assignments" (sous forme d'une CCME) doit avoir été fourni a l'equipe.
+*L'equipe doit être situé a cette assignments. Pour cela, elle doit y être déplacé par un vaisseau de la flotte. Chaque fois qu'une equipe disposant d'un assignement sans être capable de le remplir est flagé sur l'ecran de gestion de la flotte.
+Plus tard, il sera également possible de proposer une prime pour qu'un vaisseau du secteur civil se charge du transport.
 
 ---Remplissage d'un level---
 Tous les 5 jours (a définir dans le config), l'equipe ou le vaisseau rempli un level d'une quantité de point de reperage egale a la différence entre le skill demandé par celui-ci et le niveau effectif de l'equipe ou du vaisseau.
