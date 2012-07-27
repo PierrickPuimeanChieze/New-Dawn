@@ -67,6 +67,8 @@ public class MainScreen implements Initializable {
     @FXML
     private MenuItem personnelManagementScreenMenuItem;
     @FXML
+    private MenuItem teamManagementScreenMenuItem;
+    @FXML
     private TabPane screensTabPane;
     //TODO See to move them to the fxml
     @FXML
@@ -99,6 +101,7 @@ public class MainScreen implements Initializable {
         personnelManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F4));
         personnelManagementScreenMenuItem.setUserData(personnelManagementScreenTab);
 
+        teamManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F5));
         fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
         fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
 
