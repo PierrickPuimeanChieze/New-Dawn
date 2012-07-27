@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.TeamManagementScreen">
   <children>
     <TreeView fx:id="teamsTreeView" prefHeight="200.0" prefWidth="200.0" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
     <TableView fx:id="membersTableView" layoutX="200.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0">
@@ -43,6 +43,9 @@
             <TextField fx:id="assignmentTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
             <Label text="Location" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
             <TextField id="assignmentTextField" fx:id="locationTextFiedl" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
+            <Label fx:id="teamCumulativeSkillLevelLabel" text="Total Skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
+            <TextField id="effectiveTeamSkilTextField" fx:id="effectiveTeamSkilLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
+            <Button mnemonicParsing="false" onAction="#launchTeamAssignmentChange" text="Change Assignement" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
           <prefHeight>
             <Long fx:value="-1" />
@@ -54,4 +57,7 @@
       </content>
     </TitledPane>
   </children>
+  <prefWidth>
+    <Long fx:value="800" />
+  </prefWidth>
 </AnchorPane>

@@ -16,6 +16,7 @@
             <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" text="Economic Screen" fx:id="economicScreenMenuItem" />
             <MenuItem id="" mnemonicParsing="false" onAction="#showScreenTabAction" text="System Map Screen" fx:id="systemMapScreenMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" text="Personnel Management Screen" fx:id="personnelManagementScreenMenuItem" />
+            <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" text="Team Management Screen" fx:id="teamManagementScreenMenuItem" />
             <MenuItem mnemonicParsing="false" onAction="#showScreenTabAction" style="" text="Fleet Management Screen" fx:id="fleetManagementScreenMenuItem" />
           </items>
         </Menu>
@@ -49,6 +50,11 @@
           </content>
         </Tab>
         <Tab fx:id="personnelManagementScreenTab" text="Personnel Management">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+        <Tab fx:id="teamManagementScreenTab" text="Team Management">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
           </content>

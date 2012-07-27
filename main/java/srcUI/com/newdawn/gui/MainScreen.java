@@ -79,10 +79,13 @@ public class MainScreen implements Initializable {
     private Tab personnelManagementScreenTab;
     @FXML
     private Tab fleetManagementScreenTab;
+    @FXML
+    private Tab teamManagementScreenTab;
     //TODO use include in MainScreen.fxml
     private Node economicScreen;
     private AnchorPane systemMapScreen;
     private Node personnelManagementScreen;
+    private Node teamManagementScreen;
     private AnchorPane fleetManagementScreen;
 
     @Override
@@ -91,21 +94,30 @@ public class MainScreen implements Initializable {
         systemMapScreenTab.setContent(getSystemMapScreen());
         economicScreenTab.setContent(getEconomicScreen());
         personnelManagementScreenTab.setContent(getPersonnelManagementScreen());
-
-        economicScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F2));
+        teamManagementScreenTab.setContent(getTeamManagementScreen());
+        economicScreenMenuItem.
+                setAccelerator(new KeyCodeCombination(KeyCode.F2));
         economicScreenMenuItem.setUserData(economicScreenTab);
 
-        systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F3));
+        systemMapScreenMenuItem.
+                setAccelerator(new KeyCodeCombination(KeyCode.F3));
         systemMapScreenMenuItem.setUserData(systemMapScreenTab);
 
-        personnelManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F4));
-        personnelManagementScreenMenuItem.setUserData(personnelManagementScreenTab);
+        personnelManagementScreenMenuItem.
+                setAccelerator(new KeyCodeCombination(KeyCode.F4));
+        personnelManagementScreenMenuItem.
+                setUserData(personnelManagementScreenTab);
 
-        teamManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F5));
-        fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F12));
+        teamManagementScreenMenuItem.
+                setAccelerator(new KeyCodeCombination(KeyCode.F5));
+        teamManagementScreenMenuItem.setUserData(teamManagementScreenTab);
+
+        fleetManagementScreenMenuItem.
+                setAccelerator(new KeyCodeCombination(KeyCode.F12));
         fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
 
-        screensTabPane.getTabs().removeAll(systemMapScreenTab, fleetManagementScreenTab, economicScreenTab);
+        screensTabPane.getTabs().
+                removeAll(systemMapScreenTab, fleetManagementScreenTab, economicScreenTab);
         fiveSecButton.setUserData(5);
         thirtySecButton.setUserData(30);
         fiveMinButton.setUserData(5 * 60);
@@ -120,11 +132,12 @@ public class MainScreen implements Initializable {
 //        screensTabPane.setStyle("-fx-background-color:#000000");
     }
 
-    public AnchorPane getSystemMapScreen() {
+    private AnchorPane getSystemMapScreen() {
         if (systemMapScreen == null) {
             try {
                 FXMLLoader test = new FXMLLoader();
-                test.setControllerFactory(new SpringFXControllerFactory(ViewerFX.
+                test.
+                        setControllerFactory(new SpringFXControllerFactory(ViewerFX.
                         getCurrentApplication().getSprintContainer()));
                 systemMapScreen = (AnchorPane) test.load(getClass().
                         getResourceAsStream("/com/newdawn/gui/map/system/SystemMapScreen.fxml"));
@@ -137,7 +150,7 @@ public class MainScreen implements Initializable {
         return systemMapScreen;
     }
 
-    public AnchorPane getFleetManagementScreen() {
+    private AnchorPane getFleetManagementScreen() {
         if (fleetManagementScreen == null) {
             try {
                 FXMLLoader test = new FXMLLoader();
@@ -181,9 +194,11 @@ public class MainScreen implements Initializable {
     private Node getEconomicScreen() {
 
         if (economicScreen == null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/economic/EconomicScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().
+                    getResource("/com/newdawn/gui/economic/EconomicScreen.fxml"));
             loader.setControllerFactory(
-                    new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
+                    new SpringFXControllerFactory(ViewerFX.
+                    getCurrentApplication().
                     getSprintContainer()));
             try {
                 economicScreen = (Node) loader.load();
@@ -194,11 +209,13 @@ public class MainScreen implements Initializable {
         return economicScreen;
     }
 
-    public Node getPersonnelManagementScreen() {
+    private Node getPersonnelManagementScreen() {
         if (personnelManagementScreen == null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/newdawn/gui/personnel/PersonnelManagementScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().
+                    getResource("/com/newdawn/gui/personnel/PersonnelManagementScreen.fxml"));
             loader.setControllerFactory(
-                    new SpringFXControllerFactory(ViewerFX.getCurrentApplication().
+                    new SpringFXControllerFactory(ViewerFX.
+                    getCurrentApplication().
                     getSprintContainer()));
             try {
                 personnelManagementScreen = (Node) loader.load();
@@ -209,18 +226,39 @@ public class MainScreen implements Initializable {
         return personnelManagementScreen;
     }
 
+    private Node getTeamManagementScreen() {
+        if (teamManagementScreen == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().
+                    getResource("/com/newdawn/gui/personnel/TeamManagementScreen.fxml"));
+            loader.setControllerFactory(
+                    new SpringFXControllerFactory(ViewerFX.
+                    getCurrentApplication().
+                    getSprintContainer()));
+            try {
+                teamManagementScreen = (Node) loader.load();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        return teamManagementScreen;
+    }
+
     @FXML
     public void launchTest(ActionEvent event) {
-        Skill leadSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("leadership", Skill.class);
-        Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().getBean("geology", Skill.class);
+        Skill leadSkill = ViewerFX.getCurrentApplication().getSprintContainer().
+                getBean("leadership", Skill.class);
+        Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().
+                getBean("geology", Skill.class);
 
         SkillLevel skillLevel = new SkillLevel(leadSkill);
         skillLevel.setLevel(75);
-        gameData.getPersonnelMembers().get(0).skillLevelsProperty().put(leadSkill, skillLevel);
+        gameData.getPersonnelMembers().get(0).skillLevelsProperty().
+                put(leadSkill, skillLevel);
         skillLevel = new SkillLevel(geoSkill);
         skillLevel.setLevel(75);
-        gameData.getPersonnelMembers().get(0).skillLevelsProperty().put(geoSkill, skillLevel);
-        
+        gameData.getPersonnelMembers().get(0).skillLevelsProperty().
+                put(geoSkill, skillLevel);
+
         Colony test = new Colony();
         test.setPopulation(100_000_000);
         test.setPopulationGrowRate(1);
