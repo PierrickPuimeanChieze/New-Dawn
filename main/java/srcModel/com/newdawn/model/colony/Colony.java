@@ -3,6 +3,7 @@ package com.newdawn.model.colony;
 import com.newdawn.controllers.Config;
 import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.system.Planet;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +42,7 @@ public class Colony implements PersonnelLocalisation {
     private long populationGrowCounter = 0;
     private IntegerProperty wealthProductionProperty;
     private IntegerProperty factoryCountProperty;
+    private StringProperty localizationNameProperty;
 
     public IntegerProperty factoryCountProperty() {
         if (factoryCountProperty == null) {
@@ -278,4 +280,14 @@ public class Colony implements PersonnelLocalisation {
     public void setPopulation(long population) {
         this.populationProperty().setValue(population);
     }
+
+    @Override
+    public ReadOnlyStringProperty localizationNameProperty() {
+        if (localizationNameProperty == null) {
+            localizationNameProperty = new SimpleStringProperty();
+                    localizationNameProperty.bind(Bindings.concat("Colony ", nameProperty()));
+        }
+        return localizationNameProperty;
+    }
+    
 }

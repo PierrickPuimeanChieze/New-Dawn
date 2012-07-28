@@ -8,6 +8,8 @@ import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.ships.orders.factory.OrderFactory;
 import com.newdawn.model.system.SpaceObject;
 import com.newdawn.model.system.StellarSystem;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -21,6 +23,7 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
     private double maxSpeed;
     private Squadron squadron;
     private StringProperty nameProperty;
+    private StringProperty localizationNameProperty;
 
     /**
      * Get the value of name
@@ -99,5 +102,16 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
     @Override
     public ObservableList<OrderFactory> getOrderFactories() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ReadOnlyStringProperty localizationNameProperty() {
+        if (localizationNameProperty == null) {
+            localizationNameProperty = new SimpleStringProperty();
+            //TODO use a configurable String for the Ship, before the name, like HMS, RMS, and so on.
+            localizationNameProperty.bind(Bindings.
+                    concat("Ship ", nameProperty()));
+        }
+        return localizationNameProperty;
     }
 }

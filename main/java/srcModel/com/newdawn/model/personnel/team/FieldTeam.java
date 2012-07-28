@@ -3,8 +3,13 @@ package com.newdawn.model.personnel.team;
 import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.personnel.PersonnelMember;
 import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.Team;
+import javafx.beans.binding.LongBinding;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyLongProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -17,9 +22,56 @@ import viewerfx.ViewerFX;
  */
 public abstract class FieldTeam extends Team {
 
+    //TODO add an assignment property
     private int internalCounter = 0;
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
+    private LongProperty cumulatedSkillLevelProperty;
+    private LongBinding cumulatedSkillLevelBinding;
+
+    public ReadOnlyLongProperty cumulatedSkillLevelProperty() {
+        if (cumulatedSkillLevelProperty == null) {
+            cumulatedSkillLevelProperty = new SimpleLongProperty(this, "cumulatedSkillLevel");
+            cumulatedSkillLevelProperty.bind(getCumulatedSkillLevelBinding());
+        }
+        return cumulatedSkillLevelProperty;
+    }
+
+    public LongBinding getCumulatedSkillLevelBinding() {
+        if (cumulatedSkillLevelBinding == null) {
+            cumulatedSkillLevelBinding = new LongBinding() {
+                @Override
+                //TODO try to "bind" the binding
+                protected long computeValue() {
+                    Skill teamSkill = getTeamSkill();
+                    Skill leadershipSkill = ViewerFX.getCurrentApplication().
+                            getSprintContainer().
+                            getBean("leadership", Skill.class);
+                    final SkillLevel leaderLeadershipSkillLevel = getLeader().
+                            getSkillLevels().get(leadershipSkill);
+                    double leaderLeadershipSkillLevelValue = leaderLeadershipSkillLevel == null ? 0 : leaderLeadershipSkillLevel.
+                            getLevel();
+                    final SkillLevel leaderTeamSkillLevel = getLeader().
+                            getSkillLevels().
+                            get(teamSkill);
+                    double leaderTeamSkillLevelValue = leaderTeamSkillLevel == null ? 0 : leaderTeamSkillLevel.
+                            getLevel();
+                    double cumulatedSkillLevel = 0.0;
+                    for (PersonnelMember teamMember : getTeamMembers()) {
+                        cumulatedSkillLevel += teamMember.getSkillLevels().
+                                get(teamSkill).
+                                getLevel();
+                    }
+                    cumulatedSkillLevel += ((leaderTeamSkillLevelValue / 100.0) * leaderLeadershipSkillLevelValue) * getTeamMembers().
+                            size();
+                    cumulatedSkillLevel += leaderTeamSkillLevelValue / (getTeamMembers().
+                            size()+1);
+                    return Math.round(cumulatedSkillLevel);
+                }
+            };
+        }
+        return cumulatedSkillLevelBinding;
+    }
 
     public StringProperty nameProperty() {
         if (nameProperty == null) {
@@ -74,7 +126,8 @@ public abstract class FieldTeam extends Team {
     private int calculateMaxSize() {
         Skill leadershipSkill = ViewerFX.getCurrentApplication().
                 getSprintContainer().getBean("leadership", Skill.class);
-        int leaderLeadershipLevel = getLeader().getSkillLevels().get(leadershipSkill).
+        int leaderLeadershipLevel = getLeader().getSkillLevels().
+                get(leadershipSkill).
                 getLevel();
         int additionalTeamMemberSize = (int) (leaderLeadershipLevel / 12.5);
         return 2 + additionalTeamMemberSize;
@@ -101,9 +154,11 @@ public abstract class FieldTeam extends Team {
         Skill teamSkill = getTeamSkill();
         Skill leadershipSkill = ViewerFX.getCurrentApplication().
                 getSprintContainer().getBean("leadership", Skill.class);
-        double leaderLeadershipSkillLevel = getLeader().getSkillLevels().get(leadershipSkill).
+        double leaderLeadershipSkillLevel = getLeader().getSkillLevels().
+                get(leadershipSkill).
                 getLevel();
-        double leaderTeamSkillLevel = getLeader().getSkillLevels().get(teamSkill).
+        double leaderTeamSkillLevel = getLeader().getSkillLevels().
+                get(teamSkill).
                 getLevel();
         double cumulatedSkillLevel = 0.0;
         for (PersonnelMember teamMember : getTeamMembers()) {
