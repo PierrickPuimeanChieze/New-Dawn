@@ -36,6 +36,7 @@ public class TeamController {
         toReturn.setLeader(teamLeader);
         toReturn.setName(teamLeader.getName() + " ' " + fieldTeamType.toString().
                 toLowerCase() + " team");
+        toReturn.setLocalization(teamLeader.getLocalization());
         gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
     }
 }

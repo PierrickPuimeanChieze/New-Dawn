@@ -7,6 +7,7 @@ package viewerfx;
 import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
+import com.newdawn.controllers.TeamController;
 import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.NavalOfficer;
@@ -82,6 +83,8 @@ public class ViewerFX extends Application {
         geologySkillLevel.setLevel(50);
         navalOfficer1.getSkillLevels().put( geologySkill, geologySkillLevel);
         gameData.getPersonnelMembers().add(navalOfficer1);
+        final TeamController teamController = sprintContainer.getBean(TeamController.class);
+        teamController.createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
     }
 
     @Override

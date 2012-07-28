@@ -31,6 +31,7 @@ public class PropertyOrToStringTreeCellFactory implements Callback<TreeView, Tre
         final TreeCell toReturn = new TreeCell();
         toReturn.textProperty().bind(Bindings.selectString(toReturn.itemProperty(), propertyName));
 
+        //TODO replace by updateItem
         toReturn.itemProperty().addListener(new ChangeListener() {
 
             @Override

@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.binding.StringExpression;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Pierrick Puimean-Chieze
  */
 public class TeamManagementScreen implements Initializable {
-
+    
     @FXML //  fx:id="assignmentTextField"
     private TextField assignmentTextField; // Value injected by FXMLLoader
     @FXML //  fx:id="effectiveTeamSkilLevelTextField"
@@ -61,7 +64,7 @@ public class TeamManagementScreen implements Initializable {
     public void launchTeamAssignmentChange(ActionEvent event) {
         // handle the event here
     }
-
+    
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert assignmentTextField != null : "fx:id=\"assignmentTextField\" was not injected: check your FXML file 'TeamManagementScreen.fxml'.";
@@ -78,19 +81,43 @@ public class TeamManagementScreen implements Initializable {
         assert teamsTreeView != null : "fx:id=\"teamsTreeView\" was not injected: check your FXML file 'TeamManagementScreen.fxml'.";
         // initialize your logic here: all @FXML variables will have been injected
 
-        
-        rootTreeItem = new TreeItem<>();
+        //<editor-fold defaultstate="collapsed" desc="Initialize geologicalTeamsTreeItem">
         geologicalTeamsTreeItem = new TreeItem<>("Geological Teams");
-        rootTreeItem.getChildren().add(geologicalTeamsTreeItem);
-
+        
         for (GeologicalTeam sourceItem : gameData.getGeologicalTeams()) {
-            geologicalTeamsTreeItem.getChildren().add(new TreeItem<>(sourceItem));
+            geologicalTeamsTreeItem.getChildren().
+                    add(new TreeItem<>(sourceItem));
         }
         TreeItemListContentBinding<GeologicalTeam> geologicalTeamsBinding = new TreeItemListContentBinding<>(geologicalTeamsTreeItem.
                 getChildren());
         gameData.getGeologicalTeams().addListener(geologicalTeamsBinding);
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Initialize teamsTreeView and its items">
+        rootTreeItem = new TreeItem<>();
+        rootTreeItem.getChildren().add(geologicalTeamsTreeItem);
         teamsTreeView.setRoot(rootTreeItem);
-        teamsTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", null, String.class));
+        teamsTreeView.
+                setCellFactory(new PropertyOrToStringTreeCellFactory("name", null, String.class));
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Initializing the team information Field">
+        teamInformationTitledPane.textProperty().
+                bind(Bindings.
+                selectString(teamsTreeView.getSelectionModel().
+                selectedItemProperty(), "value", "name").concat(" Informations"));
+        //TODO made the binding for the assignment
+//        assignmentTextField.textProperty().bind((Bindings.
+//                selectString(teamsTreeView.getSelectionModel().
+//                selectedItemProperty(), "value", "assig");
+        locationTextFiedl.textProperty().bind(StringExpression.
+                stringExpression(Bindings.
+                selectString(teamsTreeView.getSelectionModel().
+                selectedItemProperty(), "value", "localization", "localizationName")));
+        effectiveTeamSkilLevelTextField.textProperty().bind(StringExpression.stringExpression(Bindings.
+                selectLong(teamsTreeView.getSelectionModel().
+                selectedItemProperty(), "value", "cumulatedSkillLevel")));
+        //</editor-fold>
+
+        
     }
 }
