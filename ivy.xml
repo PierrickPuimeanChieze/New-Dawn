@@ -2,6 +2,7 @@
 <ivy-module version="2.0">
     <info module="NewDawn" organisation="org.newdawn" revision="1.0"/>
     <configurations>
+        <!--<conf name="javadoc"/>-->
         <conf name="runtime"/>
         <conf name="build" extends="runtime"/>
         <conf name="test" extends="build"/>
@@ -10,6 +11,7 @@
         <dependency org="org.springframework" name="spring-core" rev="3.1.2.RELEASE" conf="runtime->default, javadoc"/>
         <dependency org="org.springframework" name="spring-beans" rev="3.1.2.RELEASE" conf="runtime->default, javadoc"/>
         <dependency org="org.springframework" name="spring-context" rev="3.1.2.RELEASE" conf="runtime->default, javadoc"/>
-        <dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="runtime->default"/>
+        <dependency org="commons-logging" name="commons-logging" rev="1.1.1" conf="runtime->default, javadoc"/>
+        <dependency org="junit" name="junit" rev="4.10" conf="test->default, javadoc" />
     </dependencies>
 </ivy-module>

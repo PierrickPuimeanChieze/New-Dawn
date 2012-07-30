@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="build-targets" basedir=".">
-    <property name="build.dir" value="${basedir}/target"/>
+    <property name="build.dir" value=" /target"/>
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
     <property name="fx.jar" value="/home/teocali/bjavafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
@@ -11,14 +11,14 @@
     <fail unless="build.classes"/>
     <fail unless="fx.jar"/>
     <path id="build-classpath">
-        <fileset dir="${lib.dir}/build">
+        <fileset dir="${lib.dir}/jar/build">
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${fx.jar}"/>
     </path>
     
     <path id="run-classpath">
-        <fileset dir="${lib.dir}/runtime">
+        <fileset dir="${lib.dir}/jar/runtime">
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${build.classes}"/>
@@ -63,7 +63,9 @@
     <target name="resolve-and-retrieve" description="--> Resolve and retrieve the ivy dependencies">
         <property name="ivy.retrieve.pattern" value="${lib.dir}/[conf]/[artifact].[ext]"/>
         <ivy:resolve file="ivy.xml"/>
-        <ivy:retrieve/>
+        <ivy:retrieve type="jar" pattern="${lib.dir}/[type]/[conf]/[artifact]-[revision].[ext]" sync="true"/>
+
+        <ivy:retrieve type="javadoc" pattern="${lib.dir}/[type]/[artifact]-[revision].[ext]" />
     </target>
     <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
         <fail unless="main.class.name"/>
@@ -75,7 +77,7 @@
     </target>
     
     <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address ${jpda.address}">
-<!--        <fail unless="jpda.address" message="The property jpda.address must be set"/>
+        <!--        <fail unless="jpda.address" message="The property jpda.address must be set"/>
         <echo>${jpda.address}</echo>-->
         <java classname="${main.class.name}" dir="${build.classes}" fork="true">
             <classpath refid="run-classpath"/>
