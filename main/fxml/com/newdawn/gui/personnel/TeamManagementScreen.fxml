@@ -45,7 +45,7 @@
             <TextField id="assignmentTextField" fx:id="locationTextFiedl" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
             <Label fx:id="teamCumulativeSkillLevelLabel" text="Total Skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
             <TextField id="effectiveTeamSkilTextField" fx:id="effectiveTeamSkilLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
-            <Button mnemonicParsing="false" onAction="#launchTeamAssignmentChange" text="Change Assignement" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button disable="true" mnemonicParsing="false" onAction="#launchTeamAssignmentChange" text="Change Assignement" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
           <prefHeight>
             <Long fx:value="-1" />

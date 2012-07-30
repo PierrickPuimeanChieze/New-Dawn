@@ -3,8 +3,10 @@ package com.newdawn.gui;
 import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.MainController;
+import com.newdawn.controllers.OfficialsController;
 import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.PersonnelMember;
 import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
@@ -14,6 +16,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.MapProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +38,8 @@ public class MainScreen implements Initializable {
 
     @Autowired
     private MainController mainController;
+    @Autowired
+    private OfficialsController officialsFactory;
     @Autowired
     private ColonyController colonyController;
     @Autowired
@@ -250,14 +256,25 @@ public class MainScreen implements Initializable {
         Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().
                 getBean("geology", Skill.class);
 
-        SkillLevel skillLevel = new SkillLevel(leadSkill);
-        skillLevel.setLevel(75);
-        gameData.getPersonnelMembers().get(0).skillLevelsProperty().
-                put(leadSkill, skillLevel);
-        skillLevel = new SkillLevel(geoSkill);
-        skillLevel.setLevel(75);
-        gameData.getPersonnelMembers().get(0).skillLevelsProperty().
-                put(geoSkill, skillLevel);
+        final PersonnelMember officials = gameData.getPersonnelMembers().get(0);
+        SkillLevel leadSkillLevel = officials.skillLevelsProperty().
+                get(leadSkill);
+        if (leadSkillLevel == null) {
+            leadSkillLevel = new SkillLevel(leadSkill);
+            officials.skillLevelsProperty().
+                    put(leadSkill, leadSkillLevel);
+        }
+        leadSkillLevel.setLevel(75);
+
+
+        SkillLevel geoSkillLevel = officials.skillLevelsProperty().get(geoSkill);
+
+        if (geoSkillLevel == null) {
+            geoSkillLevel = new SkillLevel(geoSkill);
+            officials.skillLevelsProperty().
+                    put(geoSkill, geoSkillLevel);
+        }
+        geoSkillLevel.setLevel(75);
 
         Colony test = new Colony();
         test.setPopulation(100_000_000);
@@ -267,17 +284,12 @@ public class MainScreen implements Initializable {
         Planet planet = gameData.getStellarSystems().get(0).getPlanets().get(0);
         colonyController.updateSystemWithColony(planet, test);
 
-        Scientist testScientist1 = new Scientist();
-        testScientist1.setName("testScientist1");
-        testScientist1.setLocalization(test);
-        Scientist testScientist2 = new Scientist();
-        testScientist2.setName("testScientist2");
-        testScientist2.setLocalization(test);
-
-        NavalOfficer navalOfficer1 = new NavalOfficer();
-        navalOfficer1.setName("navalOfficer1");
-        navalOfficer1.setLocalization(test);
-
+        Scientist testScientist1 = officialsFactory.
+                createNewScientist("testScientist1", test);
+        Scientist testScientist2 = officialsFactory.
+                createNewScientist("testScientist2", test);
+        NavalOfficer navalOfficer1 = officialsFactory.
+                createNewNavalOfficer("navalOfficer1", test);
 //        gameData.getPersonnelMembers().addAll(testScientist1, testScientist2, navalOfficer1);
     }
 }

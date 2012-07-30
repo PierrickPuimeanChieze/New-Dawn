@@ -5,15 +5,23 @@ import com.newdawn.model.personnel.PersonnelMember;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.Team;
+import java.util.HashMap;
+import java.util.Map;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.binding.MapBinding;
+import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import org.springframework.beans.BeansException;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableMap;
 import viewerfx.ViewerFX;
 
 /**
@@ -28,6 +36,10 @@ public abstract class FieldTeam extends Team {
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
     private LongProperty cumulatedSkillLevelProperty;
     private LongBinding cumulatedSkillLevelBinding;
+    private ReadOnlyObjectProperty<Skill> teamSkillProperty;
+
+    public FieldTeam() {
+    }
 
     public ReadOnlyLongProperty cumulatedSkillLevelProperty() {
         if (cumulatedSkillLevelProperty == null) {
@@ -39,36 +51,7 @@ public abstract class FieldTeam extends Team {
 
     public LongBinding getCumulatedSkillLevelBinding() {
         if (cumulatedSkillLevelBinding == null) {
-            cumulatedSkillLevelBinding = new LongBinding() {
-                @Override
-                //TODO try to "bind" the binding
-                protected long computeValue() {
-                    Skill teamSkill = getTeamSkill();
-                    Skill leadershipSkill = ViewerFX.getCurrentApplication().
-                            getSprintContainer().
-                            getBean("leadership", Skill.class);
-                    final SkillLevel leaderLeadershipSkillLevel = getLeader().
-                            getSkillLevels().get(leadershipSkill);
-                    double leaderLeadershipSkillLevelValue = leaderLeadershipSkillLevel == null ? 0 : leaderLeadershipSkillLevel.
-                            getLevel();
-                    final SkillLevel leaderTeamSkillLevel = getLeader().
-                            getSkillLevels().
-                            get(teamSkill);
-                    double leaderTeamSkillLevelValue = leaderTeamSkillLevel == null ? 0 : leaderTeamSkillLevel.
-                            getLevel();
-                    double cumulatedSkillLevel = 0.0;
-                    for (PersonnelMember teamMember : getTeamMembers()) {
-                        cumulatedSkillLevel += teamMember.getSkillLevels().
-                                get(teamSkill).
-                                getLevel();
-                    }
-                    cumulatedSkillLevel += ((leaderTeamSkillLevelValue / 100.0) * leaderLeadershipSkillLevelValue) * getTeamMembers().
-                            size();
-                    cumulatedSkillLevel += leaderTeamSkillLevelValue / (getTeamMembers().
-                            size()+1);
-                    return Math.round(cumulatedSkillLevel);
-                }
-            };
+            cumulatedSkillLevelBinding = new CumulatedSkillLevelBinding();
         }
         return cumulatedSkillLevelBinding;
     }
@@ -85,6 +68,7 @@ public abstract class FieldTeam extends Team {
      *
      * @return the value of name
      */
+    @Override
     public String getName() {
         return nameProperty().getValue();
     }
@@ -94,6 +78,7 @@ public abstract class FieldTeam extends Team {
      *
      * @param name new value of name
      */
+    @Override
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
@@ -151,26 +136,124 @@ public abstract class FieldTeam extends Team {
     }
 
     public long getCumulatedSkillLevel() {
-        Skill teamSkill = getTeamSkill();
-        Skill leadershipSkill = ViewerFX.getCurrentApplication().
-                getSprintContainer().getBean("leadership", Skill.class);
-        double leaderLeadershipSkillLevel = getLeader().getSkillLevels().
-                get(leadershipSkill).
-                getLevel();
-        double leaderTeamSkillLevel = getLeader().getSkillLevels().
-                get(teamSkill).
-                getLevel();
-        double cumulatedSkillLevel = 0.0;
-        for (PersonnelMember teamMember : getTeamMembers()) {
-            cumulatedSkillLevel += teamMember.getSkillLevels().get(teamSkill).
-                    getLevel();
-        }
-        cumulatedSkillLevel += ((leaderTeamSkillLevel / 100.0) * leaderLeadershipSkillLevel) * getTeamMembers().
-                size();
-        cumulatedSkillLevel += leaderTeamSkillLevel / getTeamMembers().size();
-        return Math.round(cumulatedSkillLevel);
+        return cumulatedSkillLevelProperty().get();
 
     }
 
-    protected abstract Skill getTeamSkill() throws BeansException;
+    public abstract String getTeamSkillName();
+
+    public Skill getTeamSkill() {
+        return teamSkillProperty().get();
+    }
+
+    public ReadOnlyObjectProperty<Skill> teamSkillProperty() {
+        if (teamSkillProperty == null) {
+            Skill teamSkill = ViewerFX.getCurrentApplication().
+                    getSprintContainer().
+                    getBean(getTeamSkillName(), Skill.class);
+            teamSkillProperty = new SimpleObjectProperty<>(this, "teamSkill", teamSkill);
+        }
+        return teamSkillProperty;
+    }
+
+    private class CumulatedSkillLevelBinding extends LongBinding implements ListChangeListener<PersonnelMember> {
+
+        private Map<PersonnelMember, IntegerBinding> memberTeamSkillLevelBindings = new HashMap<>();
+
+        public CumulatedSkillLevelBinding() {
+            Skill leadershipSkill = ViewerFX.getCurrentApplication().
+                    getSprintContainer().
+                    getBean("leadership", Skill.class);
+
+            //<editor-fold defaultstate="collapsed" desc="Binding for the change of leader, or change of skill for the leader">
+            MapBinding<Skill, SkillLevel> leaderSkillLevelsBinding = new SkillLevelBindings(leaderProperty());
+            final IntegerBinding leaderLeadershipSkillLevelValueBinding = Bindings.
+                    selectInteger(Bindings.
+                    valueAt(leaderSkillLevelsBinding, leadershipSkill), "level");
+            final IntegerBinding leaderTeamSkillLevelValueBinding = Bindings.
+                    selectInteger(Bindings.
+                    valueAt(leaderSkillLevelsBinding, teamSkillProperty()), "level");
+
+            bind(leaderLeadershipSkillLevelValueBinding, leaderTeamSkillLevelValueBinding);
+            //</editor-fold>
+            for (PersonnelMember member : getTeamMembers()) {
+                final IntegerBinding memberTeamSkillLevelBinding = Bindings.
+                        selectInteger(Bindings.valueAt(member.
+                        skillLevelsProperty(), getTeamSkill()), "level");
+                bind(memberTeamSkillLevelBinding);
+                memberTeamSkillLevelBindings.
+                        put(member, memberTeamSkillLevelBinding);
+
+            }
+            getTeamMembers().addListener(this);
+        }
+
+        //TODO try to "bind" the binding
+        @Override
+        protected long computeValue() {
+            Skill teamSkill = getTeamSkill();
+            Skill leadershipSkill = ViewerFX.getCurrentApplication().
+                    getSprintContainer().
+                    getBean("leadership", Skill.class);
+            final SkillLevel leaderLeadershipSkillLevel = getLeader().
+                    getSkillLevels().get(leadershipSkill);
+            double leaderLeadershipSkillLevelValue = leaderLeadershipSkillLevel == null ? 0 : leaderLeadershipSkillLevel.
+                    getLevel();
+            final SkillLevel leaderTeamSkillLevel = getLeader().
+                    getSkillLevels().
+                    get(teamSkill);
+            double leaderTeamSkillLevelValue = leaderTeamSkillLevel == null ? 0 : leaderTeamSkillLevel.
+                    getLevel();
+            double cumulatedSkillLevel = 0.0;
+            for (PersonnelMember teamMember : getTeamMembers()) {
+                cumulatedSkillLevel += teamMember.getSkillLevels().
+                        get(teamSkill).
+                        getLevel();
+            }
+            cumulatedSkillLevel += ((leaderTeamSkillLevelValue / 100.0) * leaderLeadershipSkillLevelValue) * getTeamMembers().
+                    size();
+            cumulatedSkillLevel += leaderTeamSkillLevelValue / (getTeamMembers().
+                    size() + 1);
+            return Math.round(cumulatedSkillLevel);
+        }
+
+        @Override
+        public void onChanged(Change<? extends PersonnelMember> change) {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (PersonnelMember member : change.getAddedSubList()) {
+                        final IntegerBinding memberTeamSkillLevelBinding = Bindings.
+                                selectInteger(Bindings.valueAt(member.
+                                skillLevelsProperty(), getTeamSkill()), "level");
+                        bind(memberTeamSkillLevelBinding);
+                        memberTeamSkillLevelBindings.
+                                put(member, memberTeamSkillLevelBinding);
+                    }
+                }
+                if (change.wasRemoved()) {
+                    for (PersonnelMember member : change.getRemoved()) {
+                        final IntegerBinding memberTeamSkillLevelBinding = memberTeamSkillLevelBindings.
+                                remove(member);
+                        unbind(memberTeamSkillLevelBinding);
+                    }
+                }
+            }
+        }
+
+        private class SkillLevelBindings extends MapBinding<Skill, SkillLevel> {
+
+            final ObjectBinding<ObservableMap<Skill, SkillLevel>> skillLevelsBinding;
+
+            public SkillLevelBindings(ObjectProperty<PersonnelMember> personnelToObserve) {
+                skillLevelsBinding = Bindings.
+                        select(personnelToObserve, "skillLevels");
+                bind(skillLevelsBinding);
+            }
+
+            @Override
+            protected ObservableMap<Skill, SkillLevel> computeValue() {
+                return skillLevelsBinding.get();
+            }
+        }
+    }
 }

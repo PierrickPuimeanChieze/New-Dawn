@@ -3,6 +3,7 @@ package com.newdawn.model.personnel.team;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.Skill;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.springframework.beans.BeansException;
 import viewerfx.ViewerFX;
@@ -13,13 +14,8 @@ import viewerfx.ViewerFX;
  */
 public class GeologicalTeam extends FieldTeam {
 
-    private Skill teamSkill;
     private ObjectProperty<MinerallyExploitableBody> bodyProspectedProperty;
 
-    public GeologicalTeam() {
-        teamSkill = ViewerFX.getCurrentApplication().
-                getSprintContainer().getBean("geology", Skill.class);
-    }
 
     public ObjectProperty<MinerallyExploitableBody> bodyProspectedProperty() {
         if (bodyProspectedProperty == null) {
@@ -47,8 +43,7 @@ public class GeologicalTeam extends FieldTeam {
     }
 
     @Override
-    protected Skill getTeamSkill() throws BeansException {
-        return teamSkill;
-
+    final public String getTeamSkillName() {
+        return "geology";
     }
 }

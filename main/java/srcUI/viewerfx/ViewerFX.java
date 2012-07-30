@@ -7,6 +7,7 @@ package viewerfx;
 import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.InitialisationController;
+import com.newdawn.controllers.OfficialsController;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.colony.Colony;
@@ -57,15 +58,16 @@ public class ViewerFX extends Application {
         ViewerFX.currentApplication = this;
 
         sprintContainer = new ClassPathXmlApplicationContext("/spring/newdawn.xml");
-
-
-        InitialisationController initialisationController = sprintContainer.
+        final OfficialsController officialController = sprintContainer.getBean(OfficialsController.class);
+        final TeamController teamController = sprintContainer.getBean(TeamController.class);
+        final InitialisationController initialisationController = sprintContainer.
                 getBean(InitialisationController.class);
+        final GameData gameData = sprintContainer.getBean(GameData.class);
+
         final StellarSystem solarSystem = SollarSystemBuilder.getIt(initialisationController);
         final StellarSystem solarSystem2 = SollarSystem2Builder.getIt(initialisationController);
         StellarSystem testSystem = initialisationController.createSystem(getClass().
                 getResourceAsStream("/testSystem.xml"));
-        GameData gameData = sprintContainer.getBean(GameData.class);
         gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
         Colony test2 = new Colony();
         test2.setPopulation(100_000_000);
@@ -74,16 +76,16 @@ public class ViewerFX extends Application {
         test2.setName("Test");
         Planet planet = solarSystem2.getPlanets().get(1);
         sprintContainer.getBean(ColonyController.class).updateSystemWithColony(planet, test2);
-        NavalOfficer navalOfficer1 = new NavalOfficer();
-        navalOfficer1.setName("navalOfficer2");
-        navalOfficer1.setLocalization(test2);
-        navalOfficer1.setRank(NavalRank.A6);
+        
         Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
-        SkillLevel geologySkillLevel = new SkillLevel(geologySkill);
+        NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer("navalOfficer2", test2);
+        navalOfficer1.setRank(NavalRank.A6);
+
+        SkillLevel geologySkillLevel = navalOfficer1.skillLevelsProperty().get(geologySkill);
         geologySkillLevel.setLevel(50);
-        navalOfficer1.getSkillLevels().put( geologySkill, geologySkillLevel);
+
         gameData.getPersonnelMembers().add(navalOfficer1);
-        final TeamController teamController = sprintContainer.getBean(TeamController.class);
+        
         teamController.createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
     }
 
