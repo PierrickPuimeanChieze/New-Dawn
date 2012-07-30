@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="build-targets" basedir=".">
-    <property name="build.dir" value=" /target"/>
+    <property name="build.dir" value="${basedir}/target"/>
     <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="build.test.classes" value="${build.dir}/test-classes"/>
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
     <property name="fx.jar" value="/home/teocali/bjavafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
     <property name="main.class.name" value="viewerfx.ViewerFX"/>
@@ -22,6 +23,14 @@
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${build.classes}"/>
+        <pathelement location="${fx.jar}"/>
+    </path>
+    <path id="test-classpath">
+        <fileset dir="${lib.dir}/jar/test">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${build.classes}"/>
+        <pathelement location="${build.test.classes}"/>
         <pathelement location="${fx.jar}"/>
     </path>
     <target name="clean" description="--> Clean the build directory of the project">
@@ -52,6 +61,24 @@
             </fileset>
             <fileset dir="main/fxml">
                 <include name="**/*.fxml"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="test-compile" depends="compile" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
+        
+        <mkdir dir="${build.test.classes}"/>
+        <javac deprecation="on" destdir="${build.test.classes}" debug="on" >
+            <src>
+                <pathelement location="test/java/model"/>
+                <pathelement location="test/resources"/>
+            </src>
+            <classpath refid="test-classpath"/>
+            
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+        <copy todir="${build.test.classes}">
+            <fileset dir="test/resources">
+                <include name="**/*"/>
             </fileset>
         </copy>
     </target>
@@ -86,6 +113,20 @@
         </java>    
     </target>
     
-    <target name="test">
+    <target name="test" depends="test-compile">
+        <mkdir dir="target/test-reports" />
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath refid="test-classpath"/>
+
+            <formatter type="xml"/>
+            <formatter type="brief" usefile="false"/>
+
+            <batchtest fork="no" todir="target/test-reports">
+                <fileset dir="test/java/model">
+                    <include name="**/*Test.java" />
+                </fileset>
+            </batchtest>
+            <jvmarg value="-XX:MaxPermSize=512M"/>
+        </junit>            
     </target>
 </project>
