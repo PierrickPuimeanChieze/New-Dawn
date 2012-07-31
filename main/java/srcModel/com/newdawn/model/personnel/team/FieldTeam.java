@@ -124,7 +124,7 @@ public abstract class FieldTeam extends Team {
         if (getTeamMembers().size() >= maxSize) {
             return new String[]{"Max size reached"};
         }
-        return null;
+        return new String[0];
     }
 
     public int getInternalCounter() {
@@ -238,6 +238,7 @@ public abstract class FieldTeam extends Team {
                     }
                 }
             }
+            invalidate();
         }
 
         private class SkillLevelBindings extends MapBinding<Skill, SkillLevel> {
@@ -254,6 +255,15 @@ public abstract class FieldTeam extends Team {
             protected ObservableMap<Skill, SkillLevel> computeValue() {
                 return skillLevelsBinding.get();
             }
+        }
+    }
+    public boolean promotingTeamMemberToLeader(PersonnelMember member) {
+        if (removeTeamMember(member)) {
+            addTeamMember(getLeader());
+            setLeader(member);
+            return true;
+        } else {
+            return false;
         }
     }
 }

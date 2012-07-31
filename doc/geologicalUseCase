@@ -32,7 +32,7 @@ on commence par calculer la competence effective de chaque membre.
 Cette competence effective se calcule de la maniere suivante : 
 competence réelle + (competence du leader/100)*competence leadership du leader
 on additionne toutes ses compétence, puis on additionne la competence du leader, 
-divisée par la taille total de l'equipe
+divisée par la taille total de l'equipe (leader Compris)
 On arrondi cette somme a l'entier le plus proche, ce qui nous donne la 
 competence effective de l'equipe.
 ---Gain d'XP---
