@@ -91,17 +91,21 @@ public class SystemHandler extends DefaultHandler2 {
     }
 
     private void initCurrentStar(Attributes attributes) {
-        Star.SpectralClass spectralClass = Star.SpectralClass.valueOf(attributes.
+        Star.SpectralClass spectralClass = Star.SpectralClass.
+                valueOf(attributes.
                 getValue("spectralClass").toUpperCase());
         long diameter = Long.parseLong(attributes.getValue("diameter"));
         String name = attributes.getValue("name");
-        currentStar = initialisationController.addStarToSystem(createdSystem, name, spectralClass, diameter);
+        currentStar = initialisationController.
+                addStarToSystem(createdSystem, name, spectralClass, diameter);
     }
 
     private void initCurrentPlanet(Attributes attributes) {
-        Planet.PlanetaryClass planetaryClass = Planet.PlanetaryClass.valueOf(attributes.
+        Planet.PlanetaryClass planetaryClass = Planet.PlanetaryClass.
+                valueOf(attributes.
                 getValue("planetaryClass").toUpperCase());
-        long orbitalRadius = Long.parseLong(attributes.getValue("orbitalRadius"));
+        long orbitalRadius = Long.
+                parseLong(attributes.getValue("orbitalRadius"));
         long diameter = Long.parseLong(attributes.getValue("diameter"));
         String name = attributes.getValue("name");
         Long orbitalPeriod = null;
@@ -112,11 +116,13 @@ public class SystemHandler extends DefaultHandler2 {
         //TODO handling the illegal argument exception from parseDelta
         double delta = 0.0;
         delta = parseDelta(attributes.getValue("delta"));
-        currentPlanet = initialisationController.addNewPlanetToStar(currentStar, name, planetaryClass, orbitalRadius, diameter, orbitalPeriod, delta);
+        currentPlanet = initialisationController.
+                addNewPlanetToStar(currentStar, name, planetaryClass, orbitalRadius, diameter, orbitalPeriod, delta);
     }
 
     private void initCurrentSatellite(Attributes attributes) {
-        long orbitalRadius = Long.parseLong(attributes.getValue("orbitalRadius"));
+        long orbitalRadius = Long.
+                parseLong(attributes.getValue("orbitalRadius"));
         long diameter = Long.parseLong(attributes.getValue("diameter"));
         String name = attributes.getValue("name");
         Long orbitalPeriod = null;
@@ -124,7 +130,8 @@ public class SystemHandler extends DefaultHandler2 {
         if (orbitalPeriodStr != null) {
             orbitalPeriod = Long.parseLong(orbitalPeriodStr);
         }
-        currentSatellite = initialisationController.addNewSatelliteToPlanet(currentPlanet, name, orbitalRadius, diameter, orbitalPeriod);
+        currentSatellite = initialisationController.
+                addNewSatelliteToPlanet(currentPlanet, name, orbitalRadius, diameter, orbitalPeriod);
     }
 
     private double parseDelta(String deltaStr) {
@@ -134,7 +141,8 @@ public class SystemHandler extends DefaultHandler2 {
             deltaStr = defaultDeltaValue;
         }
 
-        Matcher piPatternMatcher = Pattern.compile("(\\d+(\\.\\d+)?)?π").matcher(deltaStr);
+        Matcher piPatternMatcher = Pattern.compile("(\\d+(\\.\\d+)?)?π").
+                matcher(deltaStr);
 
 
         //Check if a random value is asked and return it
@@ -152,7 +160,8 @@ public class SystemHandler extends DefaultHandler2 {
             return piCoef * Math.PI;
         }
         //Check and parse if the delta asked is in numerical form and return the parsed value
-        Matcher doublePatternMatcher = Pattern.compile("\\d+(\\.\\d+)?").matcher(deltaStr);
+        Matcher doublePatternMatcher = Pattern.compile("\\d+(\\.\\d+)?").
+                matcher(deltaStr);
         if (doublePatternMatcher.matches()) {
             return Double.parseDouble(deltaStr);
         }

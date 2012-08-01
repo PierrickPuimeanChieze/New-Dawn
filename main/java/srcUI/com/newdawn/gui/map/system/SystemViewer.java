@@ -52,7 +52,6 @@ public class SystemViewer extends ScrollPane {
     public SystemViewer() {
         this.setPannable(true);
         this.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
             @Override
             public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
                 LOG.debug(arg2 ? "Focused" : "Not Focused");
@@ -64,21 +63,18 @@ public class SystemViewer extends ScrollPane {
         global.getChildren().add(components);
         this.setContent(global);
         zoomLevelProperty().addListener(new ChangeListener<Number>() {
-
             @Override
             public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
                 updateChildren();
             }
         });
         this.boundsInLocalProperty().addListener(new ChangeListener<Bounds>() {
-
             @Override
             public void changed(ObservableValue<? extends Bounds> arg0, Bounds arg1, Bounds arg2) {
                 updateBackground();
             }
         });
         components.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent arg0) {
                 System.out.println("X:" + arg0.getX() + ";scene :" + arg0.
@@ -93,7 +89,8 @@ public class SystemViewer extends ScrollPane {
         for (Star star : stellarSystem.getStars()) {
             final CelestialBodyComponent starComponent = CelestialBodyComponentFactory.
                     buildComponentForBody(star);
-            starComponent.setOnMouseClicked(new CenterHandler(this, starComponent));
+            starComponent.
+                    setOnMouseClicked(new CenterHandler(this, starComponent));
             components.getChildren().add(starComponent);
 
         }
@@ -101,7 +98,8 @@ public class SystemViewer extends ScrollPane {
         for (Planet planet : stellarSystem.getPlanets()) {
             final CelestialBodyComponent planetComponent = CelestialBodyComponentFactory.
                     buildComponentForBody(planet);
-            planetComponent.setOnMouseClicked(new CenterHandler(this, planetComponent));
+            planetComponent.
+                    setOnMouseClicked(new CenterHandler(this, planetComponent));
             components.getChildren().add(planetComponent);
             OrbitComponent planetOrbitComponent = new OrbitComponent(planet.
                     getOrbit());
@@ -136,8 +134,10 @@ public class SystemViewer extends ScrollPane {
 //        double VBuffer = getViewportBounds().getHeight();
         double HBuffer = 0;
         double VBuffer = 0;
-        background.setWidth(components.getBoundsInLocal().getWidth() + HBuffer * 2);
-        background.setHeight(components.getBoundsInLocal().getHeight() + VBuffer * 2);
+        background.
+                setWidth(components.getBoundsInLocal().getWidth() + HBuffer * 2);
+        background.
+                setHeight(components.getBoundsInLocal().getHeight() + VBuffer * 2);
         background.setX(components.getBoundsInLocal().getMinX() - HBuffer);
         background.setY(components.getBoundsInLocal().getMinY() - VBuffer);
     }

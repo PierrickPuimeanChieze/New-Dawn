@@ -1,4 +1,3 @@
-
 package com.newdawn.model.mineral;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -36,5 +35,4 @@ public class Mineral {
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
-
 }

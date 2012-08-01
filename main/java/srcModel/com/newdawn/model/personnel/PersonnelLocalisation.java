@@ -1,4 +1,3 @@
-
 package com.newdawn.model.personnel;
 
 import javafx.beans.property.ReadOnlyStringProperty;

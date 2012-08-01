@@ -47,7 +47,8 @@ public final class MyFilteredList<E> extends TransformationList<E, E>
             for (int m = paramInt2; m < j; m++) {
                 paramList1.add(paramList.get(this.filtered[m] - paramInt1));
             }
-            System.arraycopy(this.filtered, j, this.filtered, paramInt2, this.size - j);
+            System.
+                    arraycopy(this.filtered, j, this.filtered, paramInt2, this.size - j);
             this.size -= k;
         }
     }
@@ -66,7 +67,8 @@ public final class MyFilteredList<E> extends TransformationList<E, E>
         ArrayList localArrayList = new ArrayList();
         removeFilteredRange(paramInt1, i, paramList, localArrayList);
         ensureSize(this.size + paramInt2 - localArrayList.size());
-        System.arraycopy(this.filtered, i, this.filtered, i + paramInt2, this.size - i);
+        System.
+                arraycopy(this.filtered, i, this.filtered, i + paramInt2, this.size - i);
         for (int j = 0; j < paramInt2; j++) {
             this.filtered[(i + j)] = paramArrayOfInt[j];
         }
@@ -270,12 +272,14 @@ public final class MyFilteredList<E> extends TransformationList<E, E>
             }
 
             for (int k = i; k < j; k++) {
-                localArrayList.add(this.source.get(this.filtered[k] < 0 ? this.filtered[k] ^ 0xFFFFFFFF : this.filtered[k]));
+                localArrayList.add(this.source.
+                        get(this.filtered[k] < 0 ? this.filtered[k] ^ 0xFFFFFFFF : this.filtered[k]));
             }
 
             for (int k = i; k < j; k++) {
                 if (this.filtered[k] < 0) {
-                    System.arraycopy(this.filtered, k + 1, this.filtered, k, this.size - k - 1);
+                    System.
+                            arraycopy(this.filtered, k + 1, this.filtered, k, this.size - k - 1);
                     this.size -= 1;
                     j--;
                     k--;

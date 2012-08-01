@@ -26,7 +26,8 @@ class PercentBinding extends LongBinding {
 
     @Override
     protected long computeValue() {
-        return Math.round((observableValue.getValue().longValue() / 100L) * percent);
+        return Math.
+                round((observableValue.getValue().longValue() / 100L) * percent);
     }
 }
 
@@ -140,7 +141,8 @@ public class Colony implements PersonnelLocalisation {
     public ReadOnlyLongProperty industryPopulationProperty() {
         if (industryPopulationProperty == null) {
             industryPopulationProperty = new SimpleLongProperty(this, "industryPopulation");
-            industryPopulationProperty.bind(new PercentBinding(populationProperty(), config.
+            industryPopulationProperty.
+                    bind(new PercentBinding(populationProperty(), config.
                     getIndustriesPopulationPart()));
         }
         return industryPopulationProperty;
@@ -158,7 +160,8 @@ public class Colony implements PersonnelLocalisation {
     public ReadOnlyLongProperty servicesPopulationProperty() {
         if (servicesPopulationProperty == null) {
             servicesPopulationProperty = new SimpleLongProperty(this, "servicesPopulation");
-            servicesPopulationProperty.bind(new PercentBinding(populationProperty(), config.
+            servicesPopulationProperty.
+                    bind(new PercentBinding(populationProperty(), config.
                     getServicesPopulationPart()));
         }
         return servicesPopulationProperty;
@@ -167,7 +170,8 @@ public class Colony implements PersonnelLocalisation {
     public ReadOnlyLongProperty agriculturePopulationProperty() {
         if (agriculturePopulationProperty == null) {
             agriculturePopulationProperty = new SimpleLongProperty(this, "agriculturePopulation");
-            agriculturePopulationProperty.bind(new PercentBinding(populationProperty(), config.
+            agriculturePopulationProperty.
+                    bind(new PercentBinding(populationProperty(), config.
                     getAgriculturePopulationPart()));
         }
         return agriculturePopulationProperty;
@@ -285,9 +289,9 @@ public class Colony implements PersonnelLocalisation {
     public ReadOnlyStringProperty localizationNameProperty() {
         if (localizationNameProperty == null) {
             localizationNameProperty = new SimpleStringProperty();
-                    localizationNameProperty.bind(Bindings.concat("Colony ", nameProperty()));
+            localizationNameProperty.bind(Bindings.
+                    concat("Colony ", nameProperty()));
         }
         return localizationNameProperty;
     }
-    
 }

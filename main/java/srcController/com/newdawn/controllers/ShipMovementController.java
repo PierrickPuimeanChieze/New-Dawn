@@ -24,10 +24,13 @@ public class ShipMovementController {
                     getPositionY());
             Point2D destinationPosition = new Point2D(taskGroup.getDestination().
                     getPositionX(), taskGroup.getDestination().getPositionY());
-            double destinationDistance = taskGroupPosition.distance(destinationPosition);
+            double destinationDistance = taskGroupPosition.
+                    distance(destinationPosition);
             if (destinationDistance < traveledDistance) {
-                taskGroup.setPositionX(taskGroup.getDestination().getPositionX());
-                taskGroup.setPositionY(taskGroup.getDestination().getPositionY());
+                taskGroup.
+                        setPositionX(taskGroup.getDestination().getPositionX());
+                taskGroup.
+                        setPositionY(taskGroup.getDestination().getPositionY());
             } else {
                 Point2D newPositionForShip = ShipUtils.
                         calculateIntermediateCoordinate(taskGroupPosition, destinationPosition, traveledDistance);

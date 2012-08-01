@@ -1,4 +1,3 @@
-
 package com.newdawn.model.personnel.ranks;
 
 import javafx.beans.property.ReadOnlyStringProperty;
@@ -12,5 +11,4 @@ public interface Rank {
     ReadOnlyStringProperty designationProperty();
 
     String getDesignation();
-
 }

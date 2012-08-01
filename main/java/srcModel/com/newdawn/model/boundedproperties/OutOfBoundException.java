@@ -16,8 +16,6 @@ class OutOfBoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return "Bound Broke on property "+property+" by value "+culprit;
+        return "Bound Broke on property " + property + " by value " + culprit;
     }
-    
-    
 }

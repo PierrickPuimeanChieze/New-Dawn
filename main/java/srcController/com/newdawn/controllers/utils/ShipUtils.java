@@ -17,7 +17,8 @@ public class ShipUtils {
     public static StellarSystem calculateContextualStellarSystem(Squadron squadron) {
         ObservableList<Order> orders = squadron.getPlottedOrders();
 
-        Order lastOrder = orders.isEmpty() ? null : orders.get(orders.size() - 1);
+        Order lastOrder = orders.isEmpty() ? null : orders.
+                get(orders.size() - 1);
         return calculateContextualStellarSystem(squadron, lastOrder);
     }
 

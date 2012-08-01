@@ -1,4 +1,3 @@
-
 package com.newdawn.model.boundedproperties;
 
 import javafx.beans.property.SimpleIntegerProperty;

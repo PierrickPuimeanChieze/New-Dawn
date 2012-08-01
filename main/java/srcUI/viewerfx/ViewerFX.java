@@ -59,37 +59,48 @@ public class ViewerFX extends Application {
         ViewerFX.currentApplication = this;
 
         sprintContainer = new ClassPathXmlApplicationContext("/spring/newdawn.xml");
-        final OfficialsController officialController = sprintContainer.getBean(OfficialsController.class);
-        final TeamController teamController = sprintContainer.getBean(TeamController.class);
+        final OfficialsController officialController = sprintContainer.
+                getBean(OfficialsController.class);
+        final TeamController teamController = sprintContainer.
+                getBean(TeamController.class);
         final InitialisationController initialisationController = sprintContainer.
                 getBean(InitialisationController.class);
         final GameData gameData = sprintContainer.getBean(GameData.class);
 
-        final StellarSystem solarSystem = SollarSystemBuilder.getIt(initialisationController);
-        final StellarSystem solarSystem2 = SollarSystem2Builder.getIt(initialisationController);
-        StellarSystem testSystem = initialisationController.createSystem(getClass().
+        final StellarSystem solarSystem = SollarSystemBuilder.
+                getIt(initialisationController);
+        final StellarSystem solarSystem2 = SollarSystem2Builder.
+                getIt(initialisationController);
+        StellarSystem testSystem = initialisationController.
+                createSystem(getClass().
                 getResourceAsStream("/testSystem.xml"));
-        gameData.getStellarSystems().addAll(solarSystem, solarSystem2, testSystem);
+        gameData.getStellarSystems().
+                addAll(solarSystem, solarSystem2, testSystem);
         Colony test2 = new Colony();
         test2.setPopulation(100_000_000);
         test2.setPopulationGrowRate(1);
         test2.setWealthProduction(500);
         test2.setName("Test");
         Planet planet = solarSystem2.getPlanets().get(1);
-        sprintContainer.getBean(ColonyController.class).updateSystemWithColony(planet, test2);
-        
+        sprintContainer.getBean(ColonyController.class).
+                updateSystemWithColony(planet, test2);
+
         Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
-        NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer("navalOfficer2", test2);
+        NavalOfficer navalOfficer1 = officialController.
+                createNewNavalOfficer("navalOfficer2", test2);
         navalOfficer1.setRank(NavalRank.A6);
-        NavalOfficer navalOfficer3 = officialController.createNewNavalOfficer("navalOfficer3", test2);
+        NavalOfficer navalOfficer3 = officialController.
+                createNewNavalOfficer("navalOfficer3", test2);
         navalOfficer3.setRank(NavalRank.A6);
-        
-        SkillLevel geologySkillLevel = navalOfficer1.skillLevelsProperty().get(geologySkill);
+
+        SkillLevel geologySkillLevel = navalOfficer1.skillLevelsProperty().
+                get(geologySkill);
         geologySkillLevel.setLevel(50);
 
-        gameData.getPersonnelMembers().add(navalOfficer1);
-        gameData.getPersonnelMembers().add(navalOfficer3);
-        final FieldTeam fieldTeam = teamController.createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
+        gameData.getOfficials().add(navalOfficer1);
+        gameData.getOfficials().add(navalOfficer3);
+        final FieldTeam fieldTeam = teamController.
+                createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
         fieldTeam.addTeamMember(navalOfficer3);
     }
 
@@ -99,13 +110,16 @@ public class ViewerFX extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().
                     getResource("/com/newdawn/gui/MainScreen.fxml"));
-            loader.setControllerFactory(new SpringFXControllerFactory(getSprintContainer()));
+            loader.
+                    setControllerFactory(new SpringFXControllerFactory(getSprintContainer()));
             AnchorPane mainScreen;
             mainScreen = (AnchorPane) loader.load();
 
             final Scene scene = new Scene(mainScreen);
-            primaryStage.titleProperty().bind(Bindings.format("Date : %s         Total wealth : %d", null, currentApplication.
-                    getSprintContainer().getBean(GameData.class).wealthProperty()));
+            primaryStage.titleProperty().bind(Bindings.
+                    format("Date : %s         Total wealth : %d", null, currentApplication.
+                    getSprintContainer().getBean(GameData.class).
+                    wealthProperty()));
             primaryStage.setScene(scene);
 
             primaryStage.show();

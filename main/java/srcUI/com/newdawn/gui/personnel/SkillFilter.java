@@ -1,7 +1,6 @@
-
 package com.newdawn.gui.personnel;
 
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.sun.javafx.collections.transformation.Matcher;
@@ -14,7 +13,7 @@ import javafx.beans.property.SimpleObjectProperty;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class SkillFilter implements  Matcher<PersonnelMember> {
+public class SkillFilter implements Matcher<Official> {
 
     private ObjectProperty<Skill> skillProperty;
     private IntegerProperty minValueProperty;
@@ -45,7 +44,6 @@ public class SkillFilter implements  Matcher<PersonnelMember> {
         this.maxValueProperty().setValue(maxValue);
     }
 
-
     public IntegerProperty minValueProperty() {
         if (minValueProperty == null) {
             minValueProperty = new SimpleIntegerProperty(this, "minValue");
@@ -70,7 +68,6 @@ public class SkillFilter implements  Matcher<PersonnelMember> {
     public void setMinValue(int minValue) {
         this.minValueProperty().setValue(minValue);
     }
-
 
     public ObjectProperty<Skill> skillProperty() {
         if (skillProperty == null) {
@@ -98,7 +95,7 @@ public class SkillFilter implements  Matcher<PersonnelMember> {
     }
 
     @Override
-    public boolean matches(PersonnelMember e) {
+    public boolean matches(Official e) {
         final SkillLevel skillLevel = e.skillLevelsProperty().get(getSkill());
         final int level;
         if (skillLevel == null) {
@@ -106,8 +103,7 @@ public class SkillFilter implements  Matcher<PersonnelMember> {
         } else {
             level = skillLevel.getLevel();
         }
-        
-        return level>=getMinValue() && level <= getMaxValue();
-    }
 
+        return level >= getMinValue() && level <= getMaxValue();
+    }
 }

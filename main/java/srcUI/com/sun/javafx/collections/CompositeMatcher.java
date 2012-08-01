@@ -11,7 +11,8 @@ import javafx.collections.ObservableList;
  */
 public class CompositeMatcher<E> implements Matcher<E> {
 
-    private ObservableList<Matcher<E>> matchers = FXCollections.observableArrayList();
+    private ObservableList<Matcher<E>> matchers = FXCollections.
+            observableArrayList();
 
     /**
      * Get the value of matchers

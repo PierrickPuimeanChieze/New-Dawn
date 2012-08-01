@@ -29,11 +29,11 @@ public class PropertyOrToStringTreeCellFactory implements Callback<TreeView, Tre
     public TreeCell call(TreeView arg0) {
 
         final TreeCell toReturn = new TreeCell();
-        toReturn.textProperty().bind(Bindings.selectString(toReturn.itemProperty(), propertyName));
+        toReturn.textProperty().bind(Bindings.selectString(toReturn.
+                itemProperty(), propertyName));
 
         //TODO replace by updateItem
         toReturn.itemProperty().addListener(new ChangeListener() {
-
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
                 if (arg2 == null) {

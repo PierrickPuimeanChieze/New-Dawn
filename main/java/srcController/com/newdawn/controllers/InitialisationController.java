@@ -27,7 +27,7 @@ public class InitialisationController {
     private GameData gameData;
     @Autowired
     private Config config;
-    
+
     public Config getConfig() {
         return config;
     }
@@ -65,11 +65,13 @@ public class InitialisationController {
     }
 
     public Planet addNewPlanetToStar(Star orbitCenter, String name, Planet.PlanetaryClass planetaryClass, long orbitalRadius, long diameter) {
-        return this.addNewPlanetToStar(orbitCenter, name, planetaryClass, orbitalRadius, diameter, null);
+        return this.
+                addNewPlanetToStar(orbitCenter, name, planetaryClass, orbitalRadius, diameter, null);
     }
 
     public Planet addNewPlanetToStar(Star orbitCenter, String name, Planet.PlanetaryClass planetaryClass, long orbitalRadius, long diameter, Long orbitalPeriod) {
-        return this.addNewPlanetToStar(orbitCenter, name, planetaryClass, orbitalRadius, diameter, orbitalPeriod, 0.0);
+        return this.
+                addNewPlanetToStar(orbitCenter, name, planetaryClass, orbitalRadius, diameter, orbitalPeriod, 0.0);
     }
 
     public Planet addNewPlanetToStar(Star orbitCenter, String name, Planet.PlanetaryClass planetaryClass, long orbitalRadius, long diameter, Long orbitalPeriod, double delta) {
@@ -82,7 +84,8 @@ public class InitialisationController {
     }
 
     public Satellite addNewSatelliteToPlanet(Planet orbitCenter, String name, long orbitalRadius, long diameter) {
-        return this.addNewSatelliteToPlanet(orbitCenter, name, orbitalRadius, diameter, null);
+        return this.
+                addNewSatelliteToPlanet(orbitCenter, name, orbitalRadius, diameter, null);
     }
 
     public Satellite addNewSatelliteToPlanet(Planet orbitCenter, String name, long orbitalRadius, long diameter, Long orbitalPeriod) {

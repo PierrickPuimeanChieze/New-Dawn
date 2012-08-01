@@ -6,7 +6,7 @@ import com.newdawn.controllers.MainController;
 import com.newdawn.controllers.OfficialsController;
 import com.newdawn.model.colony.Colony;
 import com.newdawn.model.personnel.NavalOfficer;
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
@@ -256,7 +256,7 @@ public class MainScreen implements Initializable {
         Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer().
                 getBean("geology", Skill.class);
 
-        final PersonnelMember officials = gameData.getPersonnelMembers().get(0);
+        final Official officials = gameData.getOfficials().get(0);
         SkillLevel leadSkillLevel = officials.skillLevelsProperty().
                 get(leadSkill);
         if (leadSkillLevel == null) {
@@ -275,7 +275,8 @@ public class MainScreen implements Initializable {
                     put(geoSkill, geoSkillLevel);
         }
         geoSkillLevel.setLevel(75);
-        final PersonnelMember navalOfficer3 = officialsFactory.getPersonnelMemberByName("navalOfficer3");
+        final Official navalOfficer3 = officialsFactory.
+                getOfficialByName("navalOfficer3");
         navalOfficer3.skillLevelsProperty().get(geoSkill).setLevel(75);
         Colony test = new Colony();
         test.setPopulation(100_000_000);
@@ -291,6 +292,6 @@ public class MainScreen implements Initializable {
                 createNewScientist("testScientist2", test);
         NavalOfficer navalOfficer1 = officialsFactory.
                 createNewNavalOfficer("navalOfficer1", test);
-//        gameData.getPersonnelMembers().addAll(testScientist1, testScientist2, navalOfficer1);
+//        gameData.getOfficials().addAll(testScientist1, testScientist2, navalOfficer1);
     }
 }

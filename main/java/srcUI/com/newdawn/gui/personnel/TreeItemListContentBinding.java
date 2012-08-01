@@ -31,10 +31,10 @@ public class TreeItemListContentBinding<S>
                             subList(paramChange.getFrom(), paramChange.getTo()).
                             clear();
                     final List<? extends S> subList = paramChange.
-                      getList().
-                      subList(paramChange.getFrom(), paramChange.getTo());
+                            getList().
+                            subList(paramChange.getFrom(), paramChange.getTo());
                     List<TreeItem<S>> toAdd = convertList(subList);
-    
+
                     localList.addAll(paramChange.getFrom(), toAdd);
                     continue;
                 }
@@ -45,7 +45,8 @@ public class TreeItemListContentBinding<S>
                 if (paramChange.wasAdded()) {
                     final List<? extends S> listToConvert = paramChange.
                             getAddedSubList();
-                    localList.addAll(paramChange.getFrom(), convertList(listToConvert));
+                    localList.
+                            addAll(paramChange.getFrom(), convertList(listToConvert));
                 }
             }
         }

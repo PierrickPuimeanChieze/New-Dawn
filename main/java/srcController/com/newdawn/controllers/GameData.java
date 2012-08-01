@@ -5,7 +5,7 @@
 package com.newdawn.controllers;
 
 import com.newdawn.model.colony.Colony;
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.system.StellarSystem;
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class GameData {
     private ObservableList<StellarSystem> populatedStellarSystems = FXCollections.
             observableArrayList();
     private LongProperty wealthProperty;
-    private ObservableList<PersonnelMember> personnelMembers = FXCollections.
+    private ObservableList<Official> officials = FXCollections.
             observableArrayList();
     //TODO all the field teams must be in the same collection, and use filter for use
     private ObservableList<GeologicalTeam> geologicalTeams = FXCollections.
@@ -82,20 +82,20 @@ public class GameData {
 
     {
         stellarSystems.addListener(new ListChangeListener<StellarSystem>() {
-
             @Override
             public void onChanged(Change<? extends StellarSystem> arg0) {
                 while (arg0.next()) {
                     for (final StellarSystem stellarSystem : arg0.
                             getAddedSubList()) {
-                        stellarSystem.getColonies().addListener(new ListChangeListener<Colony>() {
-
+                        stellarSystem.getColonies().
+                                addListener(new ListChangeListener<Colony>() {
                             @Override
                             public void onChanged(Change<? extends Colony> arg0) {
                                 if (stellarSystem.getColonies().size() == 1) {
                                     populatedStellarSystems.add(stellarSystem);
                                 } else if (stellarSystem.getColonies().size() == 0) {
-                                    populatedStellarSystems.remove(stellarSystem);
+                                    populatedStellarSystems.
+                                            remove(stellarSystem);
                                 }
                             }
                         });
@@ -114,7 +114,7 @@ public class GameData {
         return populatedStellarSystems;
     }
 
-    public ObservableList<PersonnelMember> getPersonnelMembers() {
-        return personnelMembers;
+    public ObservableList<Official> getOfficials() {
+        return officials;
     }
 }

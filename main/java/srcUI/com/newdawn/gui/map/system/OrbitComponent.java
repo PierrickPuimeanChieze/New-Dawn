@@ -22,7 +22,6 @@ public class OrbitComponent extends Circle {
     private boolean alwaysVisible = true;
     private DoubleProperty zoomLevelProperty;
     private final ChangeListener<Number> updaterListener = new ChangeListener<Number>() {
-
         @Override
         public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
             update();

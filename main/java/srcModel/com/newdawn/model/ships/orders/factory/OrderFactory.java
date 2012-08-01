@@ -10,5 +10,6 @@ import com.newdawn.model.ships.orders.Order;
 public interface OrderFactory {
 
     public String getName();
+
     public Order createOrder(Squadron squadron);
 }

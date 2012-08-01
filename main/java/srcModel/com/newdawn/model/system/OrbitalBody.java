@@ -31,7 +31,6 @@ public class OrbitalBody extends CelestialBody {
         this.orbit = orbit;
         this.orbitalPeriod = orbitalPeriod;
         positionXProperty().bind(new DoubleBinding() {
-
             {
                 super.bind(deltaProperty());
             }
@@ -45,7 +44,6 @@ public class OrbitalBody extends CelestialBody {
         });
 
         positionYProperty().bind(new DoubleBinding() {
-
             {
                 super.bind(deltaProperty());
             }

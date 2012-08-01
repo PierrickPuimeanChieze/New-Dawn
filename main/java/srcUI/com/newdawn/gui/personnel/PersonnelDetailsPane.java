@@ -1,6 +1,6 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -15,44 +15,41 @@ import javafx.scene.control.TextField;
  *
  * @author Pierrick Puimean-Chieze
  */
-
 public class PersonnelDetailsPane
         implements Initializable {
-    
+
     @FXML //  fx:id="assignementTextField"
     private TextField assignementTextField; // Value injected by FXMLLoader
     @FXML //  fx:id="designationTextField"
     private TextField designationTextField; // Value injected by FXMLLoader
     @FXML //  fx:id="locationTestField"
     private TextField locationTestField; // Value injected by FXMLLoader
+    private ObjectProperty<Official> officialProperty;
 
-    private ObjectProperty<PersonnelMember> personnelMemberProperty;
-
-    public ObjectProperty<PersonnelMember> personnelMemberProperty() {
-        if (personnelMemberProperty == null) {
-            personnelMemberProperty = new SimpleObjectProperty<>(this, "personnelMember");
+    public ObjectProperty<Official> officialProperty() {
+        if (officialProperty == null) {
+            officialProperty = new SimpleObjectProperty<>(this, "official");
         }
-        return personnelMemberProperty;
+        return officialProperty;
     }
 
     /**
-     * Get the value of personnelMember
+     * Get the value of official
      *
-     * @return the value of personnelMember
+     * @return the value of official
      */
-    public PersonnelMember getPersonnelMember() {
-        return personnelMemberProperty().getValue();
+    public Official getOfficial() {
+        return officialProperty().getValue();
     }
 
     /**
-     * Set the value of personnelMember
+     * Set the value of official
      *
-     * @param personnelMember new value of personnelMember
+     * @param official new value of official
      */
-    public void setPersonnelMember(PersonnelMember personnelMember) {
-        this.personnelMemberProperty().setValue(personnelMember);
+    public void setOfficial(Official official) {
+        this.officialProperty().setValue(official);
     }
-
 
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -60,7 +57,10 @@ public class PersonnelDetailsPane
         assert designationTextField != null : "fx:id=\"designationTextField\" was not injected: check your FXML file 'PersonnelDetailsPane.fxml'.";
         assert locationTestField != null : "fx:id=\"locationTestField\" was not injected: check your FXML file 'PersonnelDetailsPane.fxml'.";
         // initialize your logic here: all @FXML variables will have been injected
-        final StringExpression concat = Bindings.selectString(personnelMemberProperty(), "rank", "designation").concat(" ").concat(Bindings.selectString(personnelMemberProperty(), "name"));
+        final StringExpression concat = Bindings.
+                selectString(officialProperty(), "rank", "designation").
+                concat(" ").concat(Bindings.
+                selectString(officialProperty(), "name"));
         designationTextField.textProperty().bind(concat);
 
     }

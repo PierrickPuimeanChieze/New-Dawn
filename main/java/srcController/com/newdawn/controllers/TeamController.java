@@ -1,6 +1,6 @@
 package com.newdawn.controllers;
 
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeamController {
-    
+
     public static enum FieldTeamType {
 
         GEOLOGICAL
@@ -20,7 +20,7 @@ public class TeamController {
     @Autowired
     private GameData gameData;
 
-    public FieldTeam createTeamWithLeader(PersonnelMember teamLeader, FieldTeamType fieldTeamType) {
+    public FieldTeam createTeamWithLeader(Official teamLeader, FieldTeamType fieldTeamType) {
         assert teamLeader.getAssignment() == null;
         FieldTeam toReturn;
         switch (fieldTeamType) {
@@ -34,7 +34,8 @@ public class TeamController {
 
 
         toReturn.setLeader(teamLeader);
-        toReturn.setName(teamLeader.getName() + " ' " + fieldTeamType.toString().
+        toReturn.
+                setName(teamLeader.getName() + " ' " + fieldTeamType.toString().
                 toLowerCase() + " team");
         toReturn.setLocalization(teamLeader.getLocalization());
         gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);

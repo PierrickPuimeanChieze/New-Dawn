@@ -29,7 +29,9 @@ public abstract class CelestialBody implements SpaceObject {
     private StellarSystem stellarSystem;
     private DoubleProperty positionXProperty;
     private DoubleProperty positionYProperty;
-    protected ObservableList<OrderFactory> orderFactories = FXCollections.observableArrayList();
+    protected ObservableList<OrderFactory> orderFactories = FXCollections.
+            observableArrayList();
+
     /**
      * Get the value of name
      *
@@ -164,6 +166,4 @@ public abstract class CelestialBody implements SpaceObject {
     public ObservableList<OrderFactory> getOrderFactories() {
         return FXCollections.unmodifiableObservableList(orderFactories);
     }
-    
-    
 }

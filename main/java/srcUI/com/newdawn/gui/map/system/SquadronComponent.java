@@ -39,7 +39,6 @@ public class SquadronComponent extends Group {
     private Text speedText = new Text();
     private static final double DIRECTIONAL_LINE_LENGTH = 15;
     private ChangeListener updaterListener = new ChangeListener() {
-
         @Override
         public void changed(ObservableValue property, Object oldValue, Object newValue) {
             update();
@@ -50,27 +49,30 @@ public class SquadronComponent extends Group {
     public SquadronComponent(Squadron squadronToShow) {
         this.squadronToShow = squadronToShow;
 
-        this.getChildren().addAll(verticalCrossBar, horizontalCrossBar, directionalLine, directionalLineEnd, speedText);
+        this.getChildren().
+                addAll(verticalCrossBar, horizontalCrossBar, directionalLine, directionalLineEnd, speedText);
         this.setZoomLevel(1);
         this.zoomLevelProperty().addListener(updaterListener);
         this.squadronToShow.positionXProperty().addListener(updaterListener);
         this.squadronToShow.positionYProperty().addListener(updaterListener);
         this.squadronToShow.destinationProperty().addListener(updaterListener);
-        directionalLine.visibleProperty().bind(Bindings.isNotNull(squadronToShow.
+        directionalLine.visibleProperty().bind(Bindings.
+                isNotNull(squadronToShow.
                 destinationProperty()));
-        directionalLineEnd.visibleProperty().bind(Bindings.isNotNull(squadronToShow.
+        directionalLineEnd.visibleProperty().bind(Bindings.
+                isNotNull(squadronToShow.
                 destinationProperty()));
         speedText.visibleProperty().bind(Bindings.isNotNull(squadronToShow.
                 destinationProperty()));
         speedText.textProperty().bind(new StringBinding() {
-
             {
                 bind(SquadronComponent.this.squadronToShow.speedProperty());
             }
 
             @Override
             protected String computeValue() {
-                Double speedMS = SquadronComponent.this.squadronToShow.getSpeed();
+                Double speedMS = SquadronComponent.this.squadronToShow.
+                        getSpeed();
                 long speedKMS = Math.round(speedMS / 1000);
                 String speedStr = Long.toString(speedKMS) + " km/s";
                 return speedStr;
@@ -145,7 +147,8 @@ public class SquadronComponent extends Group {
             final double destinationXCalculated = destinationX / Constants.FIXED_QUOTIENT * zoomLevel;
             final double destinationYCalculated = destinationY / Constants.FIXED_QUOTIENT * zoomLevel;
 
-            double lc = Math.sqrt((destinationXCalculated - centerXCalculated) * (destinationXCalculated - centerXCalculated) + (destinationYCalculated - centerYCalculated) * (destinationYCalculated - centerYCalculated));
+            double lc = Math.
+                    sqrt((destinationXCalculated - centerXCalculated) * (destinationXCalculated - centerXCalculated) + (destinationYCalculated - centerYCalculated) * (destinationYCalculated - centerYCalculated));
             Point2D intermediateCoordinate = ShipUtils.
                     calculateIntermediateCoordinate(new Point2D(centerXCalculated, centerYCalculated), new Point2D(destinationXCalculated, destinationYCalculated), li);
 

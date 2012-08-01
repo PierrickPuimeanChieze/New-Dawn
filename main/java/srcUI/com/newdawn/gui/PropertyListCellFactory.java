@@ -37,10 +37,10 @@ public class PropertyListCellFactory<T> implements Callback<ListView<T>, ListCel
     @Override
     public ListCell<T> call(ListView<T> arg0) {
         ListCell<T> toReturn = new ListCell<>();
-        
+
         final StringBinding selectString = Bindings.selectString(toReturn.
                 itemProperty(), propertyName);
-        
+
         toReturn.textProperty().bind(selectString);
         toReturn.setOnMouseClicked(mouseEventHandler);
         return toReturn;

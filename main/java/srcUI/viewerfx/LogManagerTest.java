@@ -25,7 +25,8 @@ public class LogManagerTest extends LogManager {
                 // responsibility to initialize the logging configuration, by
                 // calling readConfiguration(InputStream) with a suitable stream.
                 try {
-                    Class clz = ClassLoader.getSystemClassLoader().loadClass(cname);
+                    Class clz = ClassLoader.getSystemClassLoader().
+                            loadClass(cname);
                     clz.newInstance();
                     return;
                 } catch (ClassNotFoundException ex) {
@@ -35,7 +36,8 @@ public class LogManagerTest extends LogManager {
                     return;
                 }
             } catch (Exception ex) {
-                System.err.println("Logging configuration class \"" + cname + "\" failed");
+                System.err.
+                        println("Logging configuration class \"" + cname + "\" failed");
                 System.err.println("" + ex);
                 // keep going and useful config file.
             }

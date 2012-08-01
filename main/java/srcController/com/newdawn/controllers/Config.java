@@ -23,9 +23,10 @@ public class Config {
     /**
      * This field store the period of the population growth.
      */
-    private int populationGrowPeriod = 24*3600*30;
+    private int populationGrowPeriod = 24 * 3600 * 30;
     /**
-     * This field store the multiplicator to apply to the colonies' grow rate for getting the annual grow rate
+     * This field store the multiplicator to apply to the colonies' grow rate
+     * for getting the annual grow rate
      * //TODO try to link this field to populationGrowPeriod
      */
     private int populationGrowRateAnnualMultiplicator = 12;
@@ -36,7 +37,6 @@ public class Config {
         return pointsToDiscoverGeologicalDeposit;
     }
 
-    
     public IntegerProperty factoryProductionRateProperty() {
         if (factoryProductionRateProperty == null) {
             factoryProductionRateProperty = new SimpleIntegerProperty(this, "factoryProductionRate");
@@ -61,7 +61,6 @@ public class Config {
     public void setFactoryProductionRate(int factoryProductionRate) {
         this.factoryProductionRateProperty().setValue(factoryProductionRate);
     }
-
 
     /**
      * Get the value of initDefaultDeltaValue
@@ -108,6 +107,4 @@ public class Config {
     public int getMaxValueForTeamInternalTimeCounter() {
         return maxValueForTeamInternalTimeCounter;
     }
-    
-    
 }

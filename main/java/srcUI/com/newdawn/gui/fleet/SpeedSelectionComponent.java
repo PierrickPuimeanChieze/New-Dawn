@@ -42,7 +42,6 @@ public class SpeedSelectionComponent extends VBox {
     public DoubleBinding getSelectedSpeedBinding() {
         if (selectedSpeedBinding == null) {
             selectedSpeedBinding = new DoubleBinding() {
-
                 {
                     super.bind(getSelectedSpeed().textProperty());
                 }
@@ -69,7 +68,6 @@ public class SpeedSelectionComponent extends VBox {
         if (squadronProperty == null) {
             squadronProperty = new SimpleObjectProperty<>(this, "squadron");
             squadronProperty.addListener(new ChangeListener<Squadron>() {
-
                 @Override
                 public void changed(ObservableValue<? extends Squadron> property, Squadron oldValue, Squadron newValue) {
 

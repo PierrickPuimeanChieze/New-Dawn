@@ -48,14 +48,14 @@ public class Squadron implements SpaceObject {
         if (contextualStellarSystemProperty == null) {
             contextualStellarSystemProperty = new SimpleObjectProperty<>(this, "contextualStellarSystem");
             ObjectBinding<StellarSystem> binding = new ObjectBinding<StellarSystem>() {
-
                 {
                     bind(getPlottedOrders());
                 }
 
                 @Override
                 protected StellarSystem computeValue() {
-                    return ShipUtils.calculateContextualStellarSystem(Squadron.this);
+                    return ShipUtils.
+                            calculateContextualStellarSystem(Squadron.this);
                 }
             };
             contextualStellarSystemProperty.bind(binding);
@@ -80,7 +80,6 @@ public class Squadron implements SpaceObject {
                     observableArrayList();
             plottedOrdersProperty = new SimpleListProperty<>(this, "plottedOrders", observableArrayList);
             plottedOrdersProperty.addListener(new ListChangeListener<Order>() {
-
                 @Override
                 public void onChanged(Change<? extends Order> change) {
                     if (getCurrentOrder() != null && !getCurrentOrder().

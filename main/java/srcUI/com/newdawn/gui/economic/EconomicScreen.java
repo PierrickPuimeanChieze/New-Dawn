@@ -20,21 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Pierrick Puimean-Chieze
  */
-
 public class EconomicScreen implements Initializable {
 
     @FXML //  fx:id="coloniesTreeView"
     private TreeView coloniesTreeView; // Value injected by FXMLLoader
-
     @Autowired
-    private  GameData gameData;
-    
+    private GameData gameData;
     private TreeItem colonyRoot;
-    
-   
     @FXML
     private TabPane colonyEconomicScreen;
-    
     @FXML
     private ColonyEconomicScreen colonyEconomicScreenController;
 
@@ -45,14 +39,17 @@ public class EconomicScreen implements Initializable {
         // initialize your logic here: all @FXML variables will have been injected
         colonyRoot = new TreeItem("Populated Systems");
         coloniesTreeView.setRoot(colonyRoot);
-        
-        coloniesTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory("name", null, String.class));
+
+        coloniesTreeView.
+                setCellFactory(new PropertyOrToStringTreeCellFactory("name", null, String.class));
         //TODO for this, try to use Bind.
-        gameData.getPopulatedStellarSystems().addListener(new ListChangeListener<StellarSystem>() {
+        gameData.getPopulatedStellarSystems().
+                addListener(new ListChangeListener<StellarSystem>() {
             @Override
             public void onChanged(Change<? extends StellarSystem> arg0) {
                 colonyRoot.getChildren().clear();
-                for (StellarSystem populatedSystem : gameData.getPopulatedStellarSystems()) {
+                for (StellarSystem populatedSystem : gameData.
+                        getPopulatedStellarSystems()) {
                     TreeItem<StellarSystem> systemTreeItem = new TreeItem<>(populatedSystem);
                     colonyRoot.getChildren().add(systemTreeItem);
                     for (Colony colony : populatedSystem.getColonies()) {
@@ -62,17 +59,17 @@ public class EconomicScreen implements Initializable {
                 }
             }
         });
-        colonyEconomicScreenController.colonyProperty().bind(new SelectBinding.AsObject(coloniesTreeView.getSelectionModel().selectedItemProperty(), "value") {
-
+        colonyEconomicScreenController.colonyProperty().
+                bind(new SelectBinding.AsObject(coloniesTreeView.
+                getSelectionModel().selectedItemProperty(), "value") {
             @Override
             protected Object computeValue() {
-                Object value =  super.computeValue();
+                Object value = super.computeValue();
                 if (value != null && value instanceof Colony) {
                     return value;
                 }
                 return null;
             }
-            
         });
     }
 }

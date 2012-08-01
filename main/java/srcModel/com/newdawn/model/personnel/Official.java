@@ -9,7 +9,7 @@ import javafx.collections.ObservableMap;
  *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class PersonnelMember {
+public abstract class Official {
 
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
@@ -24,8 +24,7 @@ public abstract class PersonnelMember {
     public Rank getRank() {
         return rankProperty.get();
     }
-    
-    
+
     public ObjectProperty<Assignment> assignmentProperty() {
         if (assignmentProperty == null) {
             assignmentProperty = new SimpleObjectProperty<>(this, "assignement");
@@ -103,7 +102,8 @@ public abstract class PersonnelMember {
 
     public MapProperty<Skill, SkillLevel> skillLevelsProperty() {
         if (skillLevelsProperty == null) {
-            ObservableMap<Skill, SkillLevel> observableHashMap = FXCollections.observableHashMap();
+            ObservableMap<Skill, SkillLevel> observableHashMap = FXCollections.
+                    observableHashMap();
             skillLevelsProperty = new SimpleMapProperty<>(this, "skillLevels", observableHashMap);
         }
         return skillLevelsProperty;

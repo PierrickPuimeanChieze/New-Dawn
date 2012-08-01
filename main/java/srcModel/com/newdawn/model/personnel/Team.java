@@ -14,23 +14,25 @@ import javafx.collections.ObservableList;
  */
 public abstract class Team implements Assignment {
 
-    protected abstract String[] validateAddition(PersonnelMember teamMember);
-    private ObjectProperty<PersonnelMember> leaderProperty;
-    private ListProperty<PersonnelMember> teamMembersProperty;
-    
+    protected abstract String[] validateAddition(Official teamMember);
+    private ObjectProperty<Official> leaderProperty;
+    private ListProperty<Official> teamMembersProperty;
+
     //TODO ajouter une verification sur la liste
     public ListProperty teamMembersProperty() {
         if (teamMembersProperty == null) {
-            final ObservableList<PersonnelMember> teamMembers = FXCollections.observableArrayList();
+            final ObservableList<Official> teamMembers = FXCollections.
+                    observableArrayList();
             teamMembersProperty = new SimpleListProperty<>(this, "teamMembers", teamMembers);
         }
         return teamMembersProperty;
     }
-    public ObservableList<PersonnelMember> getTeamMembers() {
+
+    public ObservableList<Official> getTeamMembers() {
         return teamMembersProperty().getValue();
     }
 
-    public void addTeamMember(PersonnelMember teamMember) {
+    public void addTeamMember(Official teamMember) {
         String[] validateAdditionErrors = validateAddition(teamMember);
         if (validateAdditionErrors != null) {
             teamMembersProperty().add(teamMember);
@@ -45,11 +47,11 @@ public abstract class Team implements Assignment {
         }
     }
 
-    public boolean removeTeamMember(PersonnelMember teamMember) {
+    public boolean removeTeamMember(Official teamMember) {
         return teamMembersProperty().remove(teamMember);
     }
 
-    public ObjectProperty<PersonnelMember> leaderProperty() {
+    public ObjectProperty<Official> leaderProperty() {
         if (leaderProperty == null) {
             leaderProperty = new SimpleObjectProperty<>(this, "leader");
         }
@@ -61,7 +63,7 @@ public abstract class Team implements Assignment {
      *
      * @return the value of leader
      */
-    public PersonnelMember getLeader() {
+    public Official getLeader() {
         return leaderProperty().getValue();
     }
 
@@ -70,7 +72,7 @@ public abstract class Team implements Assignment {
      *
      * @param leader new value of leader
      */
-    public void setLeader(PersonnelMember leader) {
+    public void setLeader(Official leader) {
         this.leaderProperty().setValue(leader);
     }
 }

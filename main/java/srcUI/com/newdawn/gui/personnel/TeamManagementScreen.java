@@ -2,7 +2,7 @@ package com.newdawn.gui.personnel;
 
 import com.newdawn.controllers.GameData;
 import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.team.GeologicalTeam;
@@ -53,11 +53,11 @@ public class TeamManagementScreen implements Initializable {
     @FXML //  fx:id="locationTextFiedl"
     private TextField locationTextFiedl; // Value injected by FXMLLoader
     @FXML //  fx:id="membersTableView"
-    private TableView<PersonnelMember> membersTableView; // Value injected by FXMLLoader
+    private TableView<Official> membersTableView; // Value injected by FXMLLoader
     @FXML //  fx:id="nameColumn"
-    private TableColumn<PersonnelMember, String> nameColumn; // Value injected by FXMLLoader
+    private TableColumn<Official, String> nameColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="skillColumn"
-    private TableColumn<PersonnelMember, Number> skillColumn; // Value injected by FXMLLoader
+    private TableColumn<Official, Number> skillColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="teamCumulativeSkillLevelLabel"
     private Label teamCumulativeSkillLevelLabel; // Value injected by FXMLLoader
     @FXML //  fx:id="teamInformationTitledPane"
@@ -172,26 +172,26 @@ public class TeamManagementScreen implements Initializable {
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Initialize Team Members Information">
-        final ObjectBinding<ObservableList<PersonnelMember>> selectedTeamMembersBinding = Bindings.
+        final ObjectBinding<ObservableList<Official>> selectedTeamMembersBinding = Bindings.
                 select(selectedTeamBinding, "teamMembers");
         membersTableView.itemsProperty().bind(selectedTeamMembersBinding);
         nameColumn.
-                setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
+                setCellValueFactory(new PropertyValueFactory<Official, String>("name"));
         skillColumn.textProperty().bind(Bindings.
                 selectString(selectedTeamSkillBinding, "name"));
         skillColumn.
-                setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, Number>, ObservableValue<Number>>() {
-                    @Override
-                    public ObservableValue<Number> call(CellDataFeatures<PersonnelMember, Number> param) {
-                        PersonnelMember member = param.getValue();
-                        final IntegerBinding skillLevelValueBinding = Bindings.
-                                selectInteger(Bindings.valueAt(member.
-                                skillLevelsProperty(), selectedTeamSkillBinding.get()), "level");
-                        IntegerProperty toReturn = new SimpleIntegerProperty();
-                        toReturn.bind(skillLevelValueBinding);
-                        return toReturn;
-                    }
-                });
+                setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Official, Number>, ObservableValue<Number>>() {
+            @Override
+            public ObservableValue<Number> call(CellDataFeatures<Official, Number> param) {
+                Official member = param.getValue();
+                final IntegerBinding skillLevelValueBinding = Bindings.
+                        selectInteger(Bindings.valueAt(member.
+                        skillLevelsProperty(), selectedTeamSkillBinding.get()), "level");
+                IntegerProperty toReturn = new SimpleIntegerProperty();
+                toReturn.bind(skillLevelValueBinding);
+                return toReturn;
+            }
+        });
         //</editor-fold>
     }
 }

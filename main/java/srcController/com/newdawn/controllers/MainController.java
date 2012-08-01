@@ -99,7 +99,8 @@ public class MainController {
     }
 
     public final void runIncrements(long totalLength) {
-        LOGGER.entering(MainController.class.getName(), "runIncrements", totalLength);
+        LOGGER.
+                entering(MainController.class.getName(), "runIncrements", totalLength);
         final int subPulse = getConfig().getSubPulse();
 
         if (totalLength < subPulse) {
@@ -118,7 +119,8 @@ public class MainController {
     }
 
     private void runIncrements(long increments, long subPulse) {
-        LOGGER.entering(MainController.class.getName(), "runIncrements", new Object[]{increments, subPulse});
+        LOGGER.
+                entering(MainController.class.getName(), "runIncrements", new Object[]{increments, subPulse});
         LOGGER.log(Level.FINEST, "Running {0} increments", increments);
         for (int i = 0; i < increments; i++) {
             LOGGER.finest("Running increment " + i);
@@ -128,13 +130,15 @@ public class MainController {
     }
 
     private void runSubPulse(long second) {
-        LOGGER.entering(MainController.class.getName(), "runSubPulse", new Object[]{second});
+        LOGGER.
+                entering(MainController.class.getName(), "runSubPulse", new Object[]{second});
         for (StellarSystem system : gameData.getStellarSystems()) {
 
             for (Planet planet : system.getPlanets()) {
                 getCelestialBodyMovementController().moveBody(second, planet);
                 for (Satellite satellite : planet.getSatellites()) {
-                    getCelestialBodyMovementController().moveBody(second, satellite);
+                    getCelestialBodyMovementController().
+                            moveBody(second, satellite);
                 }
             }
 
@@ -143,9 +147,10 @@ public class MainController {
                 getShipMovementController().moveTaskGroup(second, taskGroup);
                 getOrderController().updateOrders(taskGroup);
             }
-            
+
             for (Colony colony : system.getColonies()) {
-                colonyIncreaseController.calculateColonyPopulationAndWealth(colony, second);
+                colonyIncreaseController.
+                        calculateColonyPopulationAndWealth(colony, second);
             }
         }
         LOGGER.exiting(MainController.class.getName(), "runSubPulse");

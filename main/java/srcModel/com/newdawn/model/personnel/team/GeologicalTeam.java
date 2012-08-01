@@ -2,7 +2,7 @@ package com.newdawn.model.personnel.team;
 
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.NavalOfficer;
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -17,7 +17,6 @@ import viewerfx.ViewerFX;
 public class GeologicalTeam extends FieldTeam {
 
     private ObjectProperty<MinerallyExploitableBody> bodyProspectedProperty;
-
 
     public ObjectProperty<MinerallyExploitableBody> bodyProspectedProperty() {
         if (bodyProspectedProperty == null) {
@@ -48,6 +47,4 @@ public class GeologicalTeam extends FieldTeam {
     final public String getTeamSkillName() {
         return "geology";
     }
-
-    
 }

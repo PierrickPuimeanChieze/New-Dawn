@@ -34,7 +34,6 @@ public class CelestialBodyComponent extends Group {
     public OrbitComponent linkedOrbitComponent;
     private Text nameText;
     private ChangeListener<Number> updaterListener = new ChangeListener<Number>() {
-
         @Override
         public void changed(ObservableValue<? extends Number> property, Number oldValue, Number newValue) {
             update();

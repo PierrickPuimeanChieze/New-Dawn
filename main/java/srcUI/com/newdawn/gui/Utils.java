@@ -17,7 +17,8 @@ public class Utils {
 
     public static Object getUserData(Object source) {
         try {
-            Method getUserDataMethod = source.getClass().getMethod("getUserData");
+            Method getUserDataMethod = source.getClass().
+                    getMethod("getUserData");
             return getUserDataMethod.invoke(source);
         } catch (NoSuchMethodException ex) {
             return null;
@@ -26,6 +27,7 @@ public class Utils {
             throw new RuntimeException(ex);
         }
     }
+
     public static String formatKeyEvent(KeyEvent event) {
         String name = "keyPressed on " + event.getSource() + ". Key code :" + event.
                 getCode() + ". character :" + event.getCharacter() + ". Mod :";

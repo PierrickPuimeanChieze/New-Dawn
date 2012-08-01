@@ -26,7 +26,8 @@ public class SollarSystemBuilder {
 //        File solSystemFile = new File("C:\\Users\\Pierrick\\Dropbox\\NewDawn\\ViewerFX\\srcUI\\viewerfx\\solarSystem.xml");
         InputStream solSystemInputStream = SollarSystemBuilder.class.
                 getResourceAsStream("/solarSystem.xml");
-        StellarSystem solarSystem = initialisationController.createSystem(solSystemInputStream);
+        StellarSystem solarSystem = initialisationController.
+                createSystem(solSystemInputStream);
 
         Squadron testTG = new Squadron();
         testTG.setName("testTG");

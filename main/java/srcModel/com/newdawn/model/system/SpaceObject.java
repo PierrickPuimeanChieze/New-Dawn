@@ -18,8 +18,8 @@ public interface SpaceObject {
     public double getPositionY();
 
     public String getName();
-    
+
     public StellarSystem getStellarSystem();
-    
+
     public ObservableList<OrderFactory> getOrderFactories();
 }

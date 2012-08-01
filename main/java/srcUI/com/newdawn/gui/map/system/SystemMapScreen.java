@@ -57,7 +57,8 @@ public class SystemMapScreen implements Initializable {
                 getSprintContainer();
         Bindings.bindContent(stellarSystemListView.getItems(), gameData.
                 getStellarSystems());
-        stellarSystemListView.setCellFactory(new PropertyListCellFactory<StellarSystem>("name", null));
+        stellarSystemListView.
+                setCellFactory(new PropertyListCellFactory<StellarSystem>("name", null));
     }
 
     private void openOrSelectSystemViewer(final StellarSystem clickedSystem) {
@@ -68,7 +69,6 @@ public class SystemMapScreen implements Initializable {
 //            openedTab.setClosable(true);
             openedTab.setContent(systemViewer);
             openedTab.setOnClosed(new EventHandler<Event>() {
-
                 @Override
                 public void handle(Event event) {
                     openedTabs.remove(clickedSystem);
@@ -78,7 +78,6 @@ public class SystemMapScreen implements Initializable {
             openedTabs.put(clickedSystem, openedTab);
             systemViewer.updateChildren();
             openedTab.setOnSelectionChanged(new EventHandler<Event>() {
-
                 @Override
                 public void handle(Event arg0) {
                     Tab tab = (Tab) arg0.getSource();
@@ -88,7 +87,6 @@ public class SystemMapScreen implements Initializable {
                 }
             });
             systemViewer.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
                 @Override
                 public void handle(KeyEvent arg0) {
                     testPressed(arg0);
@@ -105,7 +103,8 @@ public class SystemMapScreen implements Initializable {
         Tab selectedItem = systemViewerTabPane.getSelectionModel().
                 getSelectedItem();
         if (selectedItem != null) {
-            SystemViewer selectedViewer = (SystemViewer) selectedItem.getContent();
+            SystemViewer selectedViewer = (SystemViewer) selectedItem.
+                    getContent();
             double increment = 0.01;
             if (event.isControlDown()) {
                 increment = 0.1;
@@ -127,11 +126,13 @@ public class SystemMapScreen implements Initializable {
                     break;
                 case PLUS:
                 case ADD:
-                    selectedViewer.setZoomLevel(selectedViewer.getZoomLevel() + increment);
+                    selectedViewer.
+                            setZoomLevel(selectedViewer.getZoomLevel() + increment);
                     break;
                 case MINUS:
                 case SUBTRACT:
-                    selectedViewer.setZoomLevel(selectedViewer.getZoomLevel() - increment);
+                    selectedViewer.
+                            setZoomLevel(selectedViewer.getZoomLevel() - increment);
                     break;
 
                 default:

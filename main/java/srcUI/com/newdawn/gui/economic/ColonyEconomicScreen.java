@@ -53,9 +53,9 @@ public class ColonyEconomicScreen implements Initializable {
     @FXML //  fx:id="totalPopulationLabel"
     private Label totalPopulationLabel; // Value injected by FXMLLoader
     private ObjectProperty<Colony> colonyProperty;
-
     @Autowired
     private Config config;
+
     public ObjectProperty<Colony> colonyProperty() {
         if (colonyProperty == null) {
             colonyProperty = new SimpleObjectProperty<>(this, "colony");
@@ -91,13 +91,18 @@ public class ColonyEconomicScreen implements Initializable {
 
         // initialize your logic here: all @FXML variables will have been injected
 
-        totalPopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "population"));
-        agriculturePopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "agriculturePopulation"));
-        servicePopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "servicesPopulation"));
-        industryPopulationLabel.textProperty().bind(new PopulationBinding(colonyProperty(), "industryPopulation"));
+        totalPopulationLabel.textProperty().
+                bind(new PopulationBinding(colonyProperty(), "population"));
+        agriculturePopulationLabel.textProperty().
+                bind(new PopulationBinding(colonyProperty(), "agriculturePopulation"));
+        servicePopulationLabel.textProperty().
+                bind(new PopulationBinding(colonyProperty(), "servicesPopulation"));
+        industryPopulationLabel.textProperty().
+                bind(new PopulationBinding(colonyProperty(), "industryPopulation"));
 
 
-        annualGrowRateLabel.textProperty().bind(format("%.2s%%", selectFloat(colonyProperty(), "populationGrowRate").
+        annualGrowRateLabel.textProperty().
+                bind(format("%.2s%%", selectFloat(colonyProperty(), "populationGrowRate").
                 multiply(config.getPopulationGrowRateAnnualMultiplicator())));
     }
 }

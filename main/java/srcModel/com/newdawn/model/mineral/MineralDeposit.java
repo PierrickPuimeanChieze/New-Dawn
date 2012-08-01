@@ -23,7 +23,6 @@ public class MineralDeposit {
         this.quantity = quantity;
     }
 
-    
     public ObjectProperty<MineralDepositStatus> statusProperty() {
         if (statusProperty == null) {
             statusProperty = new SimpleObjectProperty<>(this, "status");
@@ -65,8 +64,6 @@ public class MineralDeposit {
         this.mineralModel = mineralModel;
     }
 
-    
-    
     public LongProperty discoveryPointsProperty() {
         if (discoveryPointsProperty == null) {
             discoveryPointsProperty = new SimpleLongProperty(this, "discoveryPoints");

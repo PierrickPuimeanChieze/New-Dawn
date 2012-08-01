@@ -2,6 +2,7 @@ package com.newdawn.controllers;
 
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.PersonnelLocalisation;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
@@ -20,6 +21,8 @@ public class OfficialsController {
 
     @Autowired
     private Skill[] skills;
+    @Autowired
+    private GameData gameData;
 
     private ObservableMap<Skill, SkillLevel> createInitialSkillsLevel() {
         ObservableMap<Skill, SkillLevel> toReturn = FXCollections.
@@ -39,7 +42,7 @@ public class OfficialsController {
         created.setSkillLevels(createInitialSkillsLevel());
         return created;
     }
-    
+
     public Scientist createNewScientist(String name, PersonnelLocalisation localization) {
         Scientist created = new Scientist();
         created.setName(name);
@@ -47,6 +50,15 @@ public class OfficialsController {
 //        created.setRank(NavalRank.A0);
         created.setSkillLevels(createInitialSkillsLevel());
         return created;
-        
+
+    }
+
+    public Official getOfficialByName(String name) {
+        for (Official official : gameData.getOfficials()) {
+            if (official.getName().equals(name)) {
+                return official;
+            }
+        }
+        return null;
     }
 }

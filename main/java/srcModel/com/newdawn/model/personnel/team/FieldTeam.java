@@ -1,7 +1,7 @@
 package com.newdawn.model.personnel.team;
 
 import com.newdawn.model.personnel.PersonnelLocalisation;
-import com.newdawn.model.personnel.PersonnelMember;
+import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.Team;
@@ -119,7 +119,7 @@ public abstract class FieldTeam extends Team {
     }
 
     @Override
-    protected String[] validateAddition(PersonnelMember teamMember) {
+    protected String[] validateAddition(Official teamMember) {
         int maxSize = calculateMaxSize();
         if (getTeamMembers().size() >= maxSize) {
             return new String[]{"Max size reached"};
@@ -156,9 +156,9 @@ public abstract class FieldTeam extends Team {
         return teamSkillProperty;
     }
 
-    private class CumulatedSkillLevelBinding extends LongBinding implements ListChangeListener<PersonnelMember> {
+    private class CumulatedSkillLevelBinding extends LongBinding implements ListChangeListener<Official> {
 
-        private Map<PersonnelMember, IntegerBinding> memberTeamSkillLevelBindings = new HashMap<>();
+        private Map<Official, IntegerBinding> memberTeamSkillLevelBindings = new HashMap<>();
 
         public CumulatedSkillLevelBinding() {
             Skill leadershipSkill = ViewerFX.getCurrentApplication().
@@ -176,7 +176,7 @@ public abstract class FieldTeam extends Team {
 
             bind(leaderLeadershipSkillLevelValueBinding, leaderTeamSkillLevelValueBinding);
             //</editor-fold>
-            for (PersonnelMember member : getTeamMembers()) {
+            for (Official member : getTeamMembers()) {
                 final IntegerBinding memberTeamSkillLevelBinding = Bindings.
                         selectInteger(Bindings.valueAt(member.
                         skillLevelsProperty(), getTeamSkill()), "level");
@@ -205,7 +205,7 @@ public abstract class FieldTeam extends Team {
             double leaderTeamSkillLevelValue = leaderTeamSkillLevel == null ? 0 : leaderTeamSkillLevel.
                     getLevel();
             double cumulatedSkillLevel = 0.0;
-            for (PersonnelMember teamMember : getTeamMembers()) {
+            for (Official teamMember : getTeamMembers()) {
                 cumulatedSkillLevel += teamMember.getSkillLevels().
                         get(teamSkill).
                         getLevel();
@@ -218,10 +218,10 @@ public abstract class FieldTeam extends Team {
         }
 
         @Override
-        public void onChanged(Change<? extends PersonnelMember> change) {
+        public void onChanged(Change<? extends Official> change) {
             while (change.next()) {
                 if (change.wasAdded()) {
-                    for (PersonnelMember member : change.getAddedSubList()) {
+                    for (Official member : change.getAddedSubList()) {
                         final IntegerBinding memberTeamSkillLevelBinding = Bindings.
                                 selectInteger(Bindings.valueAt(member.
                                 skillLevelsProperty(), getTeamSkill()), "level");
@@ -231,7 +231,7 @@ public abstract class FieldTeam extends Team {
                     }
                 }
                 if (change.wasRemoved()) {
-                    for (PersonnelMember member : change.getRemoved()) {
+                    for (Official member : change.getRemoved()) {
                         final IntegerBinding memberTeamSkillLevelBinding = memberTeamSkillLevelBindings.
                                 remove(member);
                         unbind(memberTeamSkillLevelBinding);
@@ -245,7 +245,7 @@ public abstract class FieldTeam extends Team {
 
             final ObjectBinding<ObservableMap<Skill, SkillLevel>> skillLevelsBinding;
 
-            public SkillLevelBindings(ObjectProperty<PersonnelMember> personnelToObserve) {
+            public SkillLevelBindings(ObjectProperty<Official> personnelToObserve) {
                 skillLevelsBinding = Bindings.
                         select(personnelToObserve, "skillLevels");
                 bind(skillLevelsBinding);
@@ -257,7 +257,8 @@ public abstract class FieldTeam extends Team {
             }
         }
     }
-    public boolean promotingTeamMemberToLeader(PersonnelMember member) {
+
+    public boolean promotingTeamMemberToLeader(Official member) {
         if (removeTeamMember(member)) {
             addTeamMember(getLeader());
             setLeader(member);

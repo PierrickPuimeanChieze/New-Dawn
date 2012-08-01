@@ -26,8 +26,8 @@ public class StellarSystem implements Serializable {
     private List<Star> stars = new ArrayList<>();
     private List<Planet> planets = new ArrayList<>();
     private List<Asteroid> asteroids = new ArrayList<>();
-    private ObservableList<Colony> colonies = FXCollections.observableArrayList();
-    
+    private ObservableList<Colony> colonies = FXCollections.
+            observableArrayList();
     private ObjectProperty<ObservableList<Squadron>> squadronsProperty;
 
     public List<Star> getStars() {
@@ -73,12 +73,10 @@ public class StellarSystem implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString()+"[name="+getName()+"]";
+        return super.toString() + "[name=" + getName() + "]";
     }
 
     public ObservableList<Colony> getColonies() {
         return colonies;
     }
-    
-    
 }

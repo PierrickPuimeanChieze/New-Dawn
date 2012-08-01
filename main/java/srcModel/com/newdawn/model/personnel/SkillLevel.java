@@ -26,7 +26,6 @@ public class SkillLevel {
         return skillProperty;
     }
 
-    
     public IntegerProperty levelProperty() {
         if (levelProperty == null) {
             levelProperty = new SimpleIntegerProperty(this, "level", 0);

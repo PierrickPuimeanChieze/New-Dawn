@@ -52,7 +52,8 @@ public class GeologicalController {
                     bodyModel.discoverInitialQuantities();
                     //TODO EVENT
                 } else {
-                    bodyModel.setInitialDiscoveryPoints(newInitialDiscoveryPoints);
+                    bodyModel.
+                            setInitialDiscoveryPoints(newInitialDiscoveryPoints);
                 }
 
             } else if (bodyModel.getFinalisationSkill() <= teamCumulatedSkill) {
@@ -88,7 +89,8 @@ public class GeologicalController {
                             getSkillLevelToDiscover();
                     if (newDiscoveryPoints >= config.
                             getPointsToDiscoverGeologicalDeposit()) {
-                        inspectedDeposit.getMineralModel().discoverDeposit(inspectedDeposit);
+                        inspectedDeposit.getMineralModel().
+                                discoverDeposit(inspectedDeposit);
                     } else {
                         inspectedDeposit.setDiscoveryPoints(newDiscoveryPoints);
                     }

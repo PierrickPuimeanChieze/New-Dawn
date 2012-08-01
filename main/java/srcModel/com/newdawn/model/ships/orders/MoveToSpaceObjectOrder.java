@@ -30,7 +30,8 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
 
     @Override
     public void applyOrder() {
-        LOG.trace("order [" + getShortDescription() + "] applied to squadron [" + getSquadron().
+        LOG.
+                trace("order [" + getShortDescription() + "] applied to squadron [" + getSquadron().
                 getName() + "]");
         getSquadron().setDestination(getDestination());
         setApplied(true);
@@ -63,7 +64,8 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
 
     @Override
     public void finalizeOrder() {
-        LOG.trace("[" + getShortDescription() + "] order for squadron [" + getSquadron().
+        LOG.
+                trace("[" + getShortDescription() + "] order for squadron [" + getSquadron().
                 getName() + "] finalized");
         getSquadron().setDestination(null);
     }
@@ -77,10 +79,12 @@ public class MoveToSpaceObjectOrder extends MoveOrder {
                     getPositionY());
             Point2D destinationPosition = new Point2D(getSquadron().
                     getDestination().
-                    getPositionX(), getSquadron().getDestination().getPositionY());
+                    getPositionX(), getSquadron().getDestination().
+                    getPositionY());
 
             //We calculate the distance to the destination 
-            double destinationDistance = squadronPosition.distance(destinationPosition);
+            double destinationDistance = squadronPosition.
+                    distance(destinationPosition);
             //If the maximum traveled distance is enough to reach the destination
             if (destinationDistance < traveledDistance) {
                 //We move the squadron to the destination
