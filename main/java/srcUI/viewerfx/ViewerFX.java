@@ -15,6 +15,7 @@ import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.ranks.NavalRank;
+import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.StellarSystem;
 import com.sun.javafx.collections.MyFilteredList;
@@ -80,13 +81,16 @@ public class ViewerFX extends Application {
         Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
         NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer("navalOfficer2", test2);
         navalOfficer1.setRank(NavalRank.A6);
-
+        NavalOfficer navalOfficer3 = officialController.createNewNavalOfficer("navalOfficer3", test2);
+        navalOfficer3.setRank(NavalRank.A6);
+        
         SkillLevel geologySkillLevel = navalOfficer1.skillLevelsProperty().get(geologySkill);
         geologySkillLevel.setLevel(50);
 
         gameData.getPersonnelMembers().add(navalOfficer1);
-        
-        teamController.createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
+        gameData.getPersonnelMembers().add(navalOfficer3);
+        final FieldTeam fieldTeam = teamController.createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
+        fieldTeam.addTeamMember(navalOfficer3);
     }
 
     @Override

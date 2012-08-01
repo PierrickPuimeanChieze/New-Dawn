@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeamController {
-
+    
     public static enum FieldTeamType {
 
         GEOLOGICAL
@@ -20,7 +20,7 @@ public class TeamController {
     @Autowired
     private GameData gameData;
 
-    public void createTeamWithLeader(PersonnelMember teamLeader, FieldTeamType fieldTeamType) {
+    public FieldTeam createTeamWithLeader(PersonnelMember teamLeader, FieldTeamType fieldTeamType) {
         assert teamLeader.getAssignment() == null;
         FieldTeam toReturn;
         switch (fieldTeamType) {
@@ -38,5 +38,6 @@ public class TeamController {
                 toLowerCase() + " team");
         toReturn.setLocalization(teamLeader.getLocalization());
         gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
+        return toReturn;
     }
 }

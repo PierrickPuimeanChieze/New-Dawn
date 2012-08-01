@@ -13,18 +13,24 @@ import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.MapBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.adapter.JavaBeanObjectProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Pierrick Puimean-Chieze
  */
 public class TeamManagementScreen implements Initializable {
-    
+
     @FXML //  fx:id="assignmentTextField"
     private TextField assignmentTextField; // Value injected by FXMLLoader
     @FXML //  fx:id="effectiveTeamSkilLevelTextField"
@@ -51,7 +57,7 @@ public class TeamManagementScreen implements Initializable {
     @FXML //  fx:id="nameColumn"
     private TableColumn<PersonnelMember, String> nameColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="skillColumn"
-    private TableColumn<PersonnelMember, SkillLevel> skillColumn; // Value injected by FXMLLoader
+    private TableColumn<PersonnelMember, Number> skillColumn; // Value injected by FXMLLoader
     @FXML //  fx:id="teamCumulativeSkillLevelLabel"
     private Label teamCumulativeSkillLevelLabel; // Value injected by FXMLLoader
     @FXML //  fx:id="teamInformationTitledPane"
@@ -71,7 +77,7 @@ public class TeamManagementScreen implements Initializable {
     public void launchTeamAssignmentChange(ActionEvent event) {
         // handle the event here
     }
-    
+
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert assignmentTextField != null : "fx:id=\"assignmentTextField\" was not injected: check your FXML file 'TeamManagementScreen.fxml'.";
@@ -94,7 +100,7 @@ public class TeamManagementScreen implements Initializable {
                 select(selectedTeamBinding, "teamSkill");
         //<editor-fold defaultstate="collapsed" desc="Initialize geologicalTeamsTreeItem">
         geologicalTeamsTreeItem = new TreeItem<>("Geological Teams");
-        
+
         for (GeologicalTeam sourceItem : gameData.getGeologicalTeams()) {
             geologicalTeamsTreeItem.getChildren().
                     add(new TreeItem<>(sourceItem));
@@ -132,16 +138,16 @@ public class TeamManagementScreen implements Initializable {
                 select(selectedTeamBinding, "leader");
         leaderNameTextField.textProperty().bind(Bindings.
                 selectString(leaderBinding, "name"));
-        
-        
+
+
         MapBinding<Skill, SkillLevel> leaderSkillLevelsBinding = new MapBinding<Skill, SkillLevel>() {
             final ObjectBinding<ObservableMap<Skill, SkillLevel>> skillLevelsBinding = Bindings.
                     select(leaderBinding, "skillLevels");
-            
+
             {
                 bind(skillLevelsBinding);
             }
-            
+
             @Override
             protected ObservableMap<Skill, SkillLevel> computeValue() {
                 return skillLevelsBinding.get();
@@ -165,5 +171,27 @@ public class TeamManagementScreen implements Initializable {
 
         //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="Initialize Team Members Information">
+        final ObjectBinding<ObservableList<PersonnelMember>> selectedTeamMembersBinding = Bindings.
+                select(selectedTeamBinding, "teamMembers");
+        membersTableView.itemsProperty().bind(selectedTeamMembersBinding);
+        nameColumn.
+                setCellValueFactory(new PropertyValueFactory<PersonnelMember, String>("name"));
+        skillColumn.textProperty().bind(Bindings.
+                selectString(selectedTeamSkillBinding, "name"));
+        skillColumn.
+                setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PersonnelMember, Number>, ObservableValue<Number>>() {
+                    @Override
+                    public ObservableValue<Number> call(CellDataFeatures<PersonnelMember, Number> param) {
+                        PersonnelMember member = param.getValue();
+                        final IntegerBinding skillLevelValueBinding = Bindings.
+                                selectInteger(Bindings.valueAt(member.
+                                skillLevelsProperty(), selectedTeamSkillBinding.get()), "level");
+                        IntegerProperty toReturn = new SimpleIntegerProperty();
+                        toReturn.bind(skillLevelValueBinding);
+                        return toReturn;
+                    }
+                });
+        //</editor-fold>
     }
 }

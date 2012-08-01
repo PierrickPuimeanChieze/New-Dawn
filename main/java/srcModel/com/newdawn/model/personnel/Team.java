@@ -1,7 +1,9 @@
 package com.newdawn.model.personnel;
 
-import java.util.Observable;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,17 +16,24 @@ public abstract class Team implements Assignment {
 
     protected abstract String[] validateAddition(PersonnelMember teamMember);
     private ObjectProperty<PersonnelMember> leaderProperty;
-    private ObservableList<PersonnelMember> teamMembers = FXCollections.
-            observableArrayList();
-
+    private ListProperty<PersonnelMember> teamMembersProperty;
+    
+    //TODO ajouter une verification sur la liste
+    public ListProperty teamMembersProperty() {
+        if (teamMembersProperty == null) {
+            final ObservableList<PersonnelMember> teamMembers = FXCollections.observableArrayList();
+            teamMembersProperty = new SimpleListProperty<>(this, "teamMembers", teamMembers);
+        }
+        return teamMembersProperty;
+    }
     public ObservableList<PersonnelMember> getTeamMembers() {
-        return FXCollections.unmodifiableObservableList(teamMembers);
+        return teamMembersProperty().getValue();
     }
 
     public void addTeamMember(PersonnelMember teamMember) {
         String[] validateAdditionErrors = validateAddition(teamMember);
         if (validateAdditionErrors != null) {
-            teamMembers.add(teamMember);
+            teamMembersProperty().add(teamMember);
         } else {
             //TODO :Change the exception type
             StringBuilder message = new StringBuilder();
@@ -37,7 +46,7 @@ public abstract class Team implements Assignment {
     }
 
     public boolean removeTeamMember(PersonnelMember teamMember) {
-        return teamMembers.remove(teamMember);
+        return teamMembersProperty().remove(teamMember);
     }
 
     public ObjectProperty<PersonnelMember> leaderProperty() {
