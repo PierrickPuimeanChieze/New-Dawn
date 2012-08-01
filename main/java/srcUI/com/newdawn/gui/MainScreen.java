@@ -275,7 +275,8 @@ public class MainScreen implements Initializable {
                     put(geoSkill, geoSkillLevel);
         }
         geoSkillLevel.setLevel(75);
-
+        final PersonnelMember navalOfficer3 = officialsFactory.getPersonnelMemberByName("navalOfficer3");
+        navalOfficer3.skillLevelsProperty().get(geoSkill).setLevel(75);
         Colony test = new Colony();
         test.setPopulation(100_000_000);
         test.setPopulationGrowRate(1);
