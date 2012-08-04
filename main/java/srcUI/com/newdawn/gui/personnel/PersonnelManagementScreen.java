@@ -1,6 +1,5 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.model.personnel.team.TeamAssignment;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
@@ -57,6 +56,8 @@ public class PersonnelManagementScreen
     private Skill[] skills;
     @Autowired
     private TeamController teamController;
+    @Autowired
+    private AssignementFilter assignementFilters;
     private ObservableList<Official> officialFilteredList = FXCollections.
             observableArrayList();
     private final CompositeMatcher<Official> compositeMatcher = new CompositeMatcher<>();
@@ -114,7 +115,7 @@ public class PersonnelManagementScreen
     private ListView<SkillLevel> skillsListView;
     //TODO implements the filter
     @FXML
-    private ComboBox assignmentsFilterComboBox;
+    private ComboBox<AssignementFilter> assignmentsFilterComboBox;
     //TODO correct variable name
     @FXML
     private ListView<PersonnelAssignment> assigmentsListView;
@@ -162,7 +163,7 @@ public class PersonnelManagementScreen
             }
         });
         Bindings.
-                    bindContent(officialsFilteredTableView.getItems(), officialFilteredList);
+                bindContent(officialsFilteredTableView.getItems(), officialFilteredList);
         gameData.getOfficials().addListener(new ListChangeListener<Official>() {
             @Override
             public void onChanged(Change<? extends Official> arg0) {
@@ -227,12 +228,12 @@ public class PersonnelManagementScreen
                                         selectInteger(official.
                                         skillLevelsProperty().valueAt(skill), "level");
                                 selectInteger.
-                                        addListener(new ChangeListener<Number>() {
-                                    @Override
-                                    public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-                                        updateFilters(null);
-                                    }
-                                });
+                                addListener(new ChangeListener<Number>() {
+                            @Override
+                            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
+                                updateFilters(null);
+                            }
+                        });
                                 return selectInteger;
                             }
                         });
@@ -296,10 +297,30 @@ public class PersonnelManagementScreen
         updateFilters(null);
 
 
-        Bindings.bindContent(assigmentsListView.getItems(), gameData.
-                getGeologicalTeams());
+
+        //<editor-fold defaultstate="collapsed" desc="Initialize assignements ListView and Filters">
+
+        final ListBinding<PersonnelAssignment> filteredAssignementBinding = new ListBinding<PersonnelAssignment>() {
+            final ObjectBinding<ObservableList<PersonnelAssignment>> internalBinding = Bindings.
+                select(assignmentsFilterComboBox.getSelectionModel().
+                selectedItemProperty(), "assignments");
+            {
+                bind(internalBinding);
+            }
+            @Override
+            protected ObservableList<PersonnelAssignment> computeValue() {
+                return internalBinding.get();
+            }
+        };
+        
+        Bindings.bindContent(assigmentsListView.getItems(), filteredAssignementBinding);
         assigmentsListView.
                 setCellFactory(new PropertyListCellFactory<PersonnelAssignment>("name", null));
+
+        assignmentsFilterComboBox.getItems().clear();
+        assignmentsFilterComboBox.getItems().addAll(assignementFilters);
+        assignmentsFilterComboBox.setCellFactory(new PropertyListCellFactory<AssignementFilter>("name", null));
+
         createTeamMenuItem.disableProperty().bind(Bindings.
                 select(officialsFilteredTableView.selectionModelProperty(), "selectedItem").
                 isNull());
@@ -345,13 +366,13 @@ public class PersonnelManagementScreen
             skillsListView.getItems().addAll(selectedMember.getSkillLevels().
                     values());
             Collections.
-                    sort(skillsListView.getItems(), new Comparator<SkillLevel>() {
-                @Override
-                public int compare(SkillLevel arg0, SkillLevel arg1) {
-                    return arg0.getSkill().getName().compareTo(arg1.getSkill().
-                            getName());
-                }
-            });
+            sort(skillsListView.getItems(), new Comparator<SkillLevel>() {
+        @Override
+        public int compare(SkillLevel arg0, SkillLevel arg1) {
+            return arg0.getSkill().getName().compareTo(arg1.getSkill().
+                    getName());
+        }
+    });
         }
     }
 

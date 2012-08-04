@@ -18,14 +18,13 @@ import com.newdawn.model.personnel.ranks.NavalRank;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.StellarSystem;
-import com.sun.javafx.collections.MyFilteredList;
-import com.sun.javafx.collections.transformation.Matcher;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -106,7 +105,6 @@ public class ViewerFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().
                     getResource("/com/newdawn/gui/MainScreen.fxml"));

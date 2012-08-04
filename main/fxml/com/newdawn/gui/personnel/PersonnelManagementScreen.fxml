@@ -198,7 +198,7 @@
         </TabPane>
         <ScrollPane id="ScrollPane" fitToWidth="true" prefViewportHeight="400.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
           <content>
-            <TableView id="filteredPersonnelTableView" fx:id="officialFilteredTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0">
+            <TableView id="filteredPersonnelTableView" fx:id="officialsFilteredTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="300.0">
               <columns>
                 <TableColumn text="Rank" fx:id="personnelRankColumn">
                   <prefWidth>

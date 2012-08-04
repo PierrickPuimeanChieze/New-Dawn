@@ -6,6 +6,7 @@ package com.newdawn.model.system;
 
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
+import javafx.beans.property.ReadOnlyStringProperty;
 
 /**
  *
@@ -27,5 +28,10 @@ public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
     @Override
     public void setMinerallyExploitableBodyModel(MinerallyExploitableBodyModel minerallyExploitableBodyModel) {
         this.minerallyExploitableBodyModel = minerallyExploitableBodyModel;
+    }
+
+    @Override
+    public ReadOnlyStringProperty visualNameProperty() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

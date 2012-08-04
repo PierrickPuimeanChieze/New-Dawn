@@ -9,7 +9,8 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.newdawn.controllers"/>
     
-    <import resource="classpath:/spring/fxcontrollers.xml"/> 
-    <import resource="classpath:/spring/mineral.xml"/> 
-    <import resource="classpath:/spring/skills.xml"/> 
+    <import resource="fxcontrollers.xml"/> 
+    <import resource="mineral.xml"/> 
+    <import resource="skills.xml"/> 
+    <import resource="personnelAssignmentsFilters.xml"/>
 </beans>
