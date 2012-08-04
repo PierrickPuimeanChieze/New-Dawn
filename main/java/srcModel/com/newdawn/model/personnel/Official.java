@@ -1,5 +1,6 @@
 package com.newdawn.model.personnel;
 
+import com.newdawn.model.personnel.team.TeamAssignment;
 import com.newdawn.model.personnel.ranks.Rank;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -13,7 +14,7 @@ public abstract class Official {
 
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
-    private ObjectProperty<Assignment> assignmentProperty;
+    private ObjectProperty<TeamAssignment> assignmentProperty;
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
     protected ObjectProperty<Rank> rankProperty = new SimpleObjectProperty<>(this, "rank");
 
@@ -25,7 +26,7 @@ public abstract class Official {
         return rankProperty.get();
     }
 
-    public ObjectProperty<Assignment> assignmentProperty() {
+    public ObjectProperty<TeamAssignment> assignmentProperty() {
         if (assignmentProperty == null) {
             assignmentProperty = new SimpleObjectProperty<>(this, "assignement");
         }
@@ -37,7 +38,7 @@ public abstract class Official {
      *
      * @return the value of assignment
      */
-    public Assignment getAssignment() {
+    public TeamAssignment getAssignment() {
         return assignmentProperty().getValue();
     }
 
@@ -46,7 +47,7 @@ public abstract class Official {
      *
      * @param assignement new value of assignment
      */
-    public void setAssignment(Assignment assignement) {
+    public void setAssignment(TeamAssignment assignement) {
         this.assignmentProperty().setValue(assignement);
     }
 

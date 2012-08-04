@@ -4,7 +4,6 @@ import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
-import com.newdawn.model.personnel.Team;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.beans.binding.Bindings;
@@ -16,6 +15,7 @@ import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyLongProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -34,9 +34,35 @@ public abstract class FieldTeam extends Team {
     private int internalCounter = 0;
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
+    
     private LongProperty cumulatedSkillLevelProperty;
     private LongBinding cumulatedSkillLevelBinding;
     private ReadOnlyObjectProperty<Skill> teamSkillProperty;
+    private ObjectProperty<PersonnelLocalisation> assignementProperty = new SimpleObjectProperty<>(this, "assignement");;
+    private StringProperty visualNameProperty;
+
+    public ReadOnlyObjectProperty<PersonnelLocalisation> assignementProperty() {
+        return assignementProperty;
+    }
+
+    /**
+     * Get the value of assignementProperty
+     *
+     * @return the value of assignementProperty
+     */
+    public PersonnelLocalisation getAssignementProperty() {
+        return assignementProperty().getValue();
+    }
+
+    /**
+     * Set the value of assignementProperty
+     *
+     * @param assignementProperty new value of assignementProperty
+     */
+    public void setAssignementProperty(PersonnelLocalisation assignementProperty) {
+        this.assignementProperty.setValue(assignementProperty);
+    }
+
 
     public FieldTeam() {
     }
@@ -68,7 +94,6 @@ public abstract class FieldTeam extends Team {
      *
      * @return the value of name
      */
-    @Override
     public String getName() {
         return nameProperty().getValue();
     }
@@ -78,7 +103,6 @@ public abstract class FieldTeam extends Team {
      *
      * @param name new value of name
      */
-    @Override
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
@@ -267,4 +291,15 @@ public abstract class FieldTeam extends Team {
             return false;
         }
     }
+
+    @Override
+    public ReadOnlyStringProperty visualNameProperty() {
+        if (visualNameProperty == null) {
+            visualNameProperty = new SimpleStringProperty(this, "visualName");
+            visualNameProperty.bind(nameProperty());
+        }
+        return visualNameProperty;
+    }
+    
+    
 }

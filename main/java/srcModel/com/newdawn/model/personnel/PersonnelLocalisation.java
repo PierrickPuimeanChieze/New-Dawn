@@ -9,6 +9,6 @@ import javafx.beans.property.StringProperty;
  */
 public interface PersonnelLocalisation {
 
-    public ReadOnlyStringProperty localizationNameProperty();
-//    public String getLocalizationName();
+    public ReadOnlyStringProperty visualNameProperty();
+
 }

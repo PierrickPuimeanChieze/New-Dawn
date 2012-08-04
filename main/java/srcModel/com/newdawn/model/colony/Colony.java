@@ -286,7 +286,7 @@ public class Colony implements PersonnelLocalisation {
     }
 
     @Override
-    public ReadOnlyStringProperty localizationNameProperty() {
+    public ReadOnlyStringProperty visualNameProperty() {
         if (localizationNameProperty == null) {
             localizationNameProperty = new SimpleStringProperty();
             localizationNameProperty.bind(Bindings.

@@ -1,5 +1,7 @@
-package com.newdawn.model.personnel;
+package com.newdawn.model.personnel.team;
 
+import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.PersonnelAssignment;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -12,7 +14,7 @@ import javafx.collections.ObservableList;
  *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class Team implements Assignment {
+public abstract class Team  implements PersonnelAssignment{
 
     protected abstract String[] validateAddition(Official teamMember);
     private ObjectProperty<Official> leaderProperty;

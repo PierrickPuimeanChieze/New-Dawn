@@ -128,7 +128,7 @@ public class TeamManagementScreen implements Initializable {
 //                selectedItemProperty(), "value", "assig");
         locationTextFiedl.textProperty().bind(StringExpression.
                 stringExpression(Bindings.
-                selectString(selectedTeamBinding, "localization", "localizationName")));
+                selectString(selectedTeamBinding, "localization", "visualName")));
         effectiveTeamSkilLevelTextField.textProperty().bind(StringExpression.
                 stringExpression(Bindings.
                 selectLong(selectedTeamBinding, "cumulatedSkillLevel")));

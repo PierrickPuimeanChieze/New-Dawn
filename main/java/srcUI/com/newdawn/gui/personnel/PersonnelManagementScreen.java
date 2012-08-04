@@ -1,5 +1,6 @@
 package com.newdawn.gui.personnel;
 
+import com.newdawn.model.personnel.team.TeamAssignment;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
@@ -78,7 +79,7 @@ public class PersonnelManagementScreen
     @FXML //  fx:id="civilianAdministratorCheckBox"
     private CheckBox civilianAdministratorCheckBox; // Value injected by FXMLLoader
     @FXML //  fx:id="filteredPersonnelTableView"
-    private TableView<Official> filteredPersonnelTableView; // Value injected by FXMLLoader
+    private TableView<Official> officialsFilteredTableView; // Value injected by FXMLLoader
     @FXML //  fx:id="groundOfficerFilterCheckBox"
     private CheckBox groundOfficerFilterCheckBox; // Value injected by FXMLLoader
     @FXML //  fx:id="navalOfficerFilterCheckBox"
@@ -116,14 +117,14 @@ public class PersonnelManagementScreen
     private ComboBox assignmentsFilterComboBox;
     //TODO correct variable name
     @FXML
-    private ListView<Assignment> assigmentsListView;
+    private ListView<PersonnelAssignment> assigmentsListView;
     @FXML //  fx:id="createTeamMenuItem"
     private MenuItem createTeamMenuItem; // Value injected by FXMLLoader
 
     @Override // This method is called by the FXMLLoader when initialization is complete
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
         assert civilianAdministratorCheckBox != null : "fx:id=\"civilianAdministratorCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
-        assert filteredPersonnelTableView != null : "fx:id=\"filteredPersonnelTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
+        assert officialsFilteredTableView != null : "fx:id=\"filteredPersonnelTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert groundOfficerFilterCheckBox != null : "fx:id=\"groundOfficerFilterCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert navalOfficerFilterCheckBox != null : "fx:id=\"navalOfficerFilterCheckBox\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
         assert personnelNameColumn != null : "fx:id=\"personnelNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
@@ -161,15 +162,7 @@ public class PersonnelManagementScreen
             }
         });
         Bindings.
-                bindContent(filteredPersonnelTableView.getItems(), officialFilteredList);
-        filteredPersonnelTableView.getSelectionModel().selectedItemProperty().
-                addListener(new ChangeListener<Official>() {
-            @Override
-            public void changed(ObservableValue<? extends Official> arg0, Official arg1, Official arg2) {
-
-                System.out.println(arg2 == null ? null : arg2.getName());
-            }
-        });
+                    bindContent(officialsFilteredTableView.getItems(), officialFilteredList);
         gameData.getOfficials().addListener(new ListChangeListener<Official>() {
             @Override
             public void onChanged(Change<? extends Official> arg0) {
@@ -243,7 +236,7 @@ public class PersonnelManagementScreen
                                 return selectInteger;
                             }
                         });
-                        filteredPersonnelTableView.getColumns().add(skillColumn);
+                        officialsFilteredTableView.getColumns().add(skillColumn);
                     }
 
                     for (SkillFilter skillFilter : arg0.getRemoved()) {
@@ -251,7 +244,7 @@ public class PersonnelManagementScreen
                         TableColumn<Official, Number> column = skillFiltersColumn.
                                 remove(skill);
                         if (column != null) {
-                            filteredPersonnelTableView.getColumns().
+                            officialsFilteredTableView.getColumns().
                                     remove(column);
                         }
                     }
@@ -264,7 +257,7 @@ public class PersonnelManagementScreen
 //</editor-fold>
 
         final ObjectBinding<Official> selectedPersonnel = Bindings.
-                select(filteredPersonnelTableView.
+                select(officialsFilteredTableView.
                 selectionModelProperty(), "selectedItem");
 
         detailsPaneController.officialProperty().bind(selectedPersonnel);
@@ -306,9 +299,9 @@ public class PersonnelManagementScreen
         Bindings.bindContent(assigmentsListView.getItems(), gameData.
                 getGeologicalTeams());
         assigmentsListView.
-                setCellFactory(new PropertyListCellFactory<Assignment>("name", null));
+                setCellFactory(new PropertyListCellFactory<PersonnelAssignment>("name", null));
         createTeamMenuItem.disableProperty().bind(Bindings.
-                select(filteredPersonnelTableView.selectionModelProperty(), "selectedItem").
+                select(officialsFilteredTableView.selectionModelProperty(), "selectedItem").
                 isNull());
     }
 
@@ -346,7 +339,7 @@ public class PersonnelManagementScreen
     //TODO try to use a binding
     private void updateSkills() {
         skillsListView.getItems().clear();
-        Official selectedMember = filteredPersonnelTableView.
+        Official selectedMember = officialsFilteredTableView.
                 getSelectionModel().getSelectedItem();
         if (selectedMember != null) {
             skillsListView.getItems().addAll(selectedMember.getSkillLevels().
@@ -363,7 +356,7 @@ public class PersonnelManagementScreen
     }
 
     public void createTeam(ActionEvent event) {
-        Official selectedPersonnel = filteredPersonnelTableView.
+        Official selectedPersonnel = officialsFilteredTableView.
                 getSelectionModel().getSelectedItem();
         assert selectedPersonnel != null;
         teamController.

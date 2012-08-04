@@ -105,7 +105,7 @@ public class Ship implements SpaceObject, PersonnelLocalisation {
     }
 
     @Override
-    public ReadOnlyStringProperty localizationNameProperty() {
+    public ReadOnlyStringProperty visualNameProperty() {
         if (localizationNameProperty == null) {
             localizationNameProperty = new SimpleStringProperty();
             //TODO use a configurable String for the Ship, before the name, like HMS, RMS, and so on.
