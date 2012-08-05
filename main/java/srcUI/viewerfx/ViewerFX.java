@@ -100,7 +100,7 @@ public class ViewerFX extends Application {
         gameData.getOfficials().add(navalOfficer3);
         final FieldTeam fieldTeam = teamController.
                 createTeamWithLeader(navalOfficer1, TeamController.FieldTeamType.GEOLOGICAL);
-        fieldTeam.addTeamMember(navalOfficer3);
+        teamController.addMemberToTeam(navalOfficer3, fieldTeam);
     }
 
     @Override

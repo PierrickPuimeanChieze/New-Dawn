@@ -1,5 +1,6 @@
 package com.newdawn.model.personnel.team;
 
+import com.newdawn.controllers.TeamController.FieldTeamType;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Official;
@@ -51,6 +52,11 @@ public class GeologicalTeam extends FieldTeam {
 
     public void setAssignementProperty(MinerallyExploitableBody assignementProperty) {
         super.setAssignementProperty(assignementProperty);
+    }
+
+    @Override
+    public FieldTeamType getType() {
+        return FieldTeamType.GEOLOGICAL;
     }
     
     

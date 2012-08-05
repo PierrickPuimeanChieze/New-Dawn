@@ -14,7 +14,7 @@ public abstract class Official {
 
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
-    private ObjectProperty<TeamAssignment> assignmentProperty;
+    private ObjectProperty<PersonnelAssignment> assignmentProperty;
     private MapProperty<Skill, SkillLevel> skillLevelsProperty;
     protected ObjectProperty<Rank> rankProperty = new SimpleObjectProperty<>(this, "rank");
 
@@ -26,7 +26,7 @@ public abstract class Official {
         return rankProperty.get();
     }
 
-    public ObjectProperty<TeamAssignment> assignmentProperty() {
+    public ObjectProperty<PersonnelAssignment> assignmentProperty() {
         if (assignmentProperty == null) {
             assignmentProperty = new SimpleObjectProperty<>(this, "assignement");
         }
@@ -38,7 +38,7 @@ public abstract class Official {
      *
      * @return the value of assignment
      */
-    public TeamAssignment getAssignment() {
+    public PersonnelAssignment getAssignment() {
         return assignmentProperty().getValue();
     }
 
@@ -47,7 +47,7 @@ public abstract class Official {
      *
      * @param assignement new value of assignment
      */
-    public void setAssignment(TeamAssignment assignement) {
+    public void setAssignment(PersonnelAssignment assignement) {
         this.assignmentProperty().setValue(assignement);
     }
 

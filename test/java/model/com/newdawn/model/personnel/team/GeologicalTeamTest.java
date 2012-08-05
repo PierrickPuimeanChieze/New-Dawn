@@ -1,17 +1,15 @@
 package com.newdawn.model.personnel.team;
 
 import com.newdawn.controllers.OfficialsController;
+import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import viewerfx.ViewerFX;
 
 /**
@@ -22,6 +20,7 @@ public class GeologicalTeamTest {
 
     private static ApplicationContext context;
     private static OfficialsController officialsController;
+    private static TeamController   teamController;
     private static Skill geologySkill;
     private static Skill leadershipSkill;
 
@@ -31,6 +30,7 @@ public class GeologicalTeamTest {
         viewerFX.init();
         context = viewerFX.getSprintContainer();
         officialsController = context.getBean(OfficialsController.class);
+        teamController = context.getBean(TeamController.class);
         geologySkill = context.getBean("geology", Skill.class);
         leadershipSkill = context.getBean("leadership", Skill.class);
     }
@@ -41,7 +41,7 @@ public class GeologicalTeamTest {
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer", null);
         testLeader.skillLevelsProperty().get(geologySkill).setLevel(50);
-        geologicalTeam.setLeader(testLeader);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(50L)));
     }
 
@@ -53,7 +53,7 @@ public class GeologicalTeamTest {
         final SkillLevel geologySkillLevel = testLeader.skillLevelsProperty().
                 get(geologySkill);
         geologySkillLevel.setLevel(50);
-        geologicalTeam.setLeader(testLeader);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(50L)));
         geologySkillLevel.setLevel(75);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(75L)));
@@ -75,8 +75,8 @@ public class GeologicalTeamTest {
         leaderGeoSkillLevel.setLevel(40);
         leaderLeadSkillLevel.setLevel(50);
         memberGeoSkillLevel.setLevel(50);
-        geologicalTeam.setLeader(testLeader);
-        geologicalTeam.addTeamMember(testMember);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
+        teamController.addMemberToTeam(testMember, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(90L)));
 
         leaderLeadSkillLevel.setLevel(20);
@@ -101,8 +101,8 @@ public class GeologicalTeamTest {
         leaderGeoSkillLevel.setLevel(40);
         leaderLeadSkillLevel.setLevel(50);
         memberGeoSkillLevel.setLevel(50);
-        geologicalTeam.setLeader(testLeader);
-        geologicalTeam.addTeamMember(testMember);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
+        teamController.addMemberToTeam(testMember, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(90L)));
 
         memberGeoSkillLevel.setLevel(60);
@@ -125,8 +125,8 @@ public class GeologicalTeamTest {
         leaderGeoSkillLevel.setLevel(30);
         leaderLeadSkillLevel.setLevel(50);
         memberGeoSkillLevel.setLevel(50);
-        geologicalTeam.setLeader(testLeader);
-        geologicalTeam.addTeamMember(testMember);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
+        teamController.addMemberToTeam(testMember, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(80L)));
 
         final NavalOfficer newMember = officialsController.
@@ -136,7 +136,7 @@ public class GeologicalTeamTest {
                 get(geologySkill);
 
         newMemberGeoSkillLevel.setLevel(60);
-        geologicalTeam.addTeamMember(newMember);
+        teamController.addMemberToTeam(newMember, geologicalTeam);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(150L)));
     }
 
@@ -163,12 +163,12 @@ public class GeologicalTeamTest {
         leaderLeadSkillLevel.setLevel(50);
         memberGeoSkillLevel.setLevel(50);
         secondMemberGeoSkillLevel.setLevel(60);
-        geologicalTeam.setLeader(testLeader);
-        geologicalTeam.addTeamMember(testMember);
-        geologicalTeam.addTeamMember(secondMember);
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
+        teamController.addMemberToTeam(testMember, geologicalTeam);
+        teamController.addMemberToTeam(secondMember, geologicalTeam);
 
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(150L)));
-        geologicalTeam.removeTeamMember(secondMember);
+        teamController.removeTeamMember(geologicalTeam, secondMember);
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(80L)));
     }
 
@@ -199,12 +199,13 @@ public class GeologicalTeamTest {
         memberGeoSkillLevel.setLevel(50);
         secondMemberGeoSkillLevel.setLevel(60);
         secondMemberLeadSkillLevel.setLevel(10);
-        geologicalTeam.setLeader(testLeader);
-        geologicalTeam.addTeamMember(testMember);
-        geologicalTeam.addTeamMember(secondMember);
+        
+        teamController.setLeaderForTeam(testLeader, geologicalTeam);
+        teamController.addMemberToTeam(testMember, geologicalTeam);
+        teamController.addMemberToTeam(secondMember, geologicalTeam);
 
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(150L)));
-        assertThat(geologicalTeam.promotingTeamMemberToLeader(secondMember), is(true));
+        assertThat(teamController.promotingTeamMemberToLeader(geologicalTeam, secondMember), is(true));
         assertThat(geologicalTeam.cumulatedSkillLevelProperty().getValue(), is(equalTo(112L)));
     }
 }

@@ -1,5 +1,6 @@
 package com.newdawn.model.personnel.team;
 
+import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
@@ -28,7 +29,7 @@ import viewerfx.ViewerFX;
  *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class FieldTeam extends Team {
+public abstract class FieldTeam extends Team  {
 
     //TODO add an assignment property
     private int internalCounter = 0;
@@ -143,7 +144,7 @@ public abstract class FieldTeam extends Team {
     }
 
     @Override
-    protected String[] validateAddition(Official teamMember) {
+    public String[] validateAddition(Official teamMember) {
         int maxSize = calculateMaxSize();
         if (getTeamMembers().size() >= maxSize) {
             return new String[]{"Max size reached"};
@@ -282,15 +283,7 @@ public abstract class FieldTeam extends Team {
         }
     }
 
-    public boolean promotingTeamMemberToLeader(Official member) {
-        if (removeTeamMember(member)) {
-            addTeamMember(getLeader());
-            setLeader(member);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     @Override
     public ReadOnlyStringProperty visualNameProperty() {
@@ -301,5 +294,5 @@ public abstract class FieldTeam extends Team {
         return visualNameProperty;
     }
     
-    
+    public abstract TeamController.FieldTeamType getType() ;
 }
