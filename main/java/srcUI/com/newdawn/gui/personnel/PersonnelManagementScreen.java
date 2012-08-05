@@ -302,24 +302,28 @@ public class PersonnelManagementScreen
 
         final ListBinding<PersonnelAssignment> filteredAssignementBinding = new ListBinding<PersonnelAssignment>() {
             final ObjectBinding<ObservableList<PersonnelAssignment>> internalBinding = Bindings.
-                select(assignmentsFilterComboBox.getSelectionModel().
-                selectedItemProperty(), "assignments");
+                    select(assignmentsFilterComboBox.getSelectionModel().
+                    selectedItemProperty(), "assignments");
+
             {
                 bind(internalBinding);
             }
+
             @Override
             protected ObservableList<PersonnelAssignment> computeValue() {
                 return internalBinding.get();
             }
         };
-        
-        Bindings.bindContent(assigmentsListView.getItems(), filteredAssignementBinding);
+
+        Bindings.
+                bindContent(assigmentsListView.getItems(), filteredAssignementBinding);
         assigmentsListView.
                 setCellFactory(new PropertyListCellFactory<PersonnelAssignment>("name", null));
 
         assignmentsFilterComboBox.getItems().clear();
         assignmentsFilterComboBox.getItems().addAll(assignementFilters);
-        assignmentsFilterComboBox.setCellFactory(new PropertyListCellFactory<AssignementFilter>("name", null));
+        assignmentsFilterComboBox.
+                setCellFactory(new PropertyListCellFactory<AssignementFilter>("name", null));
 
         createTeamMenuItem.disableProperty().bind(Bindings.
                 select(officialsFilteredTableView.selectionModelProperty(), "selectedItem").

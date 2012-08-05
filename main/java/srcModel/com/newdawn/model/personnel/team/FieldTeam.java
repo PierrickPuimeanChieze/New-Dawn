@@ -29,17 +29,16 @@ import viewerfx.ViewerFX;
  *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class FieldTeam extends Team  {
+public abstract class FieldTeam extends Team {
 
     //TODO add an assignment property
     private int internalCounter = 0;
     private StringProperty nameProperty;
     private ObjectProperty<PersonnelLocalisation> localizationProperty;
-    
     private LongProperty cumulatedSkillLevelProperty;
     private LongBinding cumulatedSkillLevelBinding;
     private ReadOnlyObjectProperty<Skill> teamSkillProperty;
-    private ObjectProperty<PersonnelLocalisation> assignementProperty = new SimpleObjectProperty<>(this, "assignement");;
+    private ObjectProperty<PersonnelLocalisation> assignementProperty = new SimpleObjectProperty<>(this, "assignement");
     private StringProperty visualNameProperty;
 
     public ReadOnlyObjectProperty<PersonnelLocalisation> assignementProperty() {
@@ -63,7 +62,6 @@ public abstract class FieldTeam extends Team  {
     public void setAssignementProperty(PersonnelLocalisation assignementProperty) {
         this.assignementProperty.setValue(assignementProperty);
     }
-
 
     public FieldTeam() {
     }
@@ -283,8 +281,6 @@ public abstract class FieldTeam extends Team  {
         }
     }
 
-    
-
     @Override
     public ReadOnlyStringProperty visualNameProperty() {
         if (visualNameProperty == null) {
@@ -293,6 +289,6 @@ public abstract class FieldTeam extends Team  {
         }
         return visualNameProperty;
     }
-    
-    public abstract TeamController.FieldTeamType getType() ;
+
+    public abstract TeamController.FieldTeamType getType();
 }

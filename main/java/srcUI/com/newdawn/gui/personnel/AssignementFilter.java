@@ -14,12 +14,11 @@ import javafx.collections.ObservableList;
 public class AssignementFilter {
 
     private StringProperty nameProperty;
-    
     private ListProperty<PersonnelAssignment> assignmentsProperty;
 
     public ListProperty<PersonnelAssignment> assignmentsProperty() {
         if (assignmentsProperty == null) {
-            assignmentsProperty = new SimpleListProperty<> (this, "assignments");
+            assignmentsProperty = new SimpleListProperty<>(this, "assignments");
         }
         return assignmentsProperty;
     }
@@ -41,7 +40,6 @@ public class AssignementFilter {
     public void setAssignments(ObservableList<PersonnelAssignment> assignments) {
         this.assignmentsProperty().setValue(assignments);
     }
-
 
     public StringProperty nameProperty() {
         if (nameProperty == null) {
@@ -67,5 +65,4 @@ public class AssignementFilter {
     public void setName(String name) {
         this.nameProperty().setValue(name);
     }
-
 }

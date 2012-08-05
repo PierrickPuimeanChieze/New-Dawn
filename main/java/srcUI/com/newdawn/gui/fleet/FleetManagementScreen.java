@@ -94,12 +94,13 @@ public class FleetManagementScreen implements Initializable {
                     select(squadronProperty(), "contextualStellarSystem");
             stellarSystemProperty.bind(select);
             stellarSystemProperty.
-            addListener(new ChangeListener<StellarSystem>() {
-        @Override
-        public void changed(ObservableValue<? extends StellarSystem> arg0, StellarSystem arg1, StellarSystem arg2) {
-            LOG.debug("stellar System changed from" + arg1 + " to " + arg2);
-        }
-    });
+                    addListener(new ChangeListener<StellarSystem>() {
+                @Override
+                public void changed(ObservableValue<? extends StellarSystem> arg0, StellarSystem arg1, StellarSystem arg2) {
+                    LOG.
+                            debug("stellar System changed from" + arg1 + " to " + arg2);
+                }
+            });
         }
         return stellarSystemProperty;
     }

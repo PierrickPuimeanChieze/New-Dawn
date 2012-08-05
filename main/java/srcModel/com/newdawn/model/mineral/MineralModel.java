@@ -41,13 +41,13 @@ public class MineralModel {
 
         this.undiscoveredDeposits.addAll(deposits);
         Collections.
-            sort(undiscoveredDeposits, new Comparator<MineralDeposit>() {
-        @Override
-        public int compare(MineralDeposit arg0, MineralDeposit arg1) {
-            return arg0.getSkillLevelToDiscover().compareTo(arg1.
-                    getSkillLevelToDiscover());
-        }
-    });
+                sort(undiscoveredDeposits, new Comparator<MineralDeposit>() {
+            @Override
+            public int compare(MineralDeposit arg0, MineralDeposit arg1) {
+                return arg0.getSkillLevelToDiscover().compareTo(arg1.
+                        getSkillLevelToDiscover());
+            }
+        });
     }
 
     public Mineral getMineral() {

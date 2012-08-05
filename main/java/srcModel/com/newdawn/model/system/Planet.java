@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Pierrick Puimean-Chieze
  */
-public class Planet extends OrbitalBody   {
+public class Planet extends OrbitalBody {
 
     public Planet(String name, PlanetaryClass planetaryClass, Orbit orbit, long diameter) {
         this(name, planetaryClass, orbit, diameter, 0.0, null);

@@ -1,4 +1,3 @@
-
 package com.newdawn.controllers;
 
 /**
@@ -10,5 +9,4 @@ public class PersonnelAssignmentException extends RuntimeException {
     public PersonnelAssignmentException(String message, Object... format) {
         super(String.format(message, format));
     }
-
 }

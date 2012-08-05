@@ -14,7 +14,7 @@ import javafx.collections.ObservableList;
  *
  * @author Pierrick Puimean-Chieze
  */
-public abstract class Team  implements PersonnelAssignment {
+public abstract class Team implements PersonnelAssignment {
 
     public abstract String[] validateAddition(Official teamMember);
     private ObjectProperty<Official> leaderProperty;

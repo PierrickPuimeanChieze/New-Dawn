@@ -126,7 +126,8 @@ public class TeamManagementScreen implements Initializable {
 //        assignmentTextField.textProperty().bind((Bindings.
 //                selectString(teamsTreeView.getSelectionModel().
 //                selectedItemProperty(), "value", "assig");
-        locationTextFiedl.textProperty().bind(StringExpression.
+        locationTextFiedl.textProperty().
+                bind(StringExpression.
                 stringExpression(Bindings.
                 selectString(selectedTeamBinding, "localization", "visualName")));
         effectiveTeamSkilLevelTextField.textProperty().bind(StringExpression.

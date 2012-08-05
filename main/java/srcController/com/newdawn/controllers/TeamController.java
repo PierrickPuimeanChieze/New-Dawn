@@ -13,35 +13,35 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TeamController {
-
+    
     private FieldTeam createFieldTeam(FieldTeamType fieldTeamType) throws AssertionError {
         FieldTeam toReturn;
         switch (fieldTeamType) {
             case GEOLOGICAL:
                 toReturn = new GeologicalTeam();
-
+                
                 break;
             default:
                 throw new AssertionError();
         }
         return toReturn;
     }
-
+    
     public static enum FieldTeamType {
-
+        
         GEOLOGICAL
     }
     @Autowired
     private GameData gameData;
-
+    
     public FieldTeam createTeamWithLeader(Official teamLeader, FieldTeamType fieldTeamType) {
         if (teamLeader.getAssignment() != null) {
             throw new PersonnelAssignmentException("The leader %s for the new team is already assigned somewhere else", teamLeader.
                     getName());
         }
         FieldTeam toReturn = createFieldTeam(fieldTeamType);
-
-
+        
+        
         toReturn.setLeader(teamLeader);
         toReturn.
                 setName(teamLeader.getName() + " ' " + fieldTeamType.toString().
@@ -50,7 +50,7 @@ public class TeamController {
         gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
         return toReturn;
     }
-
+    
     public void addMemberToTeam(Official newMember, FieldTeam team) {
         if (newMember.getAssignment() != null) {
             throw new PersonnelAssignmentException("The new member %s for the team %s is already assigned somewhere else", newMember.
@@ -70,7 +70,7 @@ public class TeamController {
             team.getTeamMembers().add(newMember);
         }
     }
-
+    
     public boolean promotingTeamMemberToLeader(FieldTeam team, Official member) {
         final String[] validateAdditionError = canPromoteTeamMember(member, team);
         if (validateAdditionError.length > 0) {
@@ -79,7 +79,7 @@ public class TeamController {
                 message.append(string);
                 message.append('\n');
             }
-
+            
             throw new PersonnelAssignmentException(message.toString(), member.
                     getName(), team.getName());
         }
@@ -92,7 +92,7 @@ public class TeamController {
             return false;
         }
     }
-
+    
     public String[] canPromoteTeamMember(Official wantedLeader, FieldTeam team) {
         FieldTeam testTeam = createWorkingClone(team);
         Official oldLeader = testTeam.getLeader();
@@ -103,7 +103,7 @@ public class TeamController {
         testTeam.setLeader(wantedLeader);
         return testTeam.validateAddition(oldLeader);
     }
-
+    
     public boolean removeTeamMember(Team team, Official teamMember) {
         final boolean toReturn = team.teamMembersProperty().remove(teamMember);
         if (toReturn) {
@@ -111,14 +111,14 @@ public class TeamController {
         }
         return toReturn;
     }
-
+    
     private FieldTeam createWorkingClone(FieldTeam team) {
         FieldTeam toReturn = createFieldTeam(team.getType());
         toReturn.setLeader(team.getLeader());
         toReturn.getTeamMembers().addAll(team.getTeamMembers());
         return toReturn;
     }
-
+    
     public void setLeaderForTeam(Official wantedLeader, FieldTeam team) {
         if (wantedLeader.getAssignment() != null) {
             throw new PersonnelAssignmentException("The leader %s has already an assignment", wantedLeader.
@@ -127,7 +127,7 @@ public class TeamController {
         if (team.getLeader() != null) {
             throw new PersonnelAssignmentException("The team %s has already a leader", team.
                     getName());
-
+            
         }
         team.setLeader(wantedLeader);
         wantedLeader.setAssignment(team);
