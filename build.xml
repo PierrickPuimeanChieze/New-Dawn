@@ -8,6 +8,7 @@
     <property name="main.class.name" value="viewerfx.ViewerFX"/>
     <property name="lib.dir" location="lib"/>
     <property name="logging.conf.file" value="logging.properties"/>
+    <!--<property name="debug.port" value="44708"/>-->
     <fail unless="build.dir"/>
     <fail unless="build.classes"/>
     <fail unless="fx.jar"/>
@@ -92,7 +93,7 @@
         <ivy:resolve file="ivy.xml"/>
         <ivy:retrieve type="jar" pattern="${lib.dir}/[type]/[conf]/[artifact]-[revision].[ext]" sync="true"/>
 
-        <ivy:retrieve type="javadoc" pattern="${lib.dir}/[type]/[artifact]-[revision].[ext]" />
+        <ivy:retrieve type="javadoc" pattern="${lib.dir}/[type]/[arti44708fact]-[revision].[ext]" />
     </target>
     <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
         <fail unless="main.class.name"/>
@@ -103,13 +104,15 @@
         </java>
     </target>
     
-    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address ${jpda.address}">
+    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address stored in property jdb.address">
         <!--        <fail unless="jpda.address" message="The property jpda.address must be set"/>
         <echo>${jpda.address}</echo>-->
+        <fail unless="main.class.name"/>
+        <fail unless="build.classes"/>
         <java classname="${main.class.name}" dir="${build.classes}" fork="true">
             <classpath refid="run-classpath"/>
             <jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=44708,server=y,suspend=y"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jdb.address},server=n,suspend=n"/>
         </java>    
     </target>
     
