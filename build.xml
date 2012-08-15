@@ -4,10 +4,10 @@
     <property name="build.classes" value="${build.dir}/classes"/>
     <property name="build.test.classes" value="${build.dir}/test-classes"/>
     <property name="build.jar" value="${build.dir}/newDawn.jar"/>
-    <property name="fx.jar" value="/home/teocali/bjavafx-sdk2.2.0-beta/rt/lib/jfxrt.jar"/>
-    <property name="main.class.name" value="viewerfx.ViewerFX"/>
+	<property name="main.class.name" value="viewerfx.ViewerFX"/>
     <property name="lib.dir" location="lib"/>
     <property name="logging.conf.file" value="logging.properties"/>
+	<property file="local.properties"/>
     <!--<property name="debug.port" value="44708"/>-->
     <fail unless="build.dir"/>
     <fail unless="build.classes"/>

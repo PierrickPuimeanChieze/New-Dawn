@@ -8,3 +8,7 @@
 /main/fxml/com/newdawn/gui/personnel/PersonnelManagementScreen.fxml.bak
 /main/fxml/com/newdawn/gui/personnel/TeamManagementScreen.fxml.bak
 !/target/test-reports/
+/.settings
+/.project
+/.classpath
+/local.properties
