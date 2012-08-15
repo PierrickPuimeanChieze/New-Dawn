@@ -79,8 +79,7 @@ public class PersonnelManagementScreen implements Initializable {
 	private Map<Skill, TableColumn<Official, Number>> skillFiltersColumn = new HashMap<>();
 	@FXML
 	// fx:id="civilianAdministratorCheckBox"
-	private CheckBox civilianAdministratorCheckBox; // Value injected by
-													// FXMLLoader
+	private CheckBox civilianAdministratorCheckBox; 
 	@FXML
 	// fx:id="filteredPersonnelTableView"
 	private TableView<Official> officialsFilteredTableView; // Value injected by
@@ -181,40 +180,91 @@ public class PersonnelManagementScreen implements Initializable {
 		assert createTeamMenuItem != null : "fx:id=\"createTeamMenuItem\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
 		// initialize your logic here: all @FXML variables will have been
 		// injected
-		// <editor-fold defaultstate="collapsed"
-		// desc="Initialization of the compositeMatcher">
-		compositeMatcher.getMatchers().add(typeOfficialMatcher);
-		compositeMatcher.getMatchers().add(skillFiltersMatcher);
-		// </editor-fold>
+		initializeCompositeMatcher();
 
-		// <editor-fold defaultstate="collapsed"
-		// desc="Initialization of the filteredPersonnelTableView">
-		personnelNameColumn
-				.setCellValueFactory(new PropertyValueFactory<Official, String>(
-						"name"));
-		personnelRankColumn
-				.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Official, String>, ObservableValue<String>>() {
+		initializeFilteredPersonnelTableView();
+
+		initializeSkillFilterTab();
+
+		initializeAssignmentListViewAndFilters();
+
+		createTeamMenuItem.disableProperty().bind(
+				Bindings.select(
+						officialsFilteredTableView.selectionModelProperty(),
+						"selectedItem").isNull());
+		final ObjectBinding<Official> selectedPersonnel = Bindings.select(
+				officialsFilteredTableView.selectionModelProperty(),
+				"selectedItem");
+
+		detailsPaneController.officialProperty().bind(selectedPersonnel);
+		skillsListView
+				.setCellFactory(new Callback<ListView<SkillLevel>, ListCell<SkillLevel>>() {
 					@Override
-					public ObservableValue<String> call(
-							CellDataFeatures<Official, String> arg0) {
-						final Official official = arg0.getValue();
-						final StringExpression concat = Bindings.selectString(
-								official.rankProperty(), "designation");
-						return concat;
+					public ListCell<SkillLevel> call(ListView<SkillLevel> arg0) {
+						final ListCell<SkillLevel> toReturn = new ListCell<>();
+						final ObjectProperty<SkillLevel> itemProperty = toReturn
+								.itemProperty();
+
+						final StringExpression concat = Bindings
+								.selectString(toReturn.itemProperty(), "skill",
+										"name")
+								.concat(": ")
+								.concat(Bindings.selectInteger(
+										toReturn.itemProperty(), "level")
+										.asString()).concat(" %");
+
+						// TODO try to use a binding.
+						concat.addListener(new InvalidationListener() {
+							@Override
+							public void invalidated(Observable arg0) {
+								toReturn.setText(concat.getValueSafe());
+							}
+						});
+						// toReturn.textProperty().bind(concat);
+						return toReturn;
 					}
 				});
-		Bindings.bindContent(officialsFilteredTableView.getItems(),
-				officialFilteredList);
-		gameData.getOfficials().addListener(new ListChangeListener<Official>() {
+		selectedPersonnel.addListener(new ChangeListener<Official>() {
 			@Override
-			public void onChanged(Change<? extends Official> arg0) {
-				updateFilters(null);
+			public void changed(ObservableValue<? extends Official> arg0,
+					Official arg1, Official arg2) {
+				updateSkills();
 			}
 		});
-		// </editor-fold>
 
-		// <editor-fold defaultstate="collapsed"
-		// desc="Initialization of the skill filters tab">
+		updateFilters(null);
+	}
+
+	private void initializeAssignmentListViewAndFilters() {
+		final ListBinding<PersonnelAssignment> filteredAssignementBinding = new ListBinding<PersonnelAssignment>() {
+			final ObjectBinding<ObservableList<PersonnelAssignment>> internalBinding = Bindings
+					.select(assignmentsFilterComboBox.getSelectionModel()
+							.selectedItemProperty(), "assignments");
+
+			{
+				bind(internalBinding);
+			}
+
+			@Override
+			protected ObservableList<PersonnelAssignment> computeValue() {
+				return internalBinding.get();
+			}
+		};
+
+		Bindings.bindContent(assigmentsListView.getItems(),
+				filteredAssignementBinding);
+		assigmentsListView
+				.setCellFactory(new PropertyListCellFactory<PersonnelAssignment>(
+						"name", null));
+
+		assignmentsFilterComboBox.getItems().clear();
+		assignmentsFilterComboBox.getItems().addAll(assignementFilters);
+		assignmentsFilterComboBox
+				.setCellFactory(new PropertyListCellFactory<AssignementFilter>(
+						"name", null));
+	}
+
+	private void initializeSkillFilterTab() {
 		skillFilterComboBox.getItems().addAll(skills);
 		PropertyListCellFactory<Skill> propertyListCellFactory = new PropertyListCellFactory<>(
 				"name", null);
@@ -310,84 +360,36 @@ public class PersonnelManagementScreen implements Initializable {
 				});
 		Bindings.bindContent(skillFiltersMatcher.getMatchers(),
 				skillFiltersTableView.getItems());
-		// </editor-fold>
+	}
 
-		final ObjectBinding<Official> selectedPersonnel = Bindings.select(
-				officialsFilteredTableView.selectionModelProperty(),
-				"selectedItem");
-
-		detailsPaneController.officialProperty().bind(selectedPersonnel);
-		skillsListView
-				.setCellFactory(new Callback<ListView<SkillLevel>, ListCell<SkillLevel>>() {
+	private void initializeFilteredPersonnelTableView() {
+		personnelNameColumn
+				.setCellValueFactory(new PropertyValueFactory<Official, String>(
+						"name"));
+		personnelRankColumn
+				.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Official, String>, ObservableValue<String>>() {
 					@Override
-					public ListCell<SkillLevel> call(ListView<SkillLevel> arg0) {
-						final ListCell<SkillLevel> toReturn = new ListCell<>();
-						final ObjectProperty<SkillLevel> itemProperty = toReturn
-								.itemProperty();
-
-						final StringExpression concat = Bindings
-								.selectString(toReturn.itemProperty(), "skill",
-										"name")
-								.concat(": ")
-								.concat(Bindings.selectInteger(
-										toReturn.itemProperty(), "level")
-										.asString()).concat(" %");
-
-						// TODO try to use a binding.
-						concat.addListener(new InvalidationListener() {
-							@Override
-							public void invalidated(Observable arg0) {
-								toReturn.setText(concat.getValueSafe());
-							}
-						});
-						// toReturn.textProperty().bind(concat);
-						return toReturn;
+					public ObservableValue<String> call(
+							CellDataFeatures<Official, String> arg0) {
+						final Official official = arg0.getValue();
+						final StringExpression concat = Bindings.selectString(
+								official.rankProperty(), "designation");
+						return concat;
 					}
 				});
-		selectedPersonnel.addListener(new ChangeListener<Official>() {
+		Bindings.bindContent(officialsFilteredTableView.getItems(),
+				officialFilteredList);
+		gameData.getOfficials().addListener(new ListChangeListener<Official>() {
 			@Override
-			public void changed(ObservableValue<? extends Official> arg0,
-					Official arg1, Official arg2) {
-				updateSkills();
+			public void onChanged(Change<? extends Official> arg0) {
+				updateFilters(null);
 			}
 		});
+	}
 
-		updateFilters(null);
-
-		// <editor-fold defaultstate="collapsed"
-		// desc="Initialize assignements ListView and Filters">
-
-		final ListBinding<PersonnelAssignment> filteredAssignementBinding = new ListBinding<PersonnelAssignment>() {
-			final ObjectBinding<ObservableList<PersonnelAssignment>> internalBinding = Bindings
-					.select(assignmentsFilterComboBox.getSelectionModel()
-							.selectedItemProperty(), "assignments");
-
-			{
-				bind(internalBinding);
-			}
-
-			@Override
-			protected ObservableList<PersonnelAssignment> computeValue() {
-				return internalBinding.get();
-			}
-		};
-
-		Bindings.bindContent(assigmentsListView.getItems(),
-				filteredAssignementBinding);
-		assigmentsListView
-				.setCellFactory(new PropertyListCellFactory<PersonnelAssignment>(
-						"name", null));
-
-		assignmentsFilterComboBox.getItems().clear();
-		assignmentsFilterComboBox.getItems().addAll(assignementFilters);
-		assignmentsFilterComboBox
-				.setCellFactory(new PropertyListCellFactory<AssignementFilter>(
-						"name", null));
-
-		createTeamMenuItem.disableProperty().bind(
-				Bindings.select(
-						officialsFilteredTableView.selectionModelProperty(),
-						"selectedItem").isNull());
+	private void initializeCompositeMatcher() {
+		compositeMatcher.getMatchers().add(typeOfficialMatcher);
+		compositeMatcher.getMatchers().add(skillFiltersMatcher);
 	}
 
 	// TODO Try to use a filtered List
