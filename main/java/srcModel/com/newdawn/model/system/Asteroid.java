@@ -9,29 +9,30 @@ import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
 import javafx.beans.property.ReadOnlyStringProperty;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
 
-    private MinerallyExploitableBodyModel minerallyExploitableBodyModel;
+	private MinerallyExploitableBodyModel minerallyExploitableBodyModel;
 
-    public Asteroid(Orbit orbit, long diameter) {
-        super(orbit, diameter);
-    }
+	public Asteroid(Orbit orbit, long diameter) {
+		super(orbit, diameter);
+	}
 
-    @Override
-    public MinerallyExploitableBodyModel getMinerallyExploitableBodyModel() {
-        return minerallyExploitableBodyModel;
-    }
+	@Override
+	public MinerallyExploitableBodyModel getMinerallyExploitableBodyModel() {
+		return minerallyExploitableBodyModel;
+	}
 
-    @Override
-    public void setMinerallyExploitableBodyModel(MinerallyExploitableBodyModel minerallyExploitableBodyModel) {
-        this.minerallyExploitableBodyModel = minerallyExploitableBodyModel;
-    }
+	@Override
+	public void setMinerallyExploitableBodyModel(
+			MinerallyExploitableBodyModel minerallyExploitableBodyModel) {
+		this.minerallyExploitableBodyModel = minerallyExploitableBodyModel;
+	}
 
-    @Override
-    public ReadOnlyStringProperty visualNameProperty() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public ReadOnlyStringProperty visualNameProperty() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

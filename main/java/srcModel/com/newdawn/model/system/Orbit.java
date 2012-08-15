@@ -5,24 +5,24 @@
 package com.newdawn.model.system;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class Orbit {
 
-    private CelestialBody ref;
-    private double radius;
+	private CelestialBody ref;
+	private double radius;
 
-    public Orbit(CelestialBody ref, long radius) {
-        this.ref = ref;
-        this.radius = radius;
-    }
+	public Orbit(CelestialBody ref, long radius) {
+		this.ref = ref;
+		this.radius = radius;
+	}
 
-    public double getRadius() {
-        return radius;
-    }
+	public double getRadius() {
+		return radius;
+	}
 
-    public CelestialBody getRef() {
-        return ref;
-    }
+	public CelestialBody getRef() {
+		return ref;
+	}
 }

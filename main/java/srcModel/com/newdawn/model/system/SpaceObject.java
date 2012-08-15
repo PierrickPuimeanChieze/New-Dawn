@@ -8,18 +8,18 @@ import com.newdawn.model.ships.orders.factory.OrderFactory;
 import javafx.collections.ObservableList;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public interface SpaceObject {
 
-    public double getPositionX();
+	public double getPositionX();
 
-    public double getPositionY();
+	public double getPositionY();
 
-    public String getName();
+	public String getName();
 
-    public StellarSystem getStellarSystem();
+	public StellarSystem getStellarSystem();
 
-    public ObservableList<OrderFactory> getOrderFactories();
+	public ObservableList<OrderFactory> getOrderFactories();
 }

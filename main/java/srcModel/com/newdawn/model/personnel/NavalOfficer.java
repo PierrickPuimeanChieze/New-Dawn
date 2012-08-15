@@ -9,12 +9,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class NavalOfficer extends Official {
 
-    public void setRank(NavalRank navalRank) {
-        rankProperty.setValue(navalRank);
-    }
+	public void setRank(NavalRank navalRank) {
+		rankProperty.setValue(navalRank);
+	}
 }

@@ -5,23 +5,24 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public enum ScientistRank implements Rank {
 
-    A0("Scientist A0");
-    private StringProperty designationProperty = new SimpleStringProperty("designation");
+	A0("Scientist A0");
+	private StringProperty designationProperty = new SimpleStringProperty(
+			"designation");
 
-    private ScientistRank(String designation) {
-        this.designationProperty.set(designation);
-    }
+	private ScientistRank(String designation) {
+		this.designationProperty.set(designation);
+	}
 
-    public String getDesignation() {
-        return designationProperty.get();
-    }
+	public String getDesignation() {
+		return designationProperty.get();
+	}
 
-    public ReadOnlyStringProperty designationProperty() {
-        return designationProperty;
-    }
+	public ReadOnlyStringProperty designationProperty() {
+		return designationProperty;
+	}
 }

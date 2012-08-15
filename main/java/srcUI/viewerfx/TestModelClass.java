@@ -5,7 +5,7 @@
 package viewerfx;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class TestModelClass {

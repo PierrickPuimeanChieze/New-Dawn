@@ -17,42 +17,45 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class SollarSystemBuilder {
 
-    public static StellarSystem getIt(InitialisationController initialisationController) throws ParserConfigurationException, SAXException, IOException {
-//        File solSystemFile = new File("C:\\Users\\Pierrick\\Dropbox\\NewDawn\\ViewerFX\\srcUI\\viewerfx\\solarSystem.xml");
-        InputStream solSystemInputStream = SollarSystemBuilder.class.
-                getResourceAsStream("/solarSystem.xml");
-        StellarSystem solarSystem = initialisationController.
-                createSystem(solSystemInputStream);
+	public static StellarSystem getIt(
+			InitialisationController initialisationController)
+			throws ParserConfigurationException, SAXException, IOException {
+		// File solSystemFile = new
+		// File("C:\\Users\\Pierrick\\Dropbox\\NewDawn\\ViewerFX\\srcUI\\viewerfx\\solarSystem.xml");
+		InputStream solSystemInputStream = SollarSystemBuilder.class
+				.getResourceAsStream("/solarSystem.xml");
+		StellarSystem solarSystem = initialisationController
+				.createSystem(solSystemInputStream);
 
-        Squadron testTG = new Squadron();
-        testTG.setName("testTG");
-        testTG.setSpeed(1000 * 1000);
+		Squadron testTG = new Squadron();
+		testTG.setName("testTG");
+		testTG.setSpeed(1000 * 1000);
 
+		Ship testShip = new Ship();
+		testShip.setMaxSpeed(2000 * 1000);
+		testShip.setSquadron(testTG);
+		testShip.setName("testTG 1 -1");
+		testTG.getShips().add(testShip);
+		testTG.setPositionX(0);
+		testTG.setPositionY(57950000);
 
-        Ship testShip = new Ship();
-        testShip.setMaxSpeed(2000 * 1000);
-        testShip.setSquadron(testTG);
-        testShip.setName("testTG 1 -1");
-        testTG.getShips().add(testShip);
-        testTG.setPositionX(0);
-        testTG.setPositionY(57950000);
+		for (Planet planet : solarSystem.getPlanets()) {
+			if (planet.getName().toLowerCase().equals("venus")) {
+				// Order testMoveOrder = new MoveToSpaceObjectOrder(planet,
+				// testTG);
+				// testTG.setCurrentOrder(testMoveOrder);
+				// testMoveOrder.applyOrder();
+				solarSystem.getSquadrons().add(testTG);
+				testTG.setStellarSystem(solarSystem);
+				break;
+			}
+		}
 
-        for (Planet planet : solarSystem.getPlanets()) {
-            if (planet.getName().toLowerCase().equals("venus")) {
-//                Order testMoveOrder = new MoveToSpaceObjectOrder(planet, testTG);
-//                testTG.setCurrentOrder(testMoveOrder);
-//                testMoveOrder.applyOrder();
-                solarSystem.getSquadrons().add(testTG);
-                testTG.setStellarSystem(solarSystem);
-                break;
-            }
-        }
-
-        return solarSystem;
-    }
+		return solarSystem;
+	}
 }

@@ -17,66 +17,67 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- *
+ * 
  * @author Pierrick Puimean-Chieze
  */
 public class StellarSystem implements Serializable {
 
-    private StringProperty nameProperty;
-    private List<Star> stars = new ArrayList<>();
-    private List<Planet> planets = new ArrayList<>();
-    private List<Asteroid> asteroids = new ArrayList<>();
-    private ObservableList<Colony> colonies = FXCollections.
-            observableArrayList();
-    private ObjectProperty<ObservableList<Squadron>> squadronsProperty;
+	private StringProperty nameProperty;
+	private List<Star> stars = new ArrayList<>();
+	private List<Planet> planets = new ArrayList<>();
+	private List<Asteroid> asteroids = new ArrayList<>();
+	private ObservableList<Colony> colonies = FXCollections
+			.observableArrayList();
+	private ObjectProperty<ObservableList<Squadron>> squadronsProperty;
 
-    public List<Star> getStars() {
-        return stars;
-    }
+	public List<Star> getStars() {
+		return stars;
+	}
 
-    public StellarSystem() {
-        nameProperty = new SimpleStringProperty(this, "name");
-    }
+	public StellarSystem() {
+		nameProperty = new SimpleStringProperty(this, "name");
+	}
 
-    public List<Planet> getPlanets() {
-        return planets;
-    }
+	public List<Planet> getPlanets() {
+		return planets;
+	}
 
-    public ObservableList<Squadron> getSquadrons() {
-        return squadronsProperty().getValue();
-    }
+	public ObservableList<Squadron> getSquadrons() {
+		return squadronsProperty().getValue();
+	}
 
-    public List<Asteroid> getAsteroids() {
-        return asteroids;
-    }
+	public List<Asteroid> getAsteroids() {
+		return asteroids;
+	}
 
-    public void setName(String name) {
-        nameProperty().setValue(name);
-    }
+	public void setName(String name) {
+		nameProperty().setValue(name);
+	}
 
-    public String getName() {
-        return nameProperty().getValue();
-    }
+	public String getName() {
+		return nameProperty().getValue();
+	}
 
-    public StringProperty nameProperty() {
-        return nameProperty;
-    }
+	public StringProperty nameProperty() {
+		return nameProperty;
+	}
 
-    public ObjectProperty<ObservableList<Squadron>> squadronsProperty() {
-        if (squadronsProperty == null) {
-            ObservableList<Squadron> squadrons = FXCollections.
-                    observableArrayList();
-            squadronsProperty = new SimpleObjectProperty<>(this, "squadrons", squadrons);
-        }
-        return squadronsProperty;
-    }
+	public ObjectProperty<ObservableList<Squadron>> squadronsProperty() {
+		if (squadronsProperty == null) {
+			ObservableList<Squadron> squadrons = FXCollections
+					.observableArrayList();
+			squadronsProperty = new SimpleObjectProperty<>(this, "squadrons",
+					squadrons);
+		}
+		return squadronsProperty;
+	}
 
-    @Override
-    public String toString() {
-        return super.toString() + "[name=" + getName() + "]";
-    }
+	@Override
+	public String toString() {
+		return super.toString() + "[name=" + getName() + "]";
+	}
 
-    public ObservableList<Colony> getColonies() {
-        return colonies;
-    }
+	public ObservableList<Colony> getColonies() {
+		return colonies;
+	}
 }
