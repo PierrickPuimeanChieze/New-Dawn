@@ -1,136 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="build-targets" basedir=".">
-    <property name="build.dir" value="${basedir}/target"/>
-    <property name="build.classes" value="${build.dir}/classes"/>
-    <property name="build.test.classes" value="${build.dir}/test-classes"/>
-    <property name="build.jar" value="${build.dir}/newDawn.jar"/>
-	<property name="main.class.name" value="viewerfx.ViewerFX"/>
-    <property name="lib.dir" location="lib"/>
-    <property name="logging.conf.file" value="logging.properties"/>
-	<property file="local.properties"/>
-    <!--<property name="debug.port" value="44708"/>-->
-    <fail unless="build.dir"/>
-    <fail unless="build.classes"/>
-    <fail unless="fx.jar"/>
-    <path id="build-classpath">
-        <fileset dir="${lib.dir}/jar/build">
-            <include name="**/*.jar"/>
-        </fileset>
-        <pathelement location="${fx.jar}"/>
-    </path>
-    
-    <path id="run-classpath">
-        <fileset dir="${lib.dir}/jar/runtime">
-            <include name="**/*.jar"/>
-        </fileset>
-        <pathelement location="${build.classes}"/>
-        <pathelement location="${fx.jar}"/>
-    </path>
-    <path id="test-classpath">
-        <fileset dir="${lib.dir}/jar/test">
-            <include name="**/*.jar"/>
-        </fileset>
-        <pathelement location="${build.classes}"/>
-        <pathelement location="${build.test.classes}"/>
-        <pathelement location="${fx.jar}"/>
-    </path>
-    <target name="clean" description="--> Clean the build directory of the project">
-        <delete dir="${build.dir}"/>
-    </target>
-    
-    <target name="init" />
-    <target name="compile" depends="resolve-and-retrieve" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
-        
-        <mkdir dir="${build.dir}"/>
-        <mkdir dir="${build.classes}"/>
-        <javac deprecation="on" destdir="${build.classes}" debug="on" >
-            <src>
-                
-                <pathelement location="main/java/srcController"/>
-                <pathelement location="main/java/srcModel"/>
-                <pathelement location="main/java/srcUI"/>
-                <pathelement location="main/resources"/>
-                <pathelement location="main/fxml"/>
-            </src>
-            <classpath refid="build-classpath"/>
-            
-            <compilerarg value="-Xlint:unchecked"/>
-        </javac>
-        <copy todir="${build.classes}">
-            <fileset dir="main/resources">
-                <include name="**/*"/>
-            </fileset>
-            <fileset dir="main/fxml">
-                <include name="**/*.fxml"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="test-compile" depends="compile" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
-        
-        <mkdir dir="${build.test.classes}"/>
-        <javac deprecation="on" destdir="${build.test.classes}" debug="on" >
-            <src>
-                <pathelement location="test/java/model"/>
-                <pathelement location="test/resources"/>
-            </src>
-            <classpath refid="test-classpath"/>
-            
-            <compilerarg value="-Xlint:unchecked"/>
-        </javac>
-        <copy todir="${build.test.classes}">
-            <fileset dir="test/resources">
-                <include name="**/*"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="build" depends="compile" description="--> Build the jar of the application">
-        <jar basedir="${build.classes}" destfile="${build.jar}" >
-        </jar>
-    </target>
-    <target name="package" depends="clean, build" description="--> Package the application for distribution.TODO" />
-    <target name="resolve-and-retrieve" description="--> Resolve and retrieve the ivy dependencies">
-        <property name="ivy.retrieve.pattern" value="${lib.dir}/[conf]/[artifact].[ext]"/>
-        <ivy:resolve file="ivy.xml"/>
-        <ivy:retrieve type="jar" pattern="${lib.dir}/[type]/[conf]/[artifact]-[revision].[ext]" sync="true"/>
+	<property name="build.dir" value="${basedir}/target" />
+	<property name="build.classes" value="${build.dir}/classes" />
+	<property name="build.test.classes" value="${build.dir}/test-classes" />
+	<property name="build.jar" value="${build.dir}/newDawn.jar" />
+	<property name="main.class.name" value="viewerfx.ViewerFX" />
+	<property name="lib.dir" location="lib" />
+	<property name="logging.conf.file" value="logging.properties" />
+	<property file="local.properties" />
+	<!--<property name="debug.port" value="44708"/>-->
+	<fail unless="build.dir" />
+	<fail unless="build.classes" />
+	<fail unless="fx.jar" />
+	<path id="build-classpath">
+		<fileset dir="${lib.dir}/jar/build">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${fx.jar}" />
+	</path>
 
-        <ivy:retrieve type="javadoc" pattern="${lib.dir}/[type]/[arti44708fact]-[revision].[ext]" />
-    </target>
-    <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
-        <fail unless="main.class.name"/>
-        <fail unless="build.classes"/>
-    	<echo> ${fx.jar}</echo>
-        <java classname="${main.class.name}" dir="${build.classes}" >
-            <jvmarg value="-Djava.util.logging.config.file=${logging.conf.file}"/>
-            <classpath refid="run-classpath"/>
-        </java>
-    </target>
-    
-    <target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address stored in property jdb.address">
-        <!--        <fail unless="jpda.address" message="The property jpda.address must be set"/>
-        <echo>${jpda.address}</echo>-->
-        <fail unless="main.class.name"/>
-        <fail unless="build.classes"/>
-        <java classname="${main.class.name}" dir="${build.classes}" fork="true">
-            <classpath refid="run-classpath"/>
-            <jvmarg value="-Xdebug"/>
-            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jdb.address},server=n,suspend=n"/>
-        </java>    
-    </target>
-    
-    <target name="test" depends="test-compile">
-        <mkdir dir="target/test-reports" />
-        <junit printsummary="yes" haltonfailure="no">
-            <classpath refid="test-classpath"/>
+	<path id="run-classpath">
+		<fileset dir="${lib.dir}/jar/runtime">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${build.classes}" />
+		<pathelement location="${fx.jar}" />
+	</path>
+	<path id="test-classpath">
+		<fileset dir="${lib.dir}/jar/test">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${build.classes}" />
+		<pathelement location="${build.test.classes}" />
+		<pathelement location="${fx.jar}" />
+	</path>
+	<target name="clean" description="--> Clean the build directory of the project">
+		<delete dir="${build.dir}" />
+	</target>
 
-            <formatter type="xml"/>
-            <formatter type="brief" usefile="false"/>
+	<target name="init" />
+	<target name="compile" depends="resolve-and-retrieve" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
 
-            <batchtest fork="no" todir="target/test-reports">
-                <fileset dir="test/java/model">
-                    <include name="**/*Test.java" />
-                </fileset>
-            </batchtest>
-            <jvmarg value="-XX:MaxPermSize=512M"/>
-        </junit>            
-    </target>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes}" />
+		<javac deprecation="on" destdir="${build.classes}" debug="on">
+			<src>
+
+				<pathelement location="main/java/srcController" />
+				<pathelement location="main/java/srcModel" />
+				<pathelement location="main/java/srcUI" />
+				<pathelement location="main/resources" />
+				<pathelement location="main/fxml" />
+			</src>
+			<classpath refid="build-classpath" />
+
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<copy todir="${build.classes}">
+			<fileset dir="main/resources">
+				<include name="**/*" />
+			</fileset>
+			<fileset dir="main/fxml">
+				<include name="**/*.fxml" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="test-compile" depends="compile" description="--> Compile the classes of the application and copy the resources file to the compilation destination dir">
+
+		<mkdir dir="${build.test.classes}" />
+		<javac deprecation="on" destdir="${build.test.classes}" debug="on">
+			<src>
+				<pathelement location="test/java/model" />
+				<pathelement location="test/resources" />
+			</src>
+			<classpath refid="test-classpath" />
+
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+		<copy todir="${build.test.classes}">
+			<fileset dir="test/resources">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="build" depends="compile" description="--> Build the jar of the application">
+		<jar basedir="${build.classes}" destfile="${build.jar}">
+		</jar>
+	</target>
+	<target name="package" depends="clean, build" description="--> Package the application for distribution.TODO" />
+	<target name="resolve-and-retrieve" description="--> Resolve and retrieve the ivy dependencies">
+		<property name="ivy.retrieve.pattern" value="${lib.dir}/[conf]/[artifact].[ext]" />
+		<ivy:resolve file="ivy.xml" />
+		<ivy:retrieve type="jar" pattern="${lib.dir}/[type]/[conf]/[artifact]-[revision].[ext]" sync="true" />
+
+		<ivy:retrieve type="javadoc" pattern="${lib.dir}/[type]/[arti44708fact]-[revision].[ext]" />
+	</target>
+	<target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
+		<fail unless="main.class.name" />
+		<fail unless="build.classes" />
+		<echo> ${fx.jar}</echo>
+		<java classname="${main.class.name}" dir="${build.classes}">
+			<jvmarg value="-Djava.util.logging.config.file=${logging.conf.file}" />
+			<classpath refid="run-classpath" />
+		</java>
+	</target>
+
+	<target name="debug" depends="build" description="-->Run the application with the debugger. Need to have a debugger listening on the address stored in property jdb.address">
+		<fail unless="jdb.address" message="The property jdb.address must be set" />
+		<!--                <echo>${jpda.address}</echo>-->
+		<fail unless="main.class.name" />
+		<fail unless="build.classes" />
+		<java classname="${main.class.name}" dir="${build.classes}" fork="true">
+			<classpath refid="run-classpath" />
+			<jvmarg value="-Xdebug" />
+			<jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jdb.address},server=y,suspend=y" />
+		</java>
+	</target>
+
+	<target name="test" depends="test-compile">
+		<mkdir dir="target/test-reports" />
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath refid="test-classpath" />
+
+			<formatter type="xml" />
+			<formatter type="brief" usefile="false" />
+
+			<batchtest fork="no" todir="target/test-reports">
+				<fileset dir="test/java/model">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+			<jvmarg value="-XX:MaxPermSize=512M" />
+		</junit>
+	</target>
 </project>

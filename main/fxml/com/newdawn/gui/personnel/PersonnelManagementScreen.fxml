@@ -255,7 +255,15 @@
                     </FXCollections>
                   </items>
                 </ComboBox>
-                <ListView fx:id="assigmentsListView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
+                <ListView fx:id="assigmentsListView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                  <contextMenu>
+                    <ContextMenu>
+                      <items>
+                        <MenuItem mnemonicParsing="false" onAction="#assignOfficial" text="Assign official To" fx:id="assignOfficialMenuItem" />
+                      </items>
+                    </ContextMenu>
+                  </contextMenu>
+                </ListView>
               </children>
             </AnchorPane>
           </content>

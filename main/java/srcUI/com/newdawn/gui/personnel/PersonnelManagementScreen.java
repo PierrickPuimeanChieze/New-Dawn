@@ -1,5 +1,6 @@
 package com.newdawn.gui.personnel;
 
+import com.newdawn.controllers.OfficialsController;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.controllers.GameData;
@@ -14,6 +15,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import javax.annotation.Resource;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.*;
@@ -54,6 +58,8 @@ public class PersonnelManagementScreen implements Initializable {
 	};
 	@Autowired
 	private Skill[] skills;
+	@Resource
+	private OfficialsController officialsController;
 	@Autowired
 	private TeamController teamController;
 	@Autowired
@@ -75,11 +81,16 @@ public class PersonnelManagementScreen implements Initializable {
 							.isSelected());
 		}
 	};
+
+	@FXML
+	// fx:id="assignOfficialMenuItem"
+	private MenuItem assignOfficialMenuItem; // Value injected by FXMLLoader
+
 	@FXML
 	private Map<Skill, TableColumn<Official, Number>> skillFiltersColumn = new HashMap<>();
 	@FXML
 	// fx:id="civilianAdministratorCheckBox"
-	private CheckBox civilianAdministratorCheckBox; 
+	private CheckBox civilianAdministratorCheckBox;
 	@FXML
 	// fx:id="filteredPersonnelTableView"
 	private TableView<Official> officialsFilteredTableView; // Value injected by
@@ -156,6 +167,15 @@ public class PersonnelManagementScreen implements Initializable {
 	// fx:id="createTeamMenuItem"
 	private MenuItem createTeamMenuItem; // Value injected by FXMLLoader
 
+	// Handler for MenuItem[fx:id="assignOfficialMenuItem"] onAction
+	public void assignOfficial(ActionEvent event) {
+		// TODO add assertions to be sure that no null value are passed to the
+		// controller
+		officialsController.assignOfficialTo(officialsFilteredTableView
+				.getSelectionModel().getSelectedItem(), assigmentsListView
+				.getSelectionModel().getSelectedItem());
+	}
+
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -178,6 +198,7 @@ public class PersonnelManagementScreen implements Initializable {
 		assert assignmentsFilterComboBox != null;
 		assert assigmentsListView != null;
 		assert createTeamMenuItem != null : "fx:id=\"createTeamMenuItem\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
+		assert assignOfficialMenuItem != null;
 		// initialize your logic here: all @FXML variables will have been
 		// injected
 		initializeCompositeMatcher();
@@ -251,8 +272,7 @@ public class PersonnelManagementScreen implements Initializable {
 			}
 		};
 
-		Bindings.bindContent(assigmentsListView.getItems(),
-				filteredAssignementBinding);
+		assigmentsListView.itemsProperty().bind(filteredAssignementBinding);
 		assigmentsListView
 				.setCellFactory(new PropertyListCellFactory<PersonnelAssignment>(
 						"name", null));
@@ -260,20 +280,22 @@ public class PersonnelManagementScreen implements Initializable {
 		assignmentsFilterComboBox.getItems().clear();
 		assignmentsFilterComboBox.getItems().addAll(assignementFilters);
 		assignmentsFilterComboBox
-				.setCellFactory(new PropertyListCellFactory<AssignementFilter>("name", null));
-		assignmentsFilterComboBox.setButtonCell(new ListCell<AssignementFilter>(){
-			@Override
-			protected void updateItem(AssignementFilter item,
-					boolean empty) {
-				super.updateItem(item, empty);
-				if (textProperty().isBound()) {
-					textProperty().unbind();
-				}
-				if (item != null || !empty) {
-					textProperty().bind(item.nameProperty());
-				}
-			}
-		});
+				.setCellFactory(new PropertyListCellFactory<AssignementFilter>(
+						"name", null));
+		assignmentsFilterComboBox
+				.setButtonCell(new ListCell<AssignementFilter>() {
+					@Override
+					protected void updateItem(AssignementFilter item,
+							boolean empty) {
+						super.updateItem(item, empty);
+						if (textProperty().isBound()) {
+							textProperty().unbind();
+						}
+						if (item != null || !empty) {
+							textProperty().bind(item.nameProperty());
+						}
+					}
+				});
 	}
 
 	private void initializeSkillFilterTab() {
@@ -397,6 +419,9 @@ public class PersonnelManagementScreen implements Initializable {
 				updateFilters(null);
 			}
 		});
+
+		// TODO initialize assignOfficialMenuItem to be sure that it's not
+		// enable if not correct values are selected
 	}
 
 	private void initializeCompositeMatcher() {
