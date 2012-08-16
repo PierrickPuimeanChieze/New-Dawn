@@ -98,6 +98,7 @@
     <target name="run" depends="build" description="--> Run the application, using the class in ${build.classes}">
         <fail unless="main.class.name"/>
         <fail unless="build.classes"/>
+    	<echo> ${fx.jar}</echo>
         <java classname="${main.class.name}" dir="${build.classes}" >
             <jvmarg value="-Djava.util.logging.config.file=${logging.conf.file}"/>
             <classpath refid="run-classpath"/>

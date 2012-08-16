@@ -260,8 +260,20 @@ public class PersonnelManagementScreen implements Initializable {
 		assignmentsFilterComboBox.getItems().clear();
 		assignmentsFilterComboBox.getItems().addAll(assignementFilters);
 		assignmentsFilterComboBox
-				.setCellFactory(new PropertyListCellFactory<AssignementFilter>(
-						"name", null));
+				.setCellFactory(new PropertyListCellFactory<AssignementFilter>("name", null));
+		assignmentsFilterComboBox.setButtonCell(new ListCell<AssignementFilter>(){
+			@Override
+			protected void updateItem(AssignementFilter item,
+					boolean empty) {
+				super.updateItem(item, empty);
+				if (textProperty().isBound()) {
+					textProperty().unbind();
+				}
+				if (item != null || !empty) {
+					textProperty().bind(item.nameProperty());
+				}
+			}
+		});
 	}
 
 	private void initializeSkillFilterTab() {

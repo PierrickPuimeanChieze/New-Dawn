@@ -37,6 +37,7 @@ public class PropertyListCellFactory<T> implements
 	}
 
 	@Override
+	//TODO override the update item method of the cell
 	public ListCell<T> call(ListView<T> arg0) {
 		ListCell<T> toReturn = new ListCell<>();
 
