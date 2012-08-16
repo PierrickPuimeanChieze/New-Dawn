@@ -48,7 +48,7 @@ public class TeamController {
 		toReturn.setLeader(teamLeader);
 		toReturn.setName(teamLeader.getName() + " ' "
 				+ fieldTeamType.toString().toLowerCase() + " team");
-		toReturn.setLocalization(teamLeader.getLocalization());
+		toReturn.localizationProperty().bind(toReturn.localizationProperty());
 		gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
 		return toReturn;
 	}
@@ -72,6 +72,7 @@ public class TeamController {
 					newMember.getName(), team.getName());
 		} else {
 			team.getTeamMembers().add(newMember);
+			team.localizationProperty().bind(team.localizationProperty());
 		}
 	}
 
@@ -115,6 +116,7 @@ public class TeamController {
 		final boolean toReturn = team.teamMembersProperty().remove(teamMember);
 		if (toReturn) {
 			teamMember.setAssignment(null);
+			teamMember.localizationProperty().unbind();
 		}
 		return toReturn;
 	}

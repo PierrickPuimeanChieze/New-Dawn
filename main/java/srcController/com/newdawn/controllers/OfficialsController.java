@@ -1,12 +1,15 @@
 package com.newdawn.controllers;
 
 import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.PersonnelAssignment;
 import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.ranks.NavalRank;
+import com.newdawn.model.personnel.team.FieldTeam;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,8 @@ public class OfficialsController {
 	private Skill[] skills;
 	@Autowired
 	private GameData gameData;
+	@Autowired
+	private TeamController teamController;
 
 	private ObservableMap<Skill, SkillLevel> createInitialSkillsLevel() {
 		ObservableMap<Skill, SkillLevel> toReturn = FXCollections
@@ -62,5 +67,14 @@ public class OfficialsController {
 			}
 		}
 		return null;
+	}
+
+	public void assignOfficialTo(Official officialToAssign,
+			PersonnelAssignment assignment) {
+		if (assignment instanceof FieldTeam) {
+			FieldTeam fieldTeam = (FieldTeam) assignment;
+			teamController.addMemberToTeam(officialToAssign, fieldTeam);
+			
+		}
 	}
 }
