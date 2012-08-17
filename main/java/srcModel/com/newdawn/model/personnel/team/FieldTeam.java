@@ -38,31 +38,31 @@ public abstract class FieldTeam extends Team {
 	private LongProperty cumulatedSkillLevelProperty;
 	private LongBinding cumulatedSkillLevelBinding;
 	private ReadOnlyObjectProperty<Skill> teamSkillProperty;
-	private ObjectProperty<PersonnelLocalisation> assignementProperty = new SimpleObjectProperty<>(
+	private ObjectProperty<TeamAssignment> assignmentProperty = new SimpleObjectProperty<>(
 			this, "assignement");
 	private StringProperty visualNameProperty;
 
-	public ReadOnlyObjectProperty<PersonnelLocalisation> assignementProperty() {
-		return assignementProperty;
+	public ReadOnlyObjectProperty<TeamAssignment> assignmentProperty() {
+		return assignmentProperty;
 	}
 
 	/**
-	 * Get the value of assignementProperty
+	 * Get the value of assignment
 	 * 
-	 * @return the value of assignementProperty
+	 * @return the value of assignment
 	 */
-	public PersonnelLocalisation getAssignementProperty() {
-		return assignementProperty().getValue();
+	public PersonnelLocalisation getAssignment() {
+		return assignmentProperty().getValue();
 	}
 
 	/**
-	 * Set the value of assignementProperty
+	 * Set the value of assignment
 	 * 
-	 * @param assignementProperty
-	 *            new value of assignementProperty
+	 * @param assignment
+	 *            new value of assignment
 	 */
-	public void setAssignementProperty(PersonnelLocalisation assignementProperty) {
-		this.assignementProperty.setValue(assignementProperty);
+	public void setAssignment(TeamAssignment assignment) {
+		this.assignmentProperty.setValue(assignment);
 	}
 
 	public FieldTeam() {

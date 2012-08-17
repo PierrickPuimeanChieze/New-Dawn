@@ -45,9 +45,9 @@ public class GeologicalTeam extends FieldTeam {
 		return "geology";
 	}
 
-	public void setAssignementProperty(
-			MinerallyExploitableBody assignementProperty) {
-		super.setAssignementProperty(assignementProperty);
+	public void setAssignement(
+			MinerallyExploitableBody assignment) {
+		super.setAssignment(assignment);
 	}
 
 	@Override
