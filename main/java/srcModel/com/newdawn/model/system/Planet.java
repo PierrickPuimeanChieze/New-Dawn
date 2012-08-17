@@ -5,14 +5,20 @@
 package com.newdawn.model.system;
 
 import com.newdawn.model.mineral.MinerallyExploitableBody;
+import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import javafx.beans.property.ReadOnlyStringProperty;
 
 /**
  * 
  * @author Pierrick Puimean-Chieze
  */
-public class Planet extends OrbitalBody {
+public class Planet extends OrbitalBody implements MinerallyExploitableBody {
 
 	public Planet(String name, PlanetaryClass planetaryClass, Orbit orbit,
 			long diameter) {
@@ -45,4 +51,21 @@ public class Planet extends OrbitalBody {
 
 	private PlanetaryClass planetaryClass;
 	private List<Satellite> satellites = new ArrayList<>();
+
+	@Override
+	public ReadOnlyStringProperty visualNameProperty() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public MinerallyExploitableBodyModel getMinerallyExploitableBodyModel() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void setMinerallyExploitableBodyModel(
+			MinerallyExploitableBodyModel minerallyExploitableBodyModel) {
+		throw new NotImplementedException();
+		
+	}
 }
