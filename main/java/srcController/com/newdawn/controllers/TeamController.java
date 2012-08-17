@@ -1,5 +1,7 @@
 package com.newdawn.controllers;
 
+import javafx.beans.property.ReadOnlyListProperty;
+
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
@@ -49,6 +51,7 @@ public class TeamController {
 		toReturn.setName(teamLeader.getName() + " ' "
 				+ fieldTeamType.toString().toLowerCase() + " team");
 		teamLeader.localizationProperty().bind(toReturn.localizationProperty());
+		teamLeader.setAssignment(toReturn);
 		gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
 		return toReturn;
 	}
@@ -73,6 +76,7 @@ public class TeamController {
 		} else {
 			team.getTeamMembers().add(newMember);
 			newMember.localizationProperty().bind(team.localizationProperty());
+			newMember.setAssignment(team);
 		}
 	}
 
@@ -113,7 +117,8 @@ public class TeamController {
 	}
 
 	public boolean removeTeamMember(Team team, Official teamMember) {
-		final boolean toReturn = team.teamMembersProperty().remove(teamMember);
+		ReadOnlyListProperty teamMembersProperty = team.teamMembersProperty();
+		final boolean toReturn = teamMembersProperty.remove(teamMember);
 		if (toReturn) {
 			teamMember.setAssignment(null);
 			teamMember.localizationProperty().unbind();

@@ -1,13 +1,8 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.controllers.GameData;
-import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
-import com.newdawn.model.personnel.Official;
-import com.newdawn.model.personnel.Skill;
-import com.newdawn.model.personnel.SkillLevel;
-import com.newdawn.model.personnel.team.GeologicalTeam;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.MapBinding;
@@ -30,9 +25,22 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
+
 import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.newdawn.controllers.GameData;
+import com.newdawn.controllers.TeamController;
+import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
+import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
+import com.newdawn.model.personnel.team.GeologicalTeam;
+import com.newdawn.model.personnel.team.Team;
 
 /**
  * 
@@ -85,17 +93,30 @@ public class TeamManagementScreen implements Initializable {
 	private TreeView teamsTreeView; // Value injected by FXMLLoader
 	private TreeItem rootTreeItem;
 	private TreeItem geologicalTeamsTreeItem;
-	@Autowired
+	@Resource
 	private GameData gameData;
 	@Resource(name = "leadership")
 	private Skill leadershipSkill;
 	@Resource(name = "geology")
 	private Skill geologySkill;
-
+	@Resource
+	private TeamController teamController;
 	// Handler for Button[Button[id=null, styleClass=button]] onAction
 
 	public void launchTeamAssignmentChange(ActionEvent event) {
 		// handle the event here
+	}
+
+	// Handler for TableView[fx:id="membersTableView"] onKeyPressed
+	public void membersTableViewKeyPressedEvent(KeyEvent event) {
+		if (event.getCode() == KeyCode.DELETE) {
+			Official toRemove = membersTableView.getSelectionModel().getSelectedItem();
+			if (toRemove != null) {
+				Team team = (Team) toRemove.getAssignment();
+				teamController.removeTeamMember(team, toRemove);
+				
+			}
+		}
 	}
 
 	@Override
