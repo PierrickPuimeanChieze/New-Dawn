@@ -1,6 +1,5 @@
 package com.newdawn.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import javax.annotation.Resource;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.newdawn.controllers.TeamController.FieldTeamType;
-import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.team.TeamAssignment;
 import com.newdawn.model.system.StellarSystem;
 
