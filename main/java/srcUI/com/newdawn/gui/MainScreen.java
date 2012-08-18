@@ -1,5 +1,29 @@
 package com.newdawn.gui;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.layout.AnchorPane;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
 import com.newdawn.controllers.ColonyController;
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.MainController;
@@ -11,24 +35,6 @@ import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.system.Planet;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.property.MapProperty;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.layout.AnchorPane;
-import org.springframework.beans.factory.annotation.Autowired;
-import viewerfx.ViewerFX;
 
 /**
  * 
@@ -44,6 +50,8 @@ public class MainScreen implements Initializable {
 	private ColonyController colonyController;
 	@Autowired
 	private GameData gameData;
+	@Resource
+	private ApplicationContext applicationContext;
 	@FXML
 	private Button fiveSecButton;
 	@FXML
@@ -142,14 +150,13 @@ public class MainScreen implements Initializable {
 		if (systemMapScreen == null) {
 			try {
 				FXMLLoader test = new FXMLLoader();
-				test.setControllerFactory(new SpringFXControllerFactory(
-						ViewerFX.getCurrentApplication().getSprintContainer()));
+				test.setControllerFactory(new SpringFXControllerFactory(applicationContext));
 				systemMapScreen = (AnchorPane) test
 						.load(getClass()
 								.getResourceAsStream(
 										"/com/newdawn/gui/map/system/SystemMapScreen.fxml"));
 			} catch (IOException ex) {
-				Logger.getLogger(ViewerFX.class.getName()).log(Level.SEVERE,
+				Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE,
 						null, ex);
 				throw new RuntimeException(ex);
 			}
@@ -161,15 +168,14 @@ public class MainScreen implements Initializable {
 		if (fleetManagementScreen == null) {
 			try {
 				FXMLLoader test = new FXMLLoader();
-				test.setControllerFactory(new SpringFXControllerFactory(
-						ViewerFX.getCurrentApplication().getSprintContainer()));
+				test.setControllerFactory(new SpringFXControllerFactory(applicationContext));
 				fleetManagementScreen = (AnchorPane) test
 						.load(getClass()
 								.getResourceAsStream(
 										"/com/newdawn/gui/fleet/FleetManagementScreen.fxml"));
 
 			} catch (IOException ex) {
-				Logger.getLogger(ViewerFX.class.getName()).log(Level.SEVERE,
+				Logger.getLogger(MainScreen.class.getName()).log(Level.SEVERE,
 						null, ex);
 				throw new RuntimeException(ex);
 			}
@@ -204,8 +210,8 @@ public class MainScreen implements Initializable {
 		if (economicScreen == null) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(
 					"/com/newdawn/gui/economic/EconomicScreen.fxml"));
-			loader.setControllerFactory(new SpringFXControllerFactory(ViewerFX
-					.getCurrentApplication().getSprintContainer()));
+			loader.setControllerFactory(new SpringFXControllerFactory(
+					applicationContext));
 			try {
 				economicScreen = (Node) loader.load();
 			} catch (IOException ex) {
@@ -221,8 +227,8 @@ public class MainScreen implements Initializable {
 					getClass()
 							.getResource(
 									"/com/newdawn/gui/personnel/PersonnelManagementScreen.fxml"));
-			loader.setControllerFactory(new SpringFXControllerFactory(ViewerFX
-					.getCurrentApplication().getSprintContainer()));
+			loader.setControllerFactory(new SpringFXControllerFactory(
+					applicationContext));
 			try {
 				personnelManagementScreen = (Node) loader.load();
 			} catch (IOException ex) {
@@ -236,8 +242,8 @@ public class MainScreen implements Initializable {
 		if (teamManagementScreen == null) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(
 					"/com/newdawn/gui/personnel/TeamManagementScreen.fxml"));
-			loader.setControllerFactory(new SpringFXControllerFactory(ViewerFX
-					.getCurrentApplication().getSprintContainer()));
+			loader.setControllerFactory(new SpringFXControllerFactory(
+					applicationContext));
 			try {
 				teamManagementScreen = (Node) loader.load();
 			} catch (IOException ex) {
@@ -249,10 +255,8 @@ public class MainScreen implements Initializable {
 
 	@FXML
 	public void launchTest(ActionEvent event) {
-		Skill leadSkill = ViewerFX.getCurrentApplication().getSprintContainer()
-				.getBean("leadership", Skill.class);
-		Skill geoSkill = ViewerFX.getCurrentApplication().getSprintContainer()
-				.getBean("geology", Skill.class);
+		Skill leadSkill = applicationContext.getBean("leadership", Skill.class);
+		Skill geoSkill = applicationContext.getBean("geology", Skill.class);
 
 		final Official officials = gameData.getOfficials().get(0);
 		SkillLevel leadSkillLevel = officials.skillLevelsProperty().get(
