@@ -13,8 +13,8 @@ import javafx.util.Callback;
  * 
  * @author Pierrick Puimean-Chieze
  */
-public class PropertyOrToStringTreeCellFactory implements
-		Callback<TreeView, TreeCell> {
+public class PropertyOrToStringTreeCellFactory<T> implements
+		Callback<TreeView<T>, TreeCell<T>> {
 
 	private Class<?>[] toStringClasses;
 	EventHandler<MouseEvent> mouseEventHandler;
@@ -29,17 +29,18 @@ public class PropertyOrToStringTreeCellFactory implements
 	}
 
 	@Override
-	public TreeCell call(TreeView arg0) {
+	public TreeCell<T> call(TreeView<T> arg0) {
 
-		final TreeCell toReturn = new TreeCell();
+		final TreeCell<T> toReturn = new TreeCell<T>();
 		toReturn.textProperty().bind(
 				Bindings.selectString(toReturn.itemProperty(), propertyName));
 
 		// TODO replace by updateItem
-		toReturn.itemProperty().addListener(new ChangeListener() {
+		toReturn.itemProperty().addListener(new ChangeListener<T>() {
 			@Override
-			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+			public void changed(ObservableValue<? extends T> arg0, T arg1, T arg2) {
 				if (arg2 == null) {
+					toReturn.textProperty().unbind();
 					toReturn.setText(null);
 					return;
 				}

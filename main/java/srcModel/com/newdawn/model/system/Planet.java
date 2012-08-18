@@ -13,12 +13,15 @@ import java.util.List;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * 
  * @author Pierrick Puimean-Chieze
  */
 public class Planet extends OrbitalBody implements MinerallyExploitableBody {
+	private ReadOnlyStringProperty visualNameProperty;
 
 	public Planet(String name, PlanetaryClass planetaryClass, Orbit orbit,
 			long diameter) {
@@ -54,7 +57,16 @@ public class Planet extends OrbitalBody implements MinerallyExploitableBody {
 
 	@Override
 	public ReadOnlyStringProperty visualNameProperty() {
-		throw new NotImplementedException();
+		if (visualNameProperty == null) {
+			visualNameProperty = new SimpleStringProperty(this, "visualName",
+					getName());
+		}
+
+		return visualNameProperty;
+	}
+
+	public String getVisualName() {
+		return visualNameProperty().getValue();
 	}
 
 	@Override
@@ -66,6 +78,6 @@ public class Planet extends OrbitalBody implements MinerallyExploitableBody {
 	public void setMinerallyExploitableBodyModel(
 			MinerallyExploitableBodyModel minerallyExploitableBodyModel) {
 		throw new NotImplementedException();
-		
+
 	}
 }

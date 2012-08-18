@@ -15,4 +15,5 @@
     <bean name="personnelManagementScreen" class="com.newdawn.gui.personnel.PersonnelManagementScreen"/>
     <bean name="personnelDetailsScreen" class="com.newdawn.gui.personnel.PersonnelDetailsPane"/>
     <bean name="teamManagementScreen" class="com.newdawn.gui.personnel.TeamManagementScreen"/>
+    <bean name="teamAssignmentDialog" class="com.newdawn.gui.personnel.TeamAssignmentDialog"/>
 </beans>

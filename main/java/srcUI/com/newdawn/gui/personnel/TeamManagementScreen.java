@@ -1,5 +1,6 @@
 package com.newdawn.gui.personnel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,7 +16,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -27,18 +31,22 @@ import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import com.newdawn.controllers.GameData;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
+import com.newdawn.gui.SpringFXControllerFactory;
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
+import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.personnel.team.Team;
 
@@ -48,6 +56,7 @@ import com.newdawn.model.personnel.team.Team;
  */
 public class TeamManagementScreen implements Initializable {
 
+	ObjectBinding<Object> selectedTeamBinding;
 	@FXML
 	// fx:id="assignmentTextField"
 	private TextField assignmentTextField; // Value injected by FXMLLoader
@@ -101,20 +110,46 @@ public class TeamManagementScreen implements Initializable {
 	private Skill geologySkill;
 	@Resource
 	private TeamController teamController;
+	@Resource
+	private ApplicationContext applicationContext;
+
 	// Handler for Button[Button[id=null, styleClass=button]] onAction
 
 	public void launchTeamAssignmentChange(ActionEvent event) {
-		// handle the event here
+		// TODO HAndle the init of the dialog in the initialize method
+		Stage dialogStage = new Stage();
+		Parent dialogPane;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(
+				"/com/newdawn/gui/personnel/TeamAssignmentDialog.fxml"));
+		loader.setControllerFactory(new SpringFXControllerFactory(
+				applicationContext));
+		try {
+			dialogPane = (Parent) loader.load();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		TeamAssignmentDialog controller = loader.getController();
+		Object selectedTeam = selectedTeamBinding.getValue();
+		controller
+				.setTeam(selectedTeam instanceof FieldTeam ? (FieldTeam) selectedTeam
+						: null);
+		dialogStage.setScene(new Scene(dialogPane));
+		dialogStage.initModality(Modality.APPLICATION_MODAL);
+		dialogStage.showAndWait();
+
 	}
 
 	// Handler for TableView[fx:id="membersTableView"] onKeyPressed
 	public void membersTableViewKeyPressedEvent(KeyEvent event) {
 		if (event.getCode() == KeyCode.DELETE) {
-			Official toRemove = membersTableView.getSelectionModel().getSelectedItem();
+			Official toRemove = membersTableView.getSelectionModel()
+					.getSelectedItem();
 			if (toRemove != null) {
 				Team team = (Team) toRemove.getAssignment();
 				teamController.removeTeamMember(team, toRemove);
-				
+
 			}
 		}
 	}
@@ -136,9 +171,8 @@ public class TeamManagementScreen implements Initializable {
 		assert teamsTreeView != null : "fx:id=\"teamsTreeView\" was not injected: check your FXML file 'TeamManagementScreen.fxml'.";
 		// initialize your logic here: all @FXML variables will have been
 		// injected
-		final ObjectBinding<Object> selectedTeamBinding = Bindings.select(
-				teamsTreeView.getSelectionModel().selectedItemProperty(),
-				"value");
+		selectedTeamBinding = Bindings.select(teamsTreeView.getSelectionModel()
+				.selectedItemProperty(), "value");
 		final ObjectBinding<Skill> selectedTeamSkillBinding = Bindings.select(
 				selectedTeamBinding, "teamSkill");
 		// <editor-fold defaultstate="collapsed"

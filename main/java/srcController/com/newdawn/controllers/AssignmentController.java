@@ -6,13 +6,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.newdawn.controllers.TeamController.FieldTeamType;
 import com.newdawn.model.personnel.team.TeamAssignment;
 import com.newdawn.model.system.StellarSystem;
 
-@Resource
+@Component
 public class AssignmentController {
 
 	@Resource
