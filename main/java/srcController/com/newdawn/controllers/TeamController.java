@@ -4,6 +4,7 @@ import javafx.beans.property.ReadOnlyListProperty;
 
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.personnel.team.Team;
@@ -164,6 +165,8 @@ public class TeamController {
 			//TODO handle the other type
 			throw new AssertionError();
 		}
+		//TODO supprimer et mettre en place le transport
+		selectedTeam.setLocalization(selectedTeam.getAssignment());
 		
 	}
 
