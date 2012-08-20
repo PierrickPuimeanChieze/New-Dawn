@@ -1,12 +1,16 @@
 package com.newdawn.controllers;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.newdawn.model.mineral.MineralDeposit;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
 import com.newdawn.model.personnel.team.GeologicalTeam;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -17,22 +21,9 @@ public class GeologicalController {
 
 	@Autowired
 	private Config config;
-
-	public void putGeologicalTeamOnMinerallyExploitableBody(
-			MinerallyExploitableBody body, GeologicalTeam team) {
-		if (team.getBodyProspected() != null) {
-			MinerallyExploitableBodyModel oldModel = team.getBodyProspected()
-					.getMinerallyExploitableBodyModel();
-			oldModel.setGeologicalTeam(null);
-		}
-		if (body != null) {
-			MinerallyExploitableBodyModel newModel = body
-					.getMinerallyExploitableBodyModel();
-			newModel.setGeologicalTeam(team);
-		}
-		team.setBodyProspected(body);
-	}
-
+	@Resource
+	private GameData gameData;
+	
 	public void runProspection(GeologicalTeam team, int increment) {
 		MinerallyExploitableBodyModel bodyModel = team.getBodyProspected()
 				.getMinerallyExploitableBodyModel();

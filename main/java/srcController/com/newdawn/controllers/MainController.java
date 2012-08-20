@@ -4,15 +4,20 @@
  */
 package com.newdawn.controllers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.newdawn.model.colony.Colony;
+import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.Satellite;
 import com.newdawn.model.system.StellarSystem;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -35,6 +40,8 @@ public class MainController {
 	private Config config;
 	@Autowired
 	private ColonyController colonyIncreaseController;
+	@Autowired
+	private GeologicalController geologicalController;
 
 	public Config getConfig() {
 		return config;
@@ -134,6 +141,7 @@ public class MainController {
 		LOGGER.exiting(MainController.class.getName(), "runIncrements");
 	}
 
+	//TODO use an int for the subpulse duration
 	private void runSubPulse(long second) {
 		LOGGER.entering(MainController.class.getName(), "runSubPulse",
 				new Object[] { second });
@@ -157,6 +165,10 @@ public class MainController {
 				colonyIncreaseController.calculateColonyPopulationAndWealth(
 						colony, second);
 			}
+		}
+		for (GeologicalTeam geologicalTeam : gameData.getGeologicalTeams()) {
+			
+			geologicalController.runProspection(geologicalTeam, (int)second);
 		}
 		LOGGER.exiting(MainController.class.getName(), "runSubPulse");
 	}

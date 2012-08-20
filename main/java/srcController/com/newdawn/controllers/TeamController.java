@@ -172,8 +172,7 @@ public class TeamController {
 
 	private void assignGeologicalTeamToMinerallyExploitableBody(
 			GeologicalTeam selectedTeam, MinerallyExploitableBody assignment) {
-		
 		selectedTeam.setAssignement(assignment);
-		
+		selectedTeam.setBodyProspected(assignment);
 	}
 }
