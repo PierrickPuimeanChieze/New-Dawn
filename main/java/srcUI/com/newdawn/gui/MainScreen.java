@@ -255,43 +255,43 @@ public class MainScreen implements Initializable {
 
 	@FXML
 	public void launchTest(ActionEvent event) {
-		Skill leadSkill = applicationContext.getBean("leadership", Skill.class);
-		Skill geoSkill = applicationContext.getBean("geology", Skill.class);
-
-		final Official officials = gameData.getOfficials().get(0);
-		SkillLevel leadSkillLevel = officials.skillLevelsProperty().get(
-				leadSkill);
-		if (leadSkillLevel == null) {
-			leadSkillLevel = new SkillLevel(leadSkill);
-			officials.skillLevelsProperty().put(leadSkill, leadSkillLevel);
-		}
-		leadSkillLevel.setLevel(75);
-
-		SkillLevel geoSkillLevel = officials.skillLevelsProperty()
-				.get(geoSkill);
-
-		if (geoSkillLevel == null) {
-			geoSkillLevel = new SkillLevel(geoSkill);
-			officials.skillLevelsProperty().put(geoSkill, geoSkillLevel);
-		}
-		geoSkillLevel.setLevel(75);
-		final Official navalOfficer3 = officialsFactory
-				.getOfficialByName("navalOfficer3");
-		navalOfficer3.skillLevelsProperty().get(geoSkill).setLevel(75);
-		Colony test = new Colony();
-		test.setPopulation(100_000_000);
-		test.setPopulationGrowRate(1);
-		test.setWealthProduction(500);
-		test.setName("Test");
-		Planet planet = gameData.getStellarSystems().get(0).getPlanets().get(0);
-		colonyController.updateSystemWithColony(planet, test);
-
-		Scientist testScientist1 = officialsFactory.createNewScientist(
-				"testScientist1", test);
-		Scientist testScientist2 = officialsFactory.createNewScientist(
-				"testScientist2", test);
-		NavalOfficer navalOfficer1 = officialsFactory.createNewNavalOfficer(
-				"navalOfficer1", test);
+//		Skill leadSkill = applicationContext.getBean("leadership", Skill.class);
+//		Skill geoSkill = applicationContext.getBean("geology", Skill.class);
+//
+//		final Official officials = gameData.getOfficials().get(0);
+//		SkillLevel leadSkillLevel = officials.skillLevelsProperty().get(
+//				leadSkill);
+//		if (leadSkillLevel == null) {
+//			leadSkillLevel = new SkillLevel(leadSkill);
+//			officials.skillLevelsProperty().put(leadSkill, leadSkillLevel);
+//		}
+//		leadSkillLevel.setLevel(75);
+//
+//		SkillLevel geoSkillLevel = officials.skillLevelsProperty()
+//				.get(geoSkill);
+//
+//		if (geoSkillLevel == null) {
+//			geoSkillLevel = new SkillLevel(geoSkill);
+//			officials.skillLevelsProperty().put(geoSkill, geoSkillLevel);
+//		}
+//		geoSkillLevel.setLevel(75);
+//		final Official navalOfficer3 = officialsFactory
+//				.getOfficialByName("navalOfficer3");
+//		navalOfficer3.skillLevelsProperty().get(geoSkill).setLevel(75);
+//		Colony test = new Colony();
+//		test.setPopulation(100_000_000);
+//		test.setPopulationGrowRate(1);
+//		test.setWealthProduction(500);
+//		test.setName("Test");
+//		Planet planet = gameData.getStellarSystems().get(0).getPlanets().get(0);
+//		colonyController.updateSystemWithColony(planet, test);
+//
+//		Scientist testScientist1 = officialsFactory.createNewScientist(
+//				"testScientist1", test);
+//		Scientist testScientist2 = officialsFactory.createNewScientist(
+//				"testScientist2", test);
+//		NavalOfficer navalOfficer1 = officialsFactory.createNewNavalOfficer(
+//				"navalOfficer1", test);
 		// gameData.getOfficials().addAll(testScientist1, testScientist2,
 		// navalOfficer1);
 	}

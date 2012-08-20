@@ -21,6 +21,9 @@ public class GeologicalTeam extends FieldTeam {
 		return bodyProspectedProperty;
 	}
 
+	private GeologicalTeam() {
+		
+	}
 	/**
 	 * Get the value of bodyProspected
 	 * 

@@ -10,6 +10,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import viewerfx.ViewerFX;
 
 /**
@@ -28,7 +30,8 @@ public class GeologicalTeamTest {
     public static void initialize() throws Exception {
         final ViewerFX viewerFX = new viewerfx.ViewerFX();
         viewerFX.init();
-        context = viewerFX.getSprintContainer();
+        context = new ClassPathXmlApplicationContext(
+				"/spring/newdawn.xml");
         officialsController = context.getBean(OfficialsController.class);
         teamController = context.getBean(TeamController.class);
         geologySkill = context.getBean("geology", Skill.class);
@@ -37,7 +40,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testSettingLeaderAlone() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer", null);
         testLeader.skillLevelsProperty().get(geologySkill).setLevel(50);
@@ -47,7 +50,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testModifyingLeaderAlone() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer", null);
         final SkillLevel geologySkillLevel = testLeader.skillLevelsProperty().
@@ -61,7 +64,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testModifyingLeader() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer Leader", null);
         final NavalOfficer testMember = officialsController.
@@ -87,7 +90,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testModifyingMember() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer Leader", null);
         final NavalOfficer testMember = officialsController.
@@ -111,7 +114,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testAddingMember() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer Leader", null);
         final NavalOfficer testMember = officialsController.
@@ -142,7 +145,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testRemovingMember() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer Leader", null);
         final NavalOfficer testMember = officialsController.
@@ -174,7 +177,7 @@ public class GeologicalTeamTest {
 
     @Test
     public void testPromotingLeader() {
-        GeologicalTeam geologicalTeam = new GeologicalTeam();
+        GeologicalTeam geologicalTeam = context.getBean(GeologicalTeam.class);
         final NavalOfficer testLeader = officialsController.
                 createNewNavalOfficer("Test Naval Officer Leader", null);
         final NavalOfficer testMember = officialsController.

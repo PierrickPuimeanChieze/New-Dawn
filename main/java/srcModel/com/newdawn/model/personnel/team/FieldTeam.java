@@ -1,12 +1,8 @@
 package com.newdawn.model.personnel.team;
 
-import com.newdawn.controllers.TeamController;
-import com.newdawn.model.personnel.PersonnelLocalisation;
-import com.newdawn.model.personnel.Official;
-import com.newdawn.model.personnel.Skill;
-import com.newdawn.model.personnel.SkillLevel;
 import java.util.HashMap;
 import java.util.Map;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.LongBinding;
@@ -23,7 +19,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableMap;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+
 import viewerfx.ViewerFX;
+
+import com.newdawn.controllers.TeamController;
+import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.PersonnelLocalisation;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
 
 /**
  * 
@@ -41,6 +49,11 @@ public abstract class FieldTeam extends Team {
 	private ObjectProperty<TeamAssignment> assignmentProperty = new SimpleObjectProperty<>(
 			this, "assignement");
 	private StringProperty visualNameProperty;
+	@Resource(name = "leadership")
+	private Skill leadershipSkill;
+	@Autowired
+	private ApplicationContext applicationContext;
+
 
 	public ReadOnlyObjectProperty<TeamAssignment> assignmentProperty() {
 		return assignmentProperty;
@@ -63,9 +76,6 @@ public abstract class FieldTeam extends Team {
 	 */
 	public void setAssignment(TeamAssignment assignment) {
 		this.assignmentProperty.setValue(assignment);
-	}
-
-	public FieldTeam() {
 	}
 
 	public ReadOnlyLongProperty cumulatedSkillLevelProperty() {
@@ -138,8 +148,6 @@ public abstract class FieldTeam extends Team {
 	}
 
 	private int calculateMaxSize() {
-		Skill leadershipSkill = ViewerFX.getCurrentApplication()
-				.getSprintContainer().getBean("leadership", Skill.class);
 		int leaderLeadershipLevel = getLeader().getSkillLevels()
 				.get(leadershipSkill).getLevel();
 		int additionalTeamMemberSize = (int) (leaderLeadershipLevel / 12.5);
@@ -176,8 +184,7 @@ public abstract class FieldTeam extends Team {
 
 	public ReadOnlyObjectProperty<Skill> teamSkillProperty() {
 		if (teamSkillProperty == null) {
-			Skill teamSkill = ViewerFX.getCurrentApplication()
-					.getSprintContainer()
+			Skill teamSkill = applicationContext
 					.getBean(getTeamSkillName(), Skill.class);
 			teamSkillProperty = new SimpleObjectProperty<>(this, "teamSkill",
 					teamSkill);
@@ -191,8 +198,7 @@ public abstract class FieldTeam extends Team {
 		private Map<Official, IntegerBinding> memberTeamSkillLevelBindings = new HashMap<>();
 
 		public CumulatedSkillLevelBinding() {
-			Skill leadershipSkill = ViewerFX.getCurrentApplication()
-					.getSprintContainer().getBean("leadership", Skill.class);
+
 
 			// <editor-fold defaultstate="collapsed"
 			// desc="Binding for the change of leader, or change of skill for the leader">
@@ -225,8 +231,7 @@ public abstract class FieldTeam extends Team {
 		@Override
 		protected long computeValue() {
 			Skill teamSkill = getTeamSkill();
-			Skill leadershipSkill = ViewerFX.getCurrentApplication()
-					.getSprintContainer().getBean("leadership", Skill.class);
+
 			final SkillLevel leaderLeadershipSkillLevel = getLeader()
 					.getSkillLevels().get(leadershipSkill);
 			double leaderLeadershipSkillLevelValue = leaderLeadershipSkillLevel == null ? 0

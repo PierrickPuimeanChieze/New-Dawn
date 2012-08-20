@@ -53,8 +53,6 @@ public class SystemMapScreen implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		ApplicationContext factory = viewerfx.ViewerFX.getCurrentApplication()
-				.getSprintContainer();
 		Bindings.bindContent(stellarSystemListView.getItems(),
 				gameData.getStellarSystems());
 		stellarSystemListView

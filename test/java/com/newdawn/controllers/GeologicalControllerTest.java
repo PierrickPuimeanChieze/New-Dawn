@@ -12,7 +12,6 @@ import javafx.beans.property.ReadOnlyStringProperty;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import viewerfx.ViewerFX;
@@ -29,7 +28,7 @@ import com.newdawn.model.personnel.team.GeologicalTeam;
  */
 public class GeologicalControllerTest {
 
-	private static ApplicationContext springContainer;
+	private static ClassPathXmlApplicationContext springContainer;
 	private static OfficialsController officialsController;
 	private static TeamController teamController;
 	private static GeologicalTeam geologicalTeam;
@@ -43,9 +42,8 @@ public class GeologicalControllerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		final ViewerFX viewerFX = new viewerfx.ViewerFX();
-		viewerFX.init();
-		springContainer = viewerFX.getSprintContainer();
+		springContainer = new ClassPathXmlApplicationContext(
+				"/spring/newdawn.xml");
 		officialsController = springContainer
 				.getBean(OfficialsController.class);
 		teamController = springContainer.getBean(TeamController.class);

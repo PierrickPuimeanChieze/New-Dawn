@@ -1,13 +1,26 @@
 package com.newdawn.model.colony;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.LongBinding;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyLongProperty;
+import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.newdawn.controllers.Config;
 import com.newdawn.model.personnel.PersonnelLocalisation;
 import com.newdawn.model.system.Planet;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.*;
-import javafx.beans.value.ObservableValue;
-import viewerfx.ViewerFX;
 
 /**
  * 
@@ -33,7 +46,8 @@ class PercentBinding extends LongBinding {
 
 public class Colony implements PersonnelLocalisation {
 
-	private final Config config;
+	@Autowired
+	private Config config;
 	private ObjectProperty<Planet> colonizedPlanetProperty;
 	private LongProperty populationProperty;
 	private LongProperty agriculturePopulationProperty;
@@ -185,9 +199,8 @@ public class Colony implements PersonnelLocalisation {
 		return agriculturePopulationProperty;
 	}
 
-	public Colony() {
-		this.config = ViewerFX.getCurrentApplication().getSprintContainer()
-				.getBean(Config.class);
+	private Colony() {
+		//Private constructor to avoid initialisation outside of spring
 	}
 
 	/**

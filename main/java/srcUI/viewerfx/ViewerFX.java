@@ -67,7 +67,7 @@ public class ViewerFX extends Application {
 		final InitialisationController initialisationController = sprintContainer
 				.getBean(InitialisationController.class);
 		final GameData gameData = sprintContainer.getBean(GameData.class);
-
+		final ColonyController colonyController = sprintContainer.getBean(ColonyController.class);
 		final StellarSystem solarSystem = SollarSystemBuilder
 				.getIt(initialisationController);
 		final StellarSystem solarSystem2 = SollarSystem2Builder
@@ -76,7 +76,9 @@ public class ViewerFX extends Application {
 				.createSystem(getClass().getResourceAsStream("/testSystem.xml"));
 		gameData.getStellarSystems().addAll(solarSystem, solarSystem2,
 				testSystem);
-		Colony test2 = new Colony();
+		
+		
+		Colony test2 = sprintContainer.getBean(Colony.class);
 		test2.setPopulation(100_000_000);
 		test2.setPopulationGrowRate(1);
 		test2.setWealthProduction(500);
@@ -128,11 +130,7 @@ public class ViewerFX extends Application {
 		}
 	}
 
-	public static ViewerFX getCurrentApplication() {
-		return currentApplication;
-	}
-
-	public ApplicationContext getSprintContainer() {
+	private ApplicationContext getSprintContainer() {
 		return sprintContainer;
 	}
 }

@@ -11,6 +11,7 @@ import com.newdawn.model.personnel.team.Team;
 import com.newdawn.model.personnel.team.TeamAssignment;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,12 +21,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class TeamController {
 
+	@Autowired
+	private ApplicationContext applicationContext;
+	//TODO remove fieldTeamType, eventually; use Team class instead
 	private FieldTeam createFieldTeam(FieldTeamType fieldTeamType)
 			throws AssertionError {
 		FieldTeam toReturn;
 		switch (fieldTeamType) {
 		case GEOLOGICAL:
-			toReturn = new GeologicalTeam();
+			toReturn = applicationContext.getBean(GeologicalTeam.class);
 
 			break;
 		default:
