@@ -27,6 +27,10 @@ public class GeologicalController {
 	public void runProspection(GeologicalTeam team, int increment) {
 		MinerallyExploitableBodyModel bodyModel = team.getBodyProspected()
 				.getMinerallyExploitableBodyModel();
+		if (team.getCumulatedSkillLevel()<1) {
+			//TODO Event
+			return;
+		}
 		if (bodyModel.isFinalized()) {
 			// TODO EVENT
 			return;
