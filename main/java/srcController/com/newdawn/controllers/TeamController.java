@@ -2,10 +2,13 @@ package com.newdawn.controllers;
 
 import javafx.beans.property.ReadOnlyListProperty;
 
+import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.personnel.Official;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.personnel.team.Team;
+import com.newdawn.model.personnel.team.TeamAssignment;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +53,7 @@ public class TeamController {
 		toReturn.setLeader(teamLeader);
 		toReturn.setName(teamLeader.getName() + " ' "
 				+ fieldTeamType.toString().toLowerCase() + " team");
+		toReturn.setLocalization(teamLeader.getLocalization());
 		teamLeader.localizationProperty().bind(toReturn.localizationProperty());
 		teamLeader.setAssignment(toReturn);
 		gameData.getGeologicalTeams().add((GeologicalTeam) toReturn);
@@ -146,5 +150,27 @@ public class TeamController {
 		}
 		team.setLeader(wantedLeader);
 		wantedLeader.setAssignment(team);
+	}
+
+	public void assignTeamToAssignment(FieldTeam selectedTeam,
+			TeamAssignment assignment) {
+		switch (selectedTeam.getType()) {
+		case GEOLOGICAL:
+			assert assignment instanceof MinerallyExploitableBody;
+			assert selectedTeam instanceof GeologicalTeam;
+			assignGeologicalTeamToMinerallyExploitableBody((GeologicalTeam)selectedTeam, (MinerallyExploitableBody)assignment);
+			break;
+		default:
+			//TODO handle the other type
+			throw new AssertionError();
+		}
+		
+	}
+
+	private void assignGeologicalTeamToMinerallyExploitableBody(
+			GeologicalTeam selectedTeam, MinerallyExploitableBody assignment) {
+		
+		selectedTeam.setAssignement(assignment);
+		
 	}
 }

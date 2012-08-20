@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import javax.annotation.Resource;
 
@@ -44,15 +45,21 @@ public class TeamAssignmentDialog implements Initializable {
 	@Resource
 	private AssignmentController assignmentController;
 	private FieldTeam team;
+	private Stage stage;
+	private TeamAssignment selectedAssignment;
+	private boolean confirmed;
 
 	// Handler for Button[Button[id=null, styleClass=button]] onAction
 	public void cancelButtonAction(ActionEvent event) {
-//		dialogRoot.getP
+		this.stage.hide();
 	}
 
 	// Handler for Button[Button[id=null, styleClass=button]] onAction
 	public void okButtonAction(ActionEvent event) {
-		// Bindings.
+		this.selectedAssignment = (TeamAssignment)availableAssignmentsTreeView
+				.getSelectionModel().getSelectedItem().getValue();
+		this.confirmed = true;
+		this.stage.hide();
 	}
 
 	@Override
@@ -111,4 +118,15 @@ public class TeamAssignmentDialog implements Initializable {
 		}
 	}
 
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+	
+	public TeamAssignment getSelectedAssignment() {
+		return selectedAssignment;
+	}
 }

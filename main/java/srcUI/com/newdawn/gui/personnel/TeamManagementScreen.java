@@ -40,6 +40,7 @@ import javax.annotation.Resource;
 import org.springframework.context.ApplicationContext;
 
 import com.newdawn.controllers.GameData;
+import com.newdawn.controllers.OfficialsController;
 import com.newdawn.controllers.TeamController;
 import com.newdawn.gui.PropertyOrToStringTreeCellFactory;
 import com.newdawn.gui.SpringFXControllerFactory;
@@ -49,6 +50,7 @@ import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.team.FieldTeam;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 import com.newdawn.model.personnel.team.Team;
+import com.newdawn.model.personnel.team.TeamAssignment;
 
 /**
  * 
@@ -75,6 +77,7 @@ public class TeamManagementScreen implements Initializable {
 	// fx:id="leaderTeamSkillLevelTextField"
 	private TextField leaderTeamSkillLevelTextField; // Value injected by
 														// FXMLLoader
+	//TODO rename this field in localizationTextField
 	@FXML
 	// fx:id="locationTextFiedl"
 	private TextField locationTextFiedl; // Value injected by FXMLLoader
@@ -114,9 +117,11 @@ public class TeamManagementScreen implements Initializable {
 	private ApplicationContext applicationContext;
 
 	// Handler for Button[Button[id=null, styleClass=button]] onAction
-
+	// TODO add a control on the launchAssignment button to disable it if no
+	// team are selected : check the TeamAssignmentDialog and the OK button
 	public void launchTeamAssignmentChange(ActionEvent event) {
-		// TODO HAndle the init of the dialog in the initialize method
+		// TODO HAndle the init of the dialog in the initialize method : One
+		// dialog for the whole application
 		Stage dialogStage = new Stage();
 		Parent dialogPane;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -132,13 +137,21 @@ public class TeamManagementScreen implements Initializable {
 		}
 		TeamAssignmentDialog controller = loader.getController();
 		Object selectedTeam = selectedTeamBinding.getValue();
-		controller
-				.setTeam(selectedTeam instanceof FieldTeam ? (FieldTeam) selectedTeam
-						: null);
+		if (!(selectedTeam instanceof FieldTeam)) {
+			throw new IllegalStateException(
+					"Team Management Screen : Cannot start an assignment procedure if no team is selected");
+		}
+		controller.setTeam((FieldTeam) selectedTeam);
+		controller.setStage(dialogStage);
 		dialogStage.setScene(new Scene(dialogPane));
 		dialogStage.initModality(Modality.APPLICATION_MODAL);
 		dialogStage.showAndWait();
 
+		if (controller.isConfirmed()) {
+			TeamAssignment assignment = controller.getSelectedAssignment();
+			teamController.assignTeamToAssignment((FieldTeam) selectedTeam,
+					assignment);
+		}
 	}
 
 	// Handler for TableView[fx:id="membersTableView"] onKeyPressed
@@ -279,5 +292,7 @@ public class TeamManagementScreen implements Initializable {
 					}
 				});
 		// </editor-fold>
+		assignmentTextField.textProperty().bind(Bindings.selectString(selectedTeamBinding, "assignment", "visualName"));
+		locationTextFiedl.textProperty().bind(Bindings.selectString(selectedTeamBinding, "localization", "visualName"));
 	}
 }
