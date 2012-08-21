@@ -36,9 +36,11 @@ public class GeologicalController {
 			return;
 		}
 
+		
 		int newCounter = team.getInternalCounter() + increment;
-		if (newCounter >= config.getMaxValueForTeamInternalTimeCounter()) {
-			team.setInternalCounter(0);
+		
+		while (newCounter >= config.getMaxValueForTeamInternalTimeCounter()) {
+			newCounter = newCounter - config.getMaxValueForTeamInternalTimeCounter();
 			long teamCumulatedSkill = team.getCumulatedSkillLevel();
 			if (!bodyModel.isInitialDiscovered()) {
 				long newInitialDiscoveryPoints = bodyModel
@@ -94,8 +96,7 @@ public class GeologicalController {
 				}
 
 			}
-		} else {
-			team.setInternalCounter(newCounter);
 		}
+		team.setInternalCounter(newCounter);
 	}
 }

@@ -11,15 +11,16 @@ import javafx.beans.property.ReadOnlyStringProperty;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import viewerfx.ViewerFX;
 
 import com.newdawn.controllers.TeamController.FieldTeamType;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
 import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.team.GeologicalTeam;
 
 /**
@@ -35,6 +36,7 @@ public class GeologicalControllerTest {
 	private static MinerallyExploitableBody testBody;
 	private static GeologicalController geologicalController;
 	private static Config config;
+	private static SkillLevel teamLeaderGeologySkillLevel;
 
 	/**
 	 * @throws java.lang.Exception
@@ -70,21 +72,26 @@ public class GeologicalControllerTest {
 				return this.model;
 			}
 		};
-
-		NavalOfficer teamLeader = officialsController.createNewNavalOfficer(
-				"Team Leader", testBody);
+		NavalOfficer teamLeader;
+		teamLeader = officialsController.createNewNavalOfficer("Team Leader",
+				testBody);
 		geologicalTeam = (GeologicalTeam) teamController.createTeamWithLeader(
 				teamLeader, FieldTeamType.GEOLOGICAL);
 		teamController.assignTeamToAssignment(geologicalTeam, testBody);
 		geologicalController = springContainer
 				.getBean(GeologicalController.class);
 		config = springContainer.getBean(Config.class);
+		Skill geologySkill = springContainer.getBean("geology", Skill.class);
+		teamLeaderGeologySkillLevel = new SkillLevel(geologySkill);
+
+		teamLeader.getSkillLevels().put(geologySkill,
+				teamLeaderGeologySkillLevel);
 	}
 
 	@Before
 	public void setUp() {
 		geologicalTeam.setInternalCounter(0);
-
+		teamLeaderGeologySkillLevel.setLevel(0);
 	}
 
 	/**
@@ -98,7 +105,7 @@ public class GeologicalControllerTest {
 				50, 150, 150);
 		bodyModel = new MinerallyExploitableBodyModel(50, 150, 150);
 		testBody.setMinerallyExploitableBodyModel(bodyModel);
-
+		teamLeaderGeologySkillLevel.setLevel(0);
 		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(0L)));
 		geologicalController.runProspection(geologicalTeam,
 				config.getMaxValueForTeamInternalTimeCounter() + 1);
@@ -107,13 +114,34 @@ public class GeologicalControllerTest {
 	}
 
 	@Test
+	
 	public final void testRunProspectionInitialLevelFilling() {
-		fail("Not yet implemented"); // TODO
+		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
+				50, 150, 150);
+		testBody.setMinerallyExploitableBodyModel(bodyModel);
+
+		teamLeaderGeologySkillLevel.setLevel(22);
+		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(22L)));
+		geologicalController.runProspection(geologicalTeam,
+				config.getMaxValueForTeamInternalTimeCounter() + 1);
+		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
+		assertThat(bodyModel.getInitialDiscoveryPoints(), is(equalTo(22L)));
+
 	}
 
 	@Test
 	public final void testRunProspectionInitialLevelFinalization() {
-		fail("Not yet implemented"); // TODO
+		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
+				30, 150, 150);
+		testBody.setMinerallyExploitableBodyModel(bodyModel);
+
+		teamLeaderGeologySkillLevel.setLevel(16);
+		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(16L)));
+		geologicalController.runProspection(geologicalTeam,
+				config.getMaxValueForTeamInternalTimeCounter() * 2 + 1);
+		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
+		assertThat(bodyModel.isInitialDiscovered(), is(true));
+//		assertThat(bodyModel.getInitialDiscoveryPoints(), is(equalTo(32L)));
 	}
 
 	@Test
