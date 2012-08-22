@@ -17,6 +17,8 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableMap;
 
@@ -53,7 +55,6 @@ public abstract class FieldTeam extends Team {
 	private Skill leadershipSkill;
 	@Autowired
 	private ApplicationContext applicationContext;
-
 
 	public ReadOnlyObjectProperty<TeamAssignment> assignmentProperty() {
 		return assignmentProperty;
@@ -184,8 +185,8 @@ public abstract class FieldTeam extends Team {
 
 	public ReadOnlyObjectProperty<Skill> teamSkillProperty() {
 		if (teamSkillProperty == null) {
-			Skill teamSkill = applicationContext
-					.getBean(getTeamSkillName(), Skill.class);
+			Skill teamSkill = applicationContext.getBean(getTeamSkillName(),
+					Skill.class);
 			teamSkillProperty = new SimpleObjectProperty<>(this, "teamSkill",
 					teamSkill);
 		}
@@ -199,7 +200,6 @@ public abstract class FieldTeam extends Team {
 
 		public CumulatedSkillLevelBinding() {
 
-
 			// <editor-fold defaultstate="collapsed"
 			// desc="Binding for the change of leader, or change of skill for the leader">
 			MapBinding<Skill, SkillLevel> leaderSkillLevelsBinding = new SkillLevelBindings(
@@ -210,7 +210,21 @@ public abstract class FieldTeam extends Team {
 			final IntegerBinding leaderTeamSkillLevelValueBinding = Bindings
 					.selectInteger(Bindings.valueAt(leaderSkillLevelsBinding,
 							teamSkillProperty()), "level");
+			leaderTeamSkillLevelValueBinding
+					.addListener(new ChangeListener<Number>() {
 
+						@Override
+						public void changed(
+								ObservableValue<? extends Number> arg0,
+								Number arg1, Number arg2) {
+							// Without this, sometimes the change of the
+							// leader's level for the team skill doesn't
+							// invalidate the dependencies
+							//TODO investigate
+
+						}
+
+					});
 			bind(leaderLeadershipSkillLevelValueBinding,
 					leaderTeamSkillLevelValueBinding);
 			// </editor-fold>

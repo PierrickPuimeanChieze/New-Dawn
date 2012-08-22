@@ -91,7 +91,7 @@ public class GeologicalControllerTest {
 	@Before
 	public void setUp() {
 		geologicalTeam.setInternalCounter(0);
-		teamLeaderGeologySkillLevel.setLevel(0);
+//		teamLeaderGeologySkillLevel.setLevel(0);
 	}
 
 	/**
@@ -145,16 +145,19 @@ public class GeologicalControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public final void testRunProspectionIntermediateLevelNotEnoughLevel() {
 		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
+	@Ignore
 	public final void testRunProspectionIntermediateLevelFilling() {
 		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
+	@Ignore
 	public final void testRunProspectionIntermediateLevelFinalization() {
 		fail("Not yet implemented"); // TODO
 	}
