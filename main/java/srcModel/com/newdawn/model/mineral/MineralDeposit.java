@@ -8,6 +8,7 @@ import javafx.beans.property.*;
  */
 public class MineralDeposit {
 
+	
 	public static enum MineralDepositStatus {
 
 		UNKNOWN, DISCOVERED;
@@ -16,12 +17,14 @@ public class MineralDeposit {
 	private MineralModel mineralModel;
 	private int skillLevelToDiscover;
 	private LongProperty discoveryPointsProperty;
+	private int neededPointsToDiscover;
 	private long quantity;
 	private ObjectProperty<MineralDepositStatus> statusProperty;
 
-	public MineralDeposit(int skillLevelToDiscover, int quantity) {
+	public MineralDeposit(int skillLevelToDiscover, int neededPointToDiscover, int quantity) {
 		this.skillLevelToDiscover = skillLevelToDiscover;
 		this.quantity = quantity;
+		this.neededPointsToDiscover = neededPointToDiscover;
 	}
 
 	public ObjectProperty<MineralDepositStatus> statusProperty() {
@@ -47,7 +50,7 @@ public class MineralDeposit {
 	 *            new value of status
 	 */
 	public void setStatus(MineralDepositStatus status) {
-		this.statusProperty.setValue(status);
+		this.statusProperty().setValue(status);
 	}
 
 	public long getQuantity() {
@@ -91,5 +94,9 @@ public class MineralDeposit {
 	 */
 	public void setDiscoveryPoints(long discoveryPoints) {
 		this.discoveryPointsProperty().setValue(discoveryPoints);
+	}
+	
+	public int getNeededPointsToDiscover() {
+		return neededPointsToDiscover;
 	}
 }

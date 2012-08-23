@@ -7,6 +7,9 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+
+import java.util.Map;
+
 import javafx.beans.property.ReadOnlyStringProperty;
 
 import org.junit.Before;
@@ -16,12 +19,17 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.newdawn.controllers.TeamController.FieldTeamType;
+import com.newdawn.model.mineral.Mineral;
+import com.newdawn.model.mineral.MineralDeposit;
+import com.newdawn.model.mineral.MineralModel;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
+import com.newdawn.model.mineral.MineralDeposit.MineralDepositStatus;
 import com.newdawn.model.personnel.NavalOfficer;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 import com.newdawn.model.personnel.team.GeologicalTeam;
+import com.sun.org.apache.xpath.internal.operations.NotEquals;
 
 /**
  * @author teocali
@@ -37,6 +45,7 @@ public class GeologicalControllerTest {
 	private static GeologicalController geologicalController;
 	private static Config config;
 	private static SkillLevel teamLeaderGeologySkillLevel;
+	private static Mineral mineral_1;
 
 	/**
 	 * @throws java.lang.Exception
@@ -49,6 +58,7 @@ public class GeologicalControllerTest {
 		officialsController = springContainer
 				.getBean(OfficialsController.class);
 		teamController = springContainer.getBean(TeamController.class);
+		mineral_1 = springContainer.getBean("mineral_1", Mineral.class);
 		testBody = new MinerallyExploitableBody() {
 
 			private MinerallyExploitableBodyModel model;
@@ -91,7 +101,7 @@ public class GeologicalControllerTest {
 	@Before
 	public void setUp() {
 		geologicalTeam.setInternalCounter(0);
-//		teamLeaderGeologySkillLevel.setLevel(0);
+		// teamLeaderGeologySkillLevel.setLevel(0);
 	}
 
 	/**
@@ -114,10 +124,9 @@ public class GeologicalControllerTest {
 	}
 
 	@Test
-	
 	public final void testRunProspectionInitialLevelFilling() {
 		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
-				50, 150, 150);
+				50, 150, 150, new MineralModel(mineral_1, 15));
 		testBody.setMinerallyExploitableBodyModel(bodyModel);
 
 		teamLeaderGeologySkillLevel.setLevel(22);
@@ -126,13 +135,14 @@ public class GeologicalControllerTest {
 				config.getMaxValueForTeamInternalTimeCounter() + 1);
 		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
 		assertThat(bodyModel.getInitialDiscoveryPoints(), is(equalTo(22L)));
-
+		assertThat(bodyModel.getMineralModel(mineral_1).getDiscovered(),
+				is(equalTo(0L)));
 	}
 
 	@Test
 	public final void testRunProspectionInitialLevelFinalization() {
 		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
-				30, 150, 150);
+				30, 150, 150, new MineralModel(mineral_1, 15));
 		testBody.setMinerallyExploitableBodyModel(bodyModel);
 
 		teamLeaderGeologySkillLevel.setLevel(16);
@@ -141,25 +151,71 @@ public class GeologicalControllerTest {
 				config.getMaxValueForTeamInternalTimeCounter() * 2 + 1);
 		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
 		assertThat(bodyModel.isInitialDiscovered(), is(true));
-//		assertThat(bodyModel.getInitialDiscoveryPoints(), is(equalTo(32L)));
+		assertThat(bodyModel.getMineralModel(mineral_1).getDiscovered(),
+				is(equalTo(15L)));
 	}
 
 	@Test
-	@Ignore
 	public final void testRunProspectionIntermediateLevelNotEnoughLevel() {
-		fail("Not yet implemented"); // TODO
+		MineralDeposit testDeposit = new MineralDeposit(17, 50, 150);
+		MineralModel mineral_1Model = new MineralModel(mineral_1, 15,
+				testDeposit);
+
+		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
+				30, 150, 150, mineral_1Model);
+		testBody.setMinerallyExploitableBodyModel(bodyModel);
+
+		teamLeaderGeologySkillLevel.setLevel(16);
+		bodyModel.discoverInitialQuantities();
+		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(16L)));
+		geologicalController.runProspection(geologicalTeam,
+				config.getMaxValueForTeamInternalTimeCounter() * 2 + 1);
+		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
+		MineralModel mineralModel = bodyModel.getMineralModel(mineral_1);
+		assertThat(mineralModel.getDiscovered(), is(equalTo(15L)));
+		assertThat(testDeposit.getDiscoveryPoints(), is(equalTo(0L)));
 	}
 
 	@Test
-	@Ignore
 	public final void testRunProspectionIntermediateLevelFilling() {
-		fail("Not yet implemented"); // TODO
+		MineralDeposit testDeposit = new MineralDeposit(17, 50, 150);
+		MineralModel mineral_1Model = new MineralModel(mineral_1, 15,
+				testDeposit);
+
+		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
+				30, 150, 150, mineral_1Model);
+		testBody.setMinerallyExploitableBodyModel(bodyModel);
+
+		teamLeaderGeologySkillLevel.setLevel(18);
+		bodyModel.discoverInitialQuantities();
+		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(18L)));
+		geologicalController.runProspection(geologicalTeam,
+				config.getMaxValueForTeamInternalTimeCounter() * 2 + 1);
+		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
+		MineralModel mineralModel = bodyModel.getMineralModel(mineral_1);
+		assertThat(mineralModel.getDiscovered(), is(equalTo(15L)));
+		assertThat(testDeposit.getDiscoveryPoints(), is(equalTo(2L)));
 	}
 
 	@Test
-	@Ignore
 	public final void testRunProspectionIntermediateLevelFinalization() {
-		fail("Not yet implemented"); // TODO
+		MineralDeposit testDeposit = new MineralDeposit(17, 20, 50);
+		MineralModel mineral_1Model = new MineralModel(mineral_1, 15,
+				testDeposit);
+
+		MinerallyExploitableBodyModel bodyModel = new MinerallyExploitableBodyModel(
+				30, 150, 150, mineral_1Model);
+		testBody.setMinerallyExploitableBodyModel(bodyModel);
+
+		teamLeaderGeologySkillLevel.setLevel(27);
+		bodyModel.discoverInitialQuantities();
+		assertThat(geologicalTeam.getCumulatedSkillLevel(), is(equalTo(27L)));
+		geologicalController.runProspection(geologicalTeam,
+				config.getMaxValueForTeamInternalTimeCounter() * 2 + 1);
+		assertThat(geologicalTeam.getInternalCounter(), is(equalTo(1)));
+		MineralModel mineralModel = bodyModel.getMineralModel(mineral_1);
+		assertThat(testDeposit.getStatus(), is(MineralDepositStatus.DISCOVERED));
+		assertThat(mineralModel.getDiscovered(), is(equalTo(65L)));
 	}
 
 }

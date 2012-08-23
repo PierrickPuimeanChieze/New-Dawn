@@ -30,7 +30,7 @@ public class MineralModel {
 	private LongProperty remainingProperty;
 
 	public MineralModel(Mineral mineral, long initialQuantity,
-			List<MineralDeposit> deposits) {
+			MineralDeposit... deposits) {
 		this.mineral = mineral;
 		this.initialQuantity = initialQuantity;
 		for (MineralDeposit mineralDeposit : deposits) {
@@ -125,11 +125,11 @@ public class MineralModel {
 	}
 
 	public List<MineralDeposit> getDiscoveredDeposits() {
-		return undiscoveredDeposits;
+		return discoveredDeposits;
 	}
 
 	public List<MineralDeposit> getUnknownDeposits() {
-		return discoveredDeposits;
+		return undiscoveredDeposits;
 	}
 
 	public long getInitialQuantity() {
@@ -162,6 +162,7 @@ public class MineralModel {
 		updateTotalDiscoveredQuantity();
 	}
 
+	//TODO deplacer cette methode vers un controller
 	public void discoverDeposit(MineralDeposit mineralDeposit) {
 		assert initialDiscovered;
 		assert mineralDeposit.getStatus() == MineralDepositStatus.UNKNOWN;

@@ -86,8 +86,7 @@ public class GeologicalController {
 							.getDiscoveryPoints()
 							+ teamCumulatedSkill
 							- inspectedDeposit.getSkillLevelToDiscover();
-					if (newDiscoveryPoints >= config
-							.getPointsToDiscoverGeologicalDeposit()) {
+					if (newDiscoveryPoints >= inspectedDeposit.getNeededPointsToDiscover()) {
 						inspectedDeposit.getMineralModel().discoverDeposit(
 								inspectedDeposit);
 					} else {
