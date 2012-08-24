@@ -141,7 +141,7 @@ public class MainController {
 		LOGGER.exiting(MainController.class.getName(), "runIncrements");
 	}
 
-	//TODO use an int for the subpulse duration
+	// TODO use an int for the subpulse duration
 	private void runSubPulse(long second) {
 		LOGGER.entering(MainController.class.getName(), "runSubPulse",
 				new Object[] { second });
@@ -167,8 +167,11 @@ public class MainController {
 			}
 		}
 		for (GeologicalTeam geologicalTeam : gameData.getGeologicalTeams()) {
-			
-			geologicalController.runProspection(geologicalTeam, (int)second);
+			if (geologicalTeam.getBodyProspected() != null) {
+				geologicalController.runProspection(geologicalTeam,
+						(int) second);
+
+			}
 		}
 		LOGGER.exiting(MainController.class.getName(), "runSubPulse");
 	}
