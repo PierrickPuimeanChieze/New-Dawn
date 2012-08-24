@@ -39,8 +39,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ViewerFX extends Application {
 
-	private static ViewerFX currentApplication;
-	private ApplicationContext sprintContainer;
+	private ApplicationContext springContainer;
 	private static Log LOG = LogFactory.getLog(ViewerFX.class);
 
 	/**
@@ -56,18 +55,18 @@ public class ViewerFX extends Application {
 	public void init() throws Exception {
 		super.init();
 
-		ViewerFX.currentApplication = this;
 
-		sprintContainer = new ClassPathXmlApplicationContext(
+		springContainer = new ClassPathXmlApplicationContext(
 				"/spring/newdawn.xml");
-		final OfficialsController officialController = sprintContainer
+		final OfficialsController officialController = springContainer
 				.getBean(OfficialsController.class);
-		final TeamController teamController = sprintContainer
+		final TeamController teamController = springContainer
 				.getBean(TeamController.class);
-		final InitialisationController initialisationController = sprintContainer
+		final InitialisationController initialisationController = springContainer
 				.getBean(InitialisationController.class);
-		final GameData gameData = sprintContainer.getBean(GameData.class);
-		final ColonyController colonyController = sprintContainer.getBean(ColonyController.class);
+		final GameData gameData = springContainer.getBean(GameData.class);
+		final ColonyController colonyController = springContainer
+				.getBean(ColonyController.class);
 		final StellarSystem solarSystem = SollarSystemBuilder
 				.getIt(initialisationController);
 		final StellarSystem solarSystem2 = SollarSystem2Builder
@@ -76,18 +75,17 @@ public class ViewerFX extends Application {
 				.createSystem(getClass().getResourceAsStream("/testSystem.xml"));
 		gameData.getStellarSystems().addAll(solarSystem, solarSystem2,
 				testSystem);
-		
-		
-		Colony test2 = sprintContainer.getBean(Colony.class);
+
+		Colony test2 = springContainer.getBean(Colony.class);
 		test2.setPopulation(100_000_000);
 		test2.setPopulationGrowRate(1);
 		test2.setWealthProduction(500);
 		test2.setName("Test");
 		Planet planet = solarSystem2.getPlanets().get(1);
-		sprintContainer.getBean(ColonyController.class).updateSystemWithColony(
+		springContainer.getBean(ColonyController.class).updateSystemWithColony(
 				planet, test2);
 
-		Skill geologySkill = sprintContainer.getBean("geology", Skill.class);
+		Skill geologySkill = springContainer.getBean("geology", Skill.class);
 		NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer(
 				"navalOfficer2", test2);
 		navalOfficer1.setRank(NavalRank.A6);
@@ -112,15 +110,15 @@ public class ViewerFX extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(
 					"/com/newdawn/gui/MainScreen.fxml"));
 			loader.setControllerFactory(new SpringFXControllerFactory(
-					getSprintContainer()));
+					getSpringContainer()));
 			AnchorPane mainScreen;
 			mainScreen = (AnchorPane) loader.load();
 
 			final Scene scene = new Scene(mainScreen);
 			primaryStage.titleProperty().bind(
 					Bindings.format("Date : %s         Total wealth : %d",
-							null, currentApplication.getSprintContainer()
-									.getBean(GameData.class).wealthProperty()));
+							null, getSpringContainer().getBean(GameData.class)
+									.wealthProperty()));
 			primaryStage.setScene(scene);
 
 			primaryStage.show();
@@ -130,7 +128,7 @@ public class ViewerFX extends Application {
 		}
 	}
 
-	private ApplicationContext getSprintContainer() {
-		return sprintContainer;
+	private ApplicationContext getSpringContainer() {
+		return springContainer;
 	}
 }
