@@ -33,6 +33,7 @@ public class ColonyController {
 	}
 
 	public void updateSystemWithColony(Planet planet, Colony colony) {
+		assert planet != null;
 		colony.setColonizedPlanet(planet);
 		planet.getStellarSystem().getColonies().add(colony);
 	}

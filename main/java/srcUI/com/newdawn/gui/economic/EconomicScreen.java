@@ -24,10 +24,10 @@ public class EconomicScreen implements Initializable {
 
 	@FXML
 	// fx:id="coloniesTreeView"
-	private TreeView coloniesTreeView; // Value injected by FXMLLoader
+	private TreeView<Object> coloniesTreeView; // Value injected by FXMLLoader
 	@Autowired
 	private GameData gameData;
-	private TreeItem colonyRoot;
+	private TreeItem<Object> colonyRoot;
 	@FXML
 	private TabPane colonyEconomicScreen;
 	@FXML
@@ -40,7 +40,7 @@ public class EconomicScreen implements Initializable {
 		assert colonyEconomicScreen != null;
 		// initialize your logic here: all @FXML variables will have been
 		// injected
-		colonyRoot = new TreeItem("Populated Systems");
+		colonyRoot = new TreeItem<Object>("Populated Systems");
 		coloniesTreeView.setRoot(colonyRoot);
 
 		coloniesTreeView.setCellFactory(new PropertyOrToStringTreeCellFactory(
@@ -51,30 +51,35 @@ public class EconomicScreen implements Initializable {
 					@Override
 					public void onChanged(Change<? extends StellarSystem> arg0) {
 						colonyRoot.getChildren().clear();
-						for (StellarSystem populatedSystem : gameData
-								.getPopulatedStellarSystems()) {
-							TreeItem<StellarSystem> systemTreeItem = new TreeItem<>(
-									populatedSystem);
-							colonyRoot.getChildren().add(systemTreeItem);
-							for (Colony colony : populatedSystem.getColonies()) {
-								TreeItem colonyTreeItem = new TreeItem(colony);
-								systemTreeItem.getChildren()
-										.add(colonyTreeItem);
-							}
-						}
+						updateColonyTree();
 					}
+
 				});
 		colonyEconomicScreenController.colonyProperty().bind(
-				new SelectBinding.AsObject(coloniesTreeView.getSelectionModel()
+				new SelectBinding.AsObject<Colony>(coloniesTreeView.getSelectionModel()
 						.selectedItemProperty(), "value") {
 					@Override
-					protected Object computeValue() {
+					protected Colony computeValue() {
 						Object value = super.computeValue();
 						if (value != null && value instanceof Colony) {
-							return value;
+							return (Colony) value;
 						}
 						return null;
 					}
 				});
+		updateColonyTree();
+	}
+
+	private void updateColonyTree() {
+		for (StellarSystem populatedSystem : gameData
+				.getPopulatedStellarSystems()) {
+			TreeItem<Object> systemTreeItem = new TreeItem<Object>(
+					populatedSystem);
+			colonyRoot.getChildren().add(systemTreeItem);
+			for (Colony colony : populatedSystem.getColonies()) {
+				TreeItem<Object> colonyTreeItem = new TreeItem<Object>(colony);
+				systemTreeItem.getChildren().add(colonyTreeItem);
+			}
+		}
 	}
 }
