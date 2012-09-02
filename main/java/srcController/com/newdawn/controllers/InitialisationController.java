@@ -27,7 +27,8 @@ public class InitialisationController {
 	private GameData gameData;
 	@Autowired
 	private Config config;
-
+	@Autowired 
+	private SystemHandler systemHandler;
 	public Config getConfig() {
 		return config;
 	}
@@ -53,8 +54,6 @@ public class InitialisationController {
 	public StellarSystem createSystem(InputStream inputStream)
 			throws SAXException, IOException, ParserConfigurationException {
 		SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-		SystemHandler systemHandler = new SystemHandler(this,
-				config.getInitDefaultDeltaValue());
 		parser.parse(inputStream, systemHandler);
 		return systemHandler.getCreatedSystem();
 	}

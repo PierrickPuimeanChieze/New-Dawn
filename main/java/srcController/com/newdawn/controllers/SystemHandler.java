@@ -4,35 +4,50 @@
  */
 package com.newdawn.controllers;
 
-import com.newdawn.model.system.Satellite;
-import com.newdawn.model.system.Planet;
-import com.newdawn.model.system.Star;
-import com.newdawn.model.system.StellarSystem;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.DefaultHandler2;
+
+import com.newdawn.model.mineral.Mineral;
+import com.newdawn.model.mineral.MineralDeposit;
+import com.newdawn.model.mineral.MineralModel;
+import com.newdawn.model.mineral.MinerallyExploitableBody;
+import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
+import com.newdawn.model.system.Planet;
+import com.newdawn.model.system.Satellite;
+import com.newdawn.model.system.Star;
+import com.newdawn.model.system.StellarSystem;
 
 /**
  * 
  * @author Pierrick Puimean-Chieze
  */
+@Component
 public class SystemHandler extends DefaultHandler2 {
 
 	public StellarSystem createdSystem;
 	private Planet currentPlanet;
+	private MinerallyExploitableBody currentMinerallyExploitableBody;
+	private MinerallyExploitableBodyModel currentMinerallyExploitableBodyModel;
+	private MineralModel currentMineralModel;
+	private MineralDeposit currentMineralDeposit;
+	private List<MineralDeposit> depositsForCurrentMineralModel = new ArrayList<>();
 	private Satellite currentSatellite;
 	private Star currentStar;
+	@Autowired
 	private InitialisationController initialisationController;
-	private final String defaultDeltaValue;
-
-	public SystemHandler(InitialisationController initialisationController,
-			String defaultDeltaValue) {
-		this.initialisationController = initialisationController;
-		this.defaultDeltaValue = defaultDeltaValue;
-	}
-
+	@Autowired
+	private Config config;
+	@Autowired(required=true)
+	private Map<String, Mineral> minerals;
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
@@ -56,9 +71,44 @@ public class SystemHandler extends DefaultHandler2 {
 		case "satellite":
 			initCurrentSatellite(attributes);
 			break;
+		case "mineralBodyModel":
+			initCurrentBodyModel(attributes);
+			break;
+		case "mineralModel" :
+			initCurrentMineralModel(attributes);
+			break;
+		case "deposit" :
+			initCurrentDeposit(attributes);
+			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);
 		}
+		
+	}
+
+	private void initCurrentDeposit(Attributes attributes) {
+		int skillLevelToDiscover = Integer.parseInt(attributes.getValue("skillLevelToDiscover"));
+		int neededPointToDiscover= Integer.parseInt(attributes.getValue("neededPointToDiscover"));
+		int quantity= Integer.parseInt(attributes.getValue("quantity"));
+		currentMineralDeposit = new MineralDeposit(skillLevelToDiscover, neededPointToDiscover, quantity);
+		
+	}
+
+	private void initCurrentMineralModel(Attributes attributes) {
+		currentMineralModel = new MineralModel(minerals.get(attributes.getValue("mineral")), 12);
+		depositsForCurrentMineralModel.clear();
+	}
+
+	private void initCurrentBodyModel(Attributes attributes) {
+		int initialNeededPoints = Integer.parseInt(attributes
+				.getValue("initialNeededPoints"));
+		int finalisationSkill = Integer.parseInt(attributes
+				.getValue("finalisationSkill"));
+		int pointsNeededForFinalization = Integer.parseInt(attributes
+				.getValue("pointsNeededForFinalization"));
+		currentMinerallyExploitableBodyModel = new MinerallyExploitableBodyModel(
+				initialNeededPoints, finalisationSkill,
+				pointsNeededForFinalization);
 
 	}
 
@@ -75,9 +125,25 @@ public class SystemHandler extends DefaultHandler2 {
 			break;
 		case "planet":
 			currentPlanet = null;
+			currentMinerallyExploitableBody = null;
 			break;
 		case "satellite":
 			currentSatellite = null;
+			currentMinerallyExploitableBody = null;
+			break;
+		case "mineralBodyModel":
+			currentMinerallyExploitableBody
+					.setMinerallyExploitableBodyModel(currentMinerallyExploitableBodyModel);
+			currentMinerallyExploitableBodyModel = null;
+			break;
+		case "mineralModel":
+			currentMineralModel.setMineralDeposits(depositsForCurrentMineralModel);
+			currentMinerallyExploitableBodyModel.getMineralModels().put(currentMineralModel.getMineral(), currentMineralModel);
+			currentMineralModel = null;
+			break;
+		case "deposit":
+			depositsForCurrentMineralModel.add(currentMineralDeposit);
+			currentMineralDeposit = null;
 			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);
@@ -120,6 +186,12 @@ public class SystemHandler extends DefaultHandler2 {
 		currentPlanet = initialisationController.addNewPlanetToStar(
 				currentStar, name, planetaryClass, orbitalRadius, diameter,
 				orbitalPeriod, delta);
+		initCurrentMinerralyExploitableBody(currentPlanet);
+	}
+
+	private void initCurrentMinerralyExploitableBody(
+			MinerallyExploitableBody minerallyExploitableBody) {
+		this.currentMinerallyExploitableBody = minerallyExploitableBody;
 	}
 
 	private void initCurrentSatellite(Attributes attributes) {
@@ -134,13 +206,14 @@ public class SystemHandler extends DefaultHandler2 {
 		}
 		currentSatellite = initialisationController.addNewSatelliteToPlanet(
 				currentPlanet, name, orbitalRadius, diameter, orbitalPeriod);
+		initCurrentMinerralyExploitableBody(currentSatellite);
 	}
 
 	private double parseDelta(String deltaStr) {
 		// If the delta String is null
 		if (deltaStr == null) {
 			// We fall back on the default value
-			deltaStr = defaultDeltaValue;
+			deltaStr = config.getInitDefaultDeltaValue();
 		}
 
 		Matcher piPatternMatcher = Pattern.compile("(\\d+(\\.\\d+)?)?π")

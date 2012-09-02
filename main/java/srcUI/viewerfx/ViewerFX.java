@@ -55,7 +55,6 @@ public class ViewerFX extends Application {
 	public void init() throws Exception {
 		super.init();
 
-
 		springContainer = new ClassPathXmlApplicationContext(
 				"/spring/newdawn.xml");
 		final OfficialsController officialController = springContainer
@@ -82,8 +81,7 @@ public class ViewerFX extends Application {
 		test2.setWealthProduction(500);
 		test2.setName("Test");
 		Planet planet = solarSystem2.getPlanets().get(1);
-		springContainer.getBean(ColonyController.class).updateSystemWithColony(
-				planet, test2);
+		colonyController.updateSystemWithColony(planet, test2);
 
 		Skill geologySkill = springContainer.getBean("geology", Skill.class);
 		NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer(

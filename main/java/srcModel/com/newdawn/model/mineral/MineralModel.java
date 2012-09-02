@@ -1,15 +1,18 @@
 package com.newdawn.model.mineral;
 
-import java.util.List;
-import static com.newdawn.model.mineral.MineralDeposit.MineralDepositStatus;
-import com.sun.javafx.collections.transformation.SortedList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import com.newdawn.model.mineral.MineralDeposit.MineralDepositStatus;
 
 /**
  * 
@@ -33,6 +36,10 @@ public class MineralModel {
 			MineralDeposit... deposits) {
 		this.mineral = mineral;
 		this.initialQuantity = initialQuantity;
+		setMineralDeposits(Arrays.asList(deposits));
+	}
+
+	public void setMineralDeposits(Collection<MineralDeposit> deposits) {
 		for (MineralDeposit mineralDeposit : deposits) {
 			assert mineralDeposit.getStatus() == MineralDepositStatus.UNKNOWN : "Not all of the deposit of a newly created MineralModel are UNKNOWN";
 			assert mineralDeposit.getMineralModel() == null;
