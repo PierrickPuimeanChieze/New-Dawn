@@ -1,44 +1,63 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.controllers.OfficialsController;
-import com.newdawn.controllers.TeamController;
-import com.newdawn.model.personnel.NavalOfficer;
-import com.newdawn.controllers.GameData;
-import com.newdawn.controllers.TeamController.FieldTeamType;
-import com.newdawn.gui.PropertyListCellFactory;
-import com.newdawn.model.personnel.*;
-import com.sun.javafx.collections.CompositeMatcher;
-import com.sun.javafx.collections.transformation.Matcher;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javax.annotation.Resource;
+import java.util.Spliterator;
+import java.util.function.Predicate;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.binding.*;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.binding.ListBinding;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.binding.StringExpression;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ListChangeListener.Change;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.newdawn.controllers.GameData;
+import com.newdawn.controllers.OfficialsController;
+import com.newdawn.controllers.TeamController;
+import com.newdawn.controllers.TeamController.FieldTeamType;
+import com.newdawn.gui.PropertyListCellFactory;
+import com.newdawn.model.personnel.CivilianAdministrators;
+import com.newdawn.model.personnel.GroundForceOfficers;
+import com.newdawn.model.personnel.NavalOfficer;
+import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.PersonnelAssignment;
+import com.newdawn.model.personnel.Scientist;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
+import com.sun.javafx.collections.CompositeMatcher;
 
 /**
  * 
@@ -68,9 +87,10 @@ public class PersonnelManagementScreen implements Initializable {
 			.observableArrayList();
 	private final CompositeMatcher<Official> compositeMatcher = new CompositeMatcher<>();
 	private final CompositeMatcher<Official> skillFiltersMatcher = new CompositeMatcher<>();
-	private final Matcher<Official> typeOfficialMatcher = new Matcher<Official>() {
+	private final Predicate<Official> typeOfficialMatcher = new Predicate<Official>() {
+
 		@Override
-		public boolean matches(Official e) {
+		public boolean test(Official e) {
 			return (e instanceof Scientist && scientistFilterCheckBox
 					.isSelected())
 					|| (e instanceof NavalOfficer && navalOfficerFilterCheckBox
@@ -261,7 +281,6 @@ public class PersonnelManagementScreen implements Initializable {
 			final ObjectBinding<ObservableList<PersonnelAssignment>> internalBinding = Bindings
 					.select(assignmentsFilterComboBox.getSelectionModel()
 							.selectedItemProperty(), "assignments");
-
 			{
 				bind(internalBinding);
 			}
@@ -269,6 +288,11 @@ public class PersonnelManagementScreen implements Initializable {
 			@Override
 			protected ObservableList<PersonnelAssignment> computeValue() {
 				return internalBinding.get();
+			}
+
+			@Override
+			public Spliterator<PersonnelAssignment> spliterator() {
+				return super.spliterator();
 			}
 		};
 
@@ -436,7 +460,7 @@ public class PersonnelManagementScreen implements Initializable {
 		}
 		officialFilteredList.clear();
 		for (Official official : gameData.getOfficials()) {
-			if (compositeMatcher.matches(official)) {
+			if (compositeMatcher.test(official)) {
 				officialFilteredList.add(official);
 
 				official.getSkillLevels().addListener(mapChangeListener);

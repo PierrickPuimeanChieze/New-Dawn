@@ -1,19 +1,21 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.model.personnel.Official;
-import com.newdawn.model.personnel.Skill;
-import com.newdawn.model.personnel.SkillLevel;
-import com.sun.javafx.collections.transformation.Matcher;
+import java.util.function.Predicate;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import com.newdawn.model.personnel.Official;
+import com.newdawn.model.personnel.Skill;
+import com.newdawn.model.personnel.SkillLevel;
+
 /**
  * 
  * @author Pierrick Puimean-Chieze
  */
-public class SkillFilter implements Matcher<Official> {
+public class SkillFilter implements Predicate<Official> {
 
 	private ObjectProperty<Skill> skillProperty;
 	private IntegerProperty minValueProperty;
@@ -98,7 +100,7 @@ public class SkillFilter implements Matcher<Official> {
 	}
 
 	@Override
-	public boolean matches(Official e) {
+	public boolean test(Official e) {
 		final SkillLevel skillLevel = e.skillLevelsProperty().get(getSkill());
 		final int level;
 		if (skillLevel == null) {

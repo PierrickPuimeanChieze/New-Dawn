@@ -1,7 +1,7 @@
 package com.sun.javafx.collections;
 
-import com.sun.javafx.collections.transformation.Matcher;
-import java.util.List;
+import java.util.function.Predicate;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,9 +9,9 @@ import javafx.collections.ObservableList;
  * 
  * @author Pierrick Puimean-Chieze
  */
-public class CompositeMatcher<E> implements Matcher<E> {
+public class CompositeMatcher<E> implements Predicate<E> {
 
-	private ObservableList<Matcher<E>> matchers = FXCollections
+	private ObservableList<Predicate<E>> matchers = FXCollections
 			.observableArrayList();
 
 	/**
@@ -19,14 +19,14 @@ public class CompositeMatcher<E> implements Matcher<E> {
 	 * 
 	 * @return the value of matchers
 	 */
-	public ObservableList<Matcher<E>> getMatchers() {
+	public ObservableList<Predicate<E>> getMatchers() {
 		return matchers;
 	}
 
 	@Override
-	public boolean matches(E e) {
-		for (Matcher matcher : matchers) {
-			if (!matcher.matches(e)) {
+	public boolean test(E e) {
+		for (Predicate matcher : matchers) {
+			if (!matcher.test(e)) {
 				return false;
 			}
 		}
