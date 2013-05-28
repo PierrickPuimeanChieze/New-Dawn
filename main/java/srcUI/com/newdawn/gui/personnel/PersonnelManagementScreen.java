@@ -475,10 +475,12 @@ public class PersonnelManagementScreen implements Initializable {
 				.getSelectedItem();
 		SkillFilter skillFilter = new SkillFilter();
 		skillFilter.setSkill(skill);
-		skillFilter.setMinValue(Integer.parseInt(skillFilterMinValueComponent
-				.getText()));
-		skillFilter.setMaxValue(Integer.parseInt(skillFilterMaxValueComponent
-				.getText()));
+		String minValueText = skillFilterMinValueComponent
+				.getText();
+		skillFilter.setMinValue((minValueText == null ||minValueText.isEmpty()) ? null : Integer.parseInt(minValueText));
+		String maxValueText = skillFilterMaxValueComponent
+				.getText();
+		skillFilter.setMaxValue((maxValueText == null ||maxValueText.isEmpty()) ? null : Integer.parseInt(maxValueText));
 		skillFiltersTableView.getItems().add(skillFilter);
 		compositeMatcher.getMatchers().add(skillFilter);
 		updateFilters(event);

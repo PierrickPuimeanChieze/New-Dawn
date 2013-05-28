@@ -33,7 +33,7 @@ public class SkillFilter implements Predicate<Official> {
 	 * 
 	 * @return the value of maxValue
 	 */
-	public int getMaxValue() {
+	public Integer getMaxValue() {
 		return maxValueProperty().getValue();
 	}
 
@@ -43,7 +43,7 @@ public class SkillFilter implements Predicate<Official> {
 	 * @param maxValue
 	 *            new value of maxValue
 	 */
-	public void setMaxValue(int maxValue) {
+	public void setMaxValue(Integer maxValue) {
 		this.maxValueProperty().setValue(maxValue);
 	}
 
@@ -59,7 +59,7 @@ public class SkillFilter implements Predicate<Official> {
 	 * 
 	 * @return the value of minValue
 	 */
-	public int getMinValue() {
+	public Integer getMinValue() {
 		return minValueProperty().getValue();
 	}
 
@@ -69,7 +69,7 @@ public class SkillFilter implements Predicate<Official> {
 	 * @param minValue
 	 *            new value of minValue
 	 */
-	public void setMinValue(int minValue) {
+	public void setMinValue(Integer minValue) {
 		this.minValueProperty().setValue(minValue);
 	}
 
@@ -108,7 +108,11 @@ public class SkillFilter implements Predicate<Official> {
 		} else {
 			level = skillLevel.getLevel();
 		}
-
-		return level >= getMinValue() && level <= getMaxValue();
+		//We checked the skill against each limit of the filter. 
+		//If One limit is null, the test for this limit return true, whatever the value of the skill 
+		boolean minValueChecked = getMinValue() == null ||level >= getMinValue(); 
+		boolean maxValueChecked = getMaxValue() == null ||level <= getMaxValue(); 
+		
+		return  minValueChecked && maxValueChecked ;
 	}
 }

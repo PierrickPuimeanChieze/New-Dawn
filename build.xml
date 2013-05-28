@@ -11,7 +11,7 @@
 	<!--<property name="debug.port" value="44708"/>-->
 	<fail unless="build.dir" />
 	<fail unless="build.classes" />
-	<fail unless="fx.jar" />
+	
 	<path id="build-classpath">
 		<fileset dir="${lib.dir}/jar/build">
 			<include name="**/*.jar" />
