@@ -340,24 +340,11 @@ public class PersonnelManagementScreen implements Initializable {
 								.skillProperty(), "name");
 					}
 				});
-
 	
 		skillFilterMinValueColumn
-				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Integer>, ObservableValue<Integer>>() {
-					@Override
-					public ObservableValue<Integer> call(
-							CellDataFeatures<SkillFilter, Integer> arg0) {
-						return arg0.getValue().minValueProperty();
-					}
-				});
+				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>("minValue"));
 		skillFilterMaxValueColumn
-				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Integer>, ObservableValue<Integer>>() {
-					@Override
-					public ObservableValue<Integer> call(
-							CellDataFeatures<SkillFilter, Integer> arg0) {
-						return arg0.getValue().maxValueProperty();
-					}
-				});
+				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>("maxValue"));
 		skillFiltersTableView.getItems().addListener(
 				new ListChangeListener<SkillFilter>() {
 					@Override
