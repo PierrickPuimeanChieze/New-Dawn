@@ -175,8 +175,7 @@ public class PersonnelManagementScreen implements Initializable {
 	// fx:id="detailsPane"
 	private PersonnelDetailsPane detailsPaneController; // Value injected by
 														// FXMLLoader
-	@FXML
-	private ListView<SkillLevel> skillsListView;
+														// @FXML
 	// TODO implements the filter
 	@FXML
 	private ComboBox<AssignementFilter> assignmentsFilterComboBox;
@@ -186,6 +185,13 @@ public class PersonnelManagementScreen implements Initializable {
 	@FXML
 	// fx:id="createTeamMenuItem"
 	private MenuItem createTeamMenuItem; // Value injected by FXMLLoader
+
+	@FXML
+	private TableColumn<SkillLevel, String> skillColumn;
+	@FXML
+	private TableView<SkillLevel> skillsTableView;
+	@FXML
+	private TableColumn<SkillLevel, Integer> levelColumn;
 
 	// Handler for MenuItem[fx:id="assignOfficialMenuItem"] onAction
 	public void assignOfficial(ActionEvent event) {
@@ -214,11 +220,13 @@ public class PersonnelManagementScreen implements Initializable {
 		assert skillFilterMinValueComponent != null : "fx:id=\"skillFilterMinValueComponent\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
 		assert skillFiltersNameColumn != null : "fx:id=\"skillFiltersNameColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
 		assert skillFiltersTableView != null : "fx:id=\"skillFiltersTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
-		assert skillsListView != null;
 		assert assignmentsFilterComboBox != null;
 		assert assigmentsListView != null;
 		assert createTeamMenuItem != null : "fx:id=\"createTeamMenuItem\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
 		assert assignOfficialMenuItem != null;
+		assert skillsTableView != null : "fx:id=\"skillsTableView\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
+		assert skillColumn != null : "fx:id=\"skillColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
+		assert levelColumn != null : "fx:id=\"levelColumn\" was not injected: check your FXML file 'PersonnelManagementScreen.fxml'.";
 		// initialize your logic here: all @FXML variables will have been
 		// injected
 		initializeCompositeMatcher();
@@ -238,33 +246,18 @@ public class PersonnelManagementScreen implements Initializable {
 				"selectedItem");
 
 		detailsPaneController.officialProperty().bind(selectedPersonnel);
-		skillsListView
-				.setCellFactory(new Callback<ListView<SkillLevel>, ListCell<SkillLevel>>() {
-					@Override
-					public ListCell<SkillLevel> call(ListView<SkillLevel> arg0) {
-						final ListCell<SkillLevel> toReturn = new ListCell<>();
-						final ObjectProperty<SkillLevel> itemProperty = toReturn
-								.itemProperty();
-
-						final StringExpression concat = Bindings
-								.selectString(toReturn.itemProperty(), "skill",
-										"name")
-								.concat(": ")
-								.concat(Bindings.selectInteger(
-										toReturn.itemProperty(), "level")
-										.asString()).concat(" %");
-
-						// TODO try to use a binding.
-						concat.addListener(new InvalidationListener() {
-							@Override
-							public void invalidated(Observable arg0) {
-								toReturn.setText(concat.getValueSafe());
-							}
-						});
-						// toReturn.textProperty().bind(concat);
-						return toReturn;
+		skillColumn
+				.setCellValueFactory(new Callback<CellDataFeatures<SkillLevel, String>, ObservableValue<String>>() {
+					public ObservableValue<String> call(
+							CellDataFeatures<SkillLevel, String> p) {
+						SkillLevel value = p.getValue();
+						return Bindings.selectString(value, "skill", "name");
 					}
 				});
+		levelColumn
+				.setCellValueFactory(new PropertyValueFactory<SkillLevel, Integer>(
+						"level"));
+
 		selectedPersonnel.addListener(new ChangeListener<Official>() {
 			@Override
 			public void changed(ObservableValue<? extends Official> arg0,
@@ -475,12 +468,14 @@ public class PersonnelManagementScreen implements Initializable {
 				.getSelectedItem();
 		SkillFilter skillFilter = new SkillFilter();
 		skillFilter.setSkill(skill);
-		String minValueText = skillFilterMinValueComponent
-				.getText();
-		skillFilter.setMinValue((minValueText == null ||minValueText.isEmpty()) ? null : Integer.parseInt(minValueText));
-		String maxValueText = skillFilterMaxValueComponent
-				.getText();
-		skillFilter.setMaxValue((maxValueText == null ||maxValueText.isEmpty()) ? null : Integer.parseInt(maxValueText));
+		String minValueText = skillFilterMinValueComponent.getText();
+		skillFilter
+				.setMinValue((minValueText == null || minValueText.isEmpty()) ? null
+						: Integer.parseInt(minValueText));
+		String maxValueText = skillFilterMaxValueComponent.getText();
+		skillFilter
+				.setMaxValue((maxValueText == null || maxValueText.isEmpty()) ? null
+						: Integer.parseInt(maxValueText));
 		skillFiltersTableView.getItems().add(skillFilter);
 		compositeMatcher.getMatchers().add(skillFilter);
 		updateFilters(event);
@@ -488,13 +483,13 @@ public class PersonnelManagementScreen implements Initializable {
 
 	// TODO try to use a binding
 	private void updateSkills() {
-		skillsListView.getItems().clear();
+		skillsTableView.getItems().clear();
 		Official selectedMember = officialsFilteredTableView
 				.getSelectionModel().getSelectedItem();
 		if (selectedMember != null) {
-			skillsListView.getItems().addAll(
+			skillsTableView.getItems().addAll(
 					selectedMember.getSkillLevels().values());
-			Collections.sort(skillsListView.getItems(),
+			Collections.sort(skillsTableView.getItems(),
 					new Comparator<SkillLevel>() {
 						@Override
 						public int compare(SkillLevel arg0, SkillLevel arg1) {

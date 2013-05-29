@@ -75,26 +75,27 @@ public class ViewerFX extends Application {
 		gameData.getStellarSystems().addAll(solarSystem, solarSystem2,
 				testSystem);
 
-		Colony test2 = springContainer.getBean(Colony.class);
-		test2.setPopulation(100_000_000);
-		test2.setPopulationGrowRate(1);
-		test2.setWealthProduction(500);
-		test2.setName("Test");
+		Colony testColony2 = springContainer.getBean(Colony.class);
+		testColony2.setPopulation(100_000_000);
+		testColony2.setPopulationGrowRate(1);
+		testColony2.setWealthProduction(500);
+		testColony2.setName("Test");
 		Planet planet = solarSystem2.getPlanets().get(1);
-		colonyController.updateSystemWithColony(planet, test2);
+		colonyController.updateSystemWithColony(planet, testColony2);
 
 		Skill geologySkill = springContainer.getBean("geology", Skill.class);
 		NavalOfficer navalOfficer1 = officialController.createNewNavalOfficer(
-				"navalOfficer2", test2);
+				"navalOfficer-geoskill50", testColony2);
 		navalOfficer1.setRank(NavalRank.A6);
 		NavalOfficer navalOfficer3 = officialController.createNewNavalOfficer(
-				"navalOfficer3", test2);
+				"navalOfficer-geoSkill30", testColony2);
 		navalOfficer3.setRank(NavalRank.A6);
 
-		SkillLevel geologySkillLevel = navalOfficer1.skillLevelsProperty().get(
-				geologySkill);
-		geologySkillLevel.setLevel(50);
-
+		//Setting the geology Skill  
+		navalOfficer1.skillLevelsProperty().get(
+				geologySkill).setLevel(50);
+		navalOfficer3.skillLevelsProperty().get(
+				geologySkill).setLevel(30);
 		gameData.getOfficials().add(navalOfficer1);
 		gameData.getOfficials().add(navalOfficer3);
 		final FieldTeam fieldTeam = teamController.createTeamWithLeader(

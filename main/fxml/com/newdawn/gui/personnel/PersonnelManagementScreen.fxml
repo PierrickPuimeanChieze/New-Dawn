@@ -242,7 +242,6 @@
             </fx:include>
           </content>
         </TitledPane>
-        <ListView fx:id="skillsListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0" />
         <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Potential Assignments" GridPane.columnIndex="1" GridPane.rowIndex="1">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -268,6 +267,12 @@
             </AnchorPane>
           </content>
         </TitledPane>
+        <TableView fx:id="skillsTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="0">
+          <columns>
+            <TableColumn id="skillColumn" prefWidth="75.0" text="Skill" fx:id="skillColumn" />
+            <TableColumn id="levelColumn" prefWidth="75.0" text="Level" fx:id="levelColumn" />
+          </columns>
+        </TableView>
       </children>
       <columnConstraints>
         <ColumnConstraints fillWidth="false" hgrow="SOMETIMES">
