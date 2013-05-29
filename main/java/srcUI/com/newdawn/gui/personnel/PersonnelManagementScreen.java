@@ -138,7 +138,7 @@ public class PersonnelManagementScreen implements Initializable {
 	private ComboBox<Skill> skillFilterComboBox; // Value injected by FXMLLoader
 	@FXML
 	// fx:id="skillFilterMaxValueColumn"
-	private TableColumn<SkillFilter, Number> skillFilterMaxValueColumn; // Value
+	private TableColumn<SkillFilter, Integer> skillFilterMaxValueColumn; // Value
 																		// injected
 																		// by
 																		// FXMLLoader
@@ -148,7 +148,7 @@ public class PersonnelManagementScreen implements Initializable {
 													// FXMLLoader
 	@FXML
 	// fx:id="skillFilterMinValueColumn"
-	private TableColumn<SkillFilter, Number> skillFilterMinValueColumn; // Value
+	private TableColumn<SkillFilter, Integer> skillFilterMinValueColumn; // Value
 																		// injected
 																		// by
 																		// FXMLLoader
@@ -341,19 +341,20 @@ public class PersonnelManagementScreen implements Initializable {
 					}
 				});
 
+	
 		skillFilterMinValueColumn
-				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Number>, ObservableValue<Number>>() {
+				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Integer>, ObservableValue<Integer>>() {
 					@Override
-					public ObservableValue<Number> call(
-							CellDataFeatures<SkillFilter, Number> arg0) {
+					public ObservableValue<Integer> call(
+							CellDataFeatures<SkillFilter, Integer> arg0) {
 						return arg0.getValue().minValueProperty();
 					}
 				});
 		skillFilterMaxValueColumn
-				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Number>, ObservableValue<Number>>() {
+				.setCellValueFactory(new Callback<CellDataFeatures<SkillFilter, Integer>, ObservableValue<Integer>>() {
 					@Override
-					public ObservableValue<Number> call(
-							CellDataFeatures<SkillFilter, Number> arg0) {
+					public ObservableValue<Integer> call(
+							CellDataFeatures<SkillFilter, Integer> arg0) {
 						return arg0.getValue().maxValueProperty();
 					}
 				});

@@ -18,12 +18,12 @@ import com.newdawn.model.personnel.SkillLevel;
 public class SkillFilter implements Predicate<Official> {
 
 	private ObjectProperty<Skill> skillProperty;
-	private IntegerProperty minValueProperty;
-	private IntegerProperty maxValueProperty;
+	private ObjectProperty<Integer> minValueProperty;
+	private ObjectProperty<Integer> maxValueProperty;
 
-	public IntegerProperty maxValueProperty() {
+	public ObjectProperty<Integer>  maxValueProperty() {
 		if (maxValueProperty == null) {
-			maxValueProperty = new SimpleIntegerProperty(this, "maxValue");
+			maxValueProperty = new SimpleObjectProperty<Integer>(this, "maxValue",null);
 		}
 		return maxValueProperty;
 	}
@@ -47,9 +47,9 @@ public class SkillFilter implements Predicate<Official> {
 		this.maxValueProperty().setValue(maxValue);
 	}
 
-	public IntegerProperty minValueProperty() {
+	public ObjectProperty<Integer>  minValueProperty() {
 		if (minValueProperty == null) {
-			minValueProperty = new SimpleIntegerProperty(this, "minValue");
+			minValueProperty = new SimpleObjectProperty<Integer>(this, "minValue",null);
 		}
 		return minValueProperty;
 	}
