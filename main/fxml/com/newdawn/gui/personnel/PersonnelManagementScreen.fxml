@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="680.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="644.0" prefWidth="680.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelManagementScreen">
   <children>
     <SplitPane dividerPositions="0.38200589970501475, 0.8539823008849557" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <items>
-        <SplitPane dividerPositions="0.33183856502242154" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+        <SplitPane dividerPositions="0.5265625" focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
           <items>
             <TabPane tabClosingPolicy="UNAVAILABLE">
               <minHeight>
@@ -26,24 +26,38 @@
               <tabs>
                 <Tab text="Personnel Type &amp; Rank">
                   <content>
-                    <ScrollPane id="ScrollPane" fitToWidth="true" minWidth="0.0">
-                      <content>
-                        <VBox prefWidth="306.0">
+                    <VBox prefHeight="-1.0" prefWidth="306.0">
+                      <children>
+                        <FlowPane minHeight="-1.0" minWidth="-1.0">
                           <children>
-                            <FlowPane minHeight="0.0" minWidth="0.0">
-                              <children>
-                                <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
-                                <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
-                                <CheckBox fx:id="groundOfficerFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
-                                <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
-                              </children>
-                              <prefWidth>
-                                <Long fx:value="-1" />
-                              </prefWidth>
-                            </FlowPane>
-                            <TitledPane expanded="false" minHeight="0.0" minWidth="0.0" text="Naval Officer Filter">
+                            <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
+                            <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
+                            <CheckBox fx:id="groundOfficerFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
+                            <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
+                          </children>
+                          <prefWidth>
+                            <Long fx:value="-1" />
+                          </prefWidth>
+                        </FlowPane>
+                        <Accordion>
+                          <expandedPane>
+                            <TitledPane fx:id="x1" expanded="true" text="Civilian Officer Filter">
                               <content>
-                                <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+                                  <prefHeight>
+                                    <Long fx:value="50" />
+                                  </prefHeight>
+                                  <prefWidth>
+                                    <Long fx:value="-1" />
+                                  </prefWidth>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <TitledPane expanded="false" minHeight="-1.0" minWidth="-1.0" text="Naval Officer Filter">
+                              <content>
+                                <VBox id="VBox" alignment="CENTER_LEFT" maxHeight="-1.0" maxWidth="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="200.0" spacing="5.0">
                                   <children>
                                     <CheckBox mnemonicParsing="false" text="Lieutenant Commander" />
                                     <CheckBox mnemonicParsing="false" text="Commander" />
@@ -67,49 +81,20 @@
                                 <AnchorPane prefHeight="50.0" />
                               </content>
                             </TitledPane>
-                            <TitledPane expanded="false" text="Civilian Officer Filter">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
-                                  <prefHeight>
-                                    <Long fx:value="50" />
-                                  </prefHeight>
-                                  <prefWidth>
-                                    <Long fx:value="-1" />
-                                  </prefWidth>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
-                          </children>
-                          <maxHeight>
-                            <Long fx:value="-1" />
-                          </maxHeight>
-                          <minHeight>
-                            <Long fx:value="0" />
-                          </minHeight>
-                          <minWidth>
-                            <Long fx:value="0" />
-                          </minWidth>
-                          <prefHeight>
-                            <Long fx:value="250" />
-                          </prefHeight>
-                        </VBox>
-                      </content>
+                            <fx:reference source="x1" />
+                          </panes>
+                        </Accordion>
+                      </children>
                       <maxHeight>
                         <Long fx:value="-1" />
                       </maxHeight>
                       <minHeight>
                         <Long fx:value="0" />
                       </minHeight>
-                      <prefHeight>
-                        <Long fx:value="250" />
-                      </prefHeight>
-                      <prefViewportHeight>
-                        <Long fx:value="200" />
-                      </prefViewportHeight>
-                      <prefViewportWidth>
-                        <Long fx:value="243" />
-                      </prefViewportWidth>
-                    </ScrollPane>
+                      <minWidth>
+                        <Long fx:value="0" />
+                      </minWidth>
+                    </VBox>
                   </content>
                 </Tab>
                 <Tab text="Skills">
