@@ -26,24 +26,24 @@
               <tabs>
                 <Tab text="Personnel Type &amp; Rank">
                   <content>
-                    <ScrollPane id="ScrollPane" fitToWidth="true" minWidth="0.0">
+                    <ScrollPane id="ScrollPane" fitToWidth="true" maxHeight="1.7976931348623157E308" minWidth="0.0">
                       <content>
                         <VBox prefWidth="306.0">
                           <children>
-                            <FlowPane minHeight="0.0" minWidth="0.0">
+                            <FlowPane minHeight="-Infinity" minWidth="0.0">
                               <children>
                                 <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
                                 <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
-                                <CheckBox fx:id="groundOfficerFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
+                                <CheckBox fx:id="groundOfficerFilterCheckBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
                                 <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
                               </children>
                               <prefWidth>
                                 <Long fx:value="-1" />
                               </prefWidth>
                             </FlowPane>
-                            <TitledPane expanded="false" minHeight="0.0" minWidth="0.0" text="Naval Officer Filter">
+                            <TitledPane expanded="false" minHeight="-1.0" minWidth="-1.0" text="Naval Officer Filter" VBox.vgrow="ALWAYS">
                               <content>
-                                <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+                                <VBox id="VBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-1.0" minHeight="147.0" minWidth="-Infinity" prefHeight="147.0" spacing="5.0">
                                   <children>
                                     <CheckBox mnemonicParsing="false" text="Lieutenant Commander" />
                                     <CheckBox mnemonicParsing="false" text="Commander" />
@@ -57,17 +57,17 @@
                                 </VBox>
                               </content>
                             </TitledPane>
-                            <TitledPane expanded="false" text="Scientist Filter">
+                            <TitledPane expanded="false" text="Scientist Filter" VBox.vgrow="ALWAYS">
                               <content>
-                                <AnchorPane prefHeight="50.0" />
+                                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" />
                               </content>
                             </TitledPane>
-                            <TitledPane expanded="false" text="Ground Officer Filter">
+                            <TitledPane expanded="false" text="Ground Officer Filter" VBox.vgrow="ALWAYS">
                               <content>
-                                <AnchorPane prefHeight="50.0" />
+                                <AnchorPane minHeight="-Infinity" prefHeight="50.0" />
                               </content>
                             </TitledPane>
-                            <TitledPane expanded="false" text="Civilian Officer Filter">
+                            <TitledPane expanded="false" text="Civilian Officer Filter" VBox.vgrow="ALWAYS">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
                                   <prefHeight>
@@ -94,9 +94,6 @@
                           </prefHeight>
                         </VBox>
                       </content>
-                      <maxHeight>
-                        <Long fx:value="-1" />
-                      </maxHeight>
                       <minHeight>
                         <Long fx:value="0" />
                       </minHeight>
