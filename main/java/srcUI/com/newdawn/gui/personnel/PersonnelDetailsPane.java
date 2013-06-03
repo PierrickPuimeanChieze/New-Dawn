@@ -62,11 +62,14 @@ public class PersonnelDetailsPane implements Initializable {
 		assert locationTestField != null : "fx:id=\"locationTestField\" was not injected: check your FXML file 'PersonnelDetailsPane.fxml'.";
 		// initialize your logic here: all @FXML variables will have been
 		// injected
-		final StringExpression concat = Bindings
+		final StringExpression officialNameExpression = Bindings
 				.selectString(officialProperty(), "rank", "designation")
 				.concat(" ")
 				.concat(Bindings.selectString(officialProperty(), "name"));
-		designationTextField.textProperty().bind(concat);
-
+		
+		designationTextField.textProperty().bind(officialNameExpression);
+		assignementTextField.textProperty().bind(
+				Bindings.selectString(officialProperty, "assignment",
+						"visualName"));
 	}
 }

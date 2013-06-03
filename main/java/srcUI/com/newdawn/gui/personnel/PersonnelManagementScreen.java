@@ -26,6 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -35,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
@@ -65,7 +67,6 @@ import com.sun.javafx.collections.CompositeMatcher;
  */
 @Component
 public class PersonnelManagementScreen implements Initializable {
-
 	@Autowired
 	private GameData gameData;
 	private final MapChangeListener<Skill, SkillLevel> mapChangeListener = new MapChangeListener<Skill, SkillLevel>() {
