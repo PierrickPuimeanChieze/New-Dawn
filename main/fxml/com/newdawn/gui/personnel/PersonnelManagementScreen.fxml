@@ -26,9 +26,9 @@
               <tabs>
                 <Tab text="Personnel Type &amp; Rank">
                   <content>
-                    <ScrollPane id="ScrollPane" fitToWidth="true" maxHeight="1.7976931348623157E308" minWidth="0.0">
+                    <ScrollPane id="ScrollPane" fitToWidth="true" maxHeight="1.7976931348623157E308" minWidth="0.0" prefHeight="-1.0">
                       <content>
-                        <VBox prefWidth="306.0">
+                        <VBox prefHeight="-1.0" prefWidth="-1.0">
                           <children>
                             <FlowPane minHeight="-Infinity" minWidth="0.0">
                               <children>
@@ -43,7 +43,7 @@
                             </FlowPane>
                             <TitledPane expanded="false" minHeight="-1.0" minWidth="-1.0" text="Naval Officer Filter" VBox.vgrow="ALWAYS">
                               <content>
-                                <VBox id="VBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-1.0" minHeight="147.0" minWidth="-Infinity" prefHeight="147.0" spacing="5.0">
+                                <VBox id="VBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-1.0" minHeight="147.0" minWidth="-Infinity" prefHeight="-1.0" spacing="5.0">
                                   <children>
                                     <CheckBox mnemonicParsing="false" text="Lieutenant Commander" />
                                     <CheckBox mnemonicParsing="false" text="Commander" />
@@ -89,17 +89,11 @@
                           <minWidth>
                             <Long fx:value="0" />
                           </minWidth>
-                          <prefHeight>
-                            <Long fx:value="250" />
-                          </prefHeight>
                         </VBox>
                       </content>
                       <minHeight>
                         <Long fx:value="0" />
                       </minHeight>
-                      <prefHeight>
-                        <Long fx:value="250" />
-                      </prefHeight>
                       <prefViewportHeight>
                         <Long fx:value="200" />
                       </prefViewportHeight>
