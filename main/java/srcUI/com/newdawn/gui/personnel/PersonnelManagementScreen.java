@@ -9,14 +9,11 @@ import java.util.ResourceBundle;
 import java.util.Spliterator;
 import java.util.function.Predicate;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.ListBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,7 +23,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
@@ -36,7 +32,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
@@ -242,10 +237,11 @@ public class PersonnelManagementScreen implements Initializable {
 				Bindings.select(
 						officialsFilteredTableView.selectionModelProperty(),
 						"selectedItem").isNull());
+		
 		final ObjectBinding<Official> selectedPersonnel = Bindings.select(
 				officialsFilteredTableView.selectionModelProperty(),
 				"selectedItem");
-
+		
 		detailsPaneController.officialProperty().bind(selectedPersonnel);
 		skillColumn
 				.setCellValueFactory(new Callback<CellDataFeatures<SkillLevel, String>, ObservableValue<String>>() {

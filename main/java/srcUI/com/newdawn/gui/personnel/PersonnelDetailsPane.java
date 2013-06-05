@@ -1,8 +1,8 @@
 package com.newdawn.gui.personnel;
 
-import com.newdawn.model.personnel.Official;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringExpression;
 import javafx.beans.property.ObjectProperty;
@@ -10,6 +10,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+
+import com.newdawn.model.personnel.Official;
+import com.sun.javafx.binding.SelectBinding;
 
 /**
  * 
@@ -52,6 +55,7 @@ public class PersonnelDetailsPane implements Initializable {
 	 */
 	public void setOfficial(Official official) {
 		this.officialProperty().setValue(official);
+		
 	}
 
 	@Override
@@ -67,9 +71,9 @@ public class PersonnelDetailsPane implements Initializable {
 				.concat(" ")
 				.concat(Bindings.selectString(officialProperty(), "name"));
 		
-		designationTextField.textProperty().bind(officialNameExpression);
-		assignementTextField.textProperty().bind(
-				Bindings.selectString(officialProperty, "assignment",
-						"visualName"));
+//		designationTextField.textProperty().bind(officialNameExpression);
+//		assignementTextField.textProperty().bind(
+//				Bindings.selectString(officialProperty(), "assignment",
+//						"visualName"));
 	}
 }
