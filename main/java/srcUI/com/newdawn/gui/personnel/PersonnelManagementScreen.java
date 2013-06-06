@@ -9,14 +9,11 @@ import java.util.ResourceBundle;
 import java.util.Spliterator;
 import java.util.function.Predicate;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.ListBinding;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,7 +62,6 @@ import com.sun.javafx.collections.CompositeMatcher;
  */
 @Component
 public class PersonnelManagementScreen implements Initializable {
-
 	@Autowired
 	private GameData gameData;
 	private final MapChangeListener<Skill, SkillLevel> mapChangeListener = new MapChangeListener<Skill, SkillLevel>() {
@@ -241,11 +237,12 @@ public class PersonnelManagementScreen implements Initializable {
 				Bindings.select(
 						officialsFilteredTableView.selectionModelProperty(),
 						"selectedItem").isNull());
+		
 		final ObjectBinding<Official> selectedPersonnel = Bindings.select(
 				officialsFilteredTableView.selectionModelProperty(),
 				"selectedItem");
-
-		detailsPaneController.officialProperty().bind(selectedPersonnel);
+		
+		detailsPaneController.officialProperty().bind(officialsFilteredTableView.getSelectionModel().selectedItemProperty());
 		skillColumn
 				.setCellValueFactory(new Callback<CellDataFeatures<SkillLevel, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(

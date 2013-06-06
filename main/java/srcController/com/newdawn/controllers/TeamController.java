@@ -174,6 +174,10 @@ public class TeamController {
 		
 	}
 
+	public void deleteTeam(Team teamToDelete)
+	{
+		
+	}
 	private void assignGeologicalTeamToMinerallyExploitableBody(
 			GeologicalTeam selectedTeam, MinerallyExploitableBody assignment) {
 		selectedTeam.setAssignement(assignment);
