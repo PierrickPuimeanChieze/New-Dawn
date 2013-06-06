@@ -77,7 +77,7 @@ public class TeamManagementScreen implements Initializable {
 	// fx:id="leaderTeamSkillLevelTextField"
 	private TextField leaderTeamSkillLevelTextField; // Value injected by
 														// FXMLLoader
-	//TODO rename this field in localizationTextField
+	// TODO rename this field in localizationTextField
 	@FXML
 	// fx:id="locationTextFiedl"
 	private TextField locationTextFiedl; // Value injected by FXMLLoader
@@ -152,6 +152,12 @@ public class TeamManagementScreen implements Initializable {
 			teamController.assignTeamToAssignment((FieldTeam) selectedTeam,
 					assignment);
 		}
+	}
+
+	public void launchTeamDeletion(ActionEvent event) {
+		Object selectedTeam = selectedTeamBinding.getValue();
+		teamController.deleteTeam((Team) selectedTeam);
+		
 	}
 
 	// Handler for TableView[fx:id="membersTableView"] onKeyPressed
@@ -292,7 +298,11 @@ public class TeamManagementScreen implements Initializable {
 					}
 				});
 		// </editor-fold>
-		assignmentTextField.textProperty().bind(Bindings.selectString(selectedTeamBinding, "assignment", "visualName"));
-		locationTextFiedl.textProperty().bind(Bindings.selectString(selectedTeamBinding, "localization", "visualName"));
+		assignmentTextField.textProperty().bind(
+				Bindings.selectString(selectedTeamBinding, "assignment",
+						"visualName"));
+		locationTextFiedl.textProperty().bind(
+				Bindings.selectString(selectedTeamBinding, "localization",
+						"visualName"));
 	}
 }

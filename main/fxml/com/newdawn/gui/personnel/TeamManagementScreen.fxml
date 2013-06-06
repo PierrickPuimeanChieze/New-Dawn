@@ -21,7 +21,8 @@
                 <TextField id="assignmentTextField" fx:id="locationTextFiedl" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
                 <Label fx:id="teamCumulativeSkillLevelLabel" text="Total Skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
                 <TextField id="effectiveTeamSkilTextField" fx:id="effectiveTeamSkilLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
-                <Button mnemonicParsing="false" onAction="#launchTeamAssignmentChange" text="Change Assignement" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="-2.0" />
+                <Button mnemonicParsing="false" onAction="#launchTeamAssignmentChange" prefWidth="120.0" text="Change Assignement" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="-2.0" />
+                <Button mnemonicParsing="false" onAction="#launchTeamDeletion" prefWidth="120.0" text="Delete team" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="23.0" />
               </children>
               <prefHeight>
                 <Long fx:value="-1" />
