@@ -71,9 +71,9 @@ public class PersonnelDetailsPane implements Initializable {
 				.concat(" ")
 				.concat(Bindings.selectString(officialProperty(), "name"));
 		
-//		designationTextField.textProperty().bind(officialNameExpression);
-//		assignementTextField.textProperty().bind(
-//				Bindings.selectString(officialProperty(), "assignment",
-//						"visualName"));
+		designationTextField.textProperty().bind(officialNameExpression);
+		assignementTextField.textProperty().bind(
+				Bindings.selectString(officialProperty(), "assignment",
+						"visualName"));
 	}
 }

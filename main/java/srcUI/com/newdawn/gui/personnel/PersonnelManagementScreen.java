@@ -242,7 +242,7 @@ public class PersonnelManagementScreen implements Initializable {
 				officialsFilteredTableView.selectionModelProperty(),
 				"selectedItem");
 		
-		detailsPaneController.officialProperty().bind(selectedPersonnel);
+		detailsPaneController.officialProperty().bind(officialsFilteredTableView.getSelectionModel().selectedItemProperty());
 		skillColumn
 				.setCellValueFactory(new Callback<CellDataFeatures<SkillLevel, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(
