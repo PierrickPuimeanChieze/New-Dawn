@@ -12,6 +12,8 @@ import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
 
 /**
+ * This predicate is used to test an official on his skills (presence, min value
+ * and max value)
  * 
  * @author Pierrick Puimean-Chieze
  */
@@ -21,9 +23,10 @@ public class SkillFilter implements Predicate<Official> {
 	private ObjectProperty<Integer> minValueProperty;
 	private ObjectProperty<Integer> maxValueProperty;
 
-	public ObjectProperty<Integer>  maxValueProperty() {
+	public ObjectProperty<Integer> maxValueProperty() {
 		if (maxValueProperty == null) {
-			maxValueProperty = new SimpleObjectProperty<Integer>(this, "maxValue",null);
+			maxValueProperty = new SimpleObjectProperty<Integer>(this,
+					"maxValue", null);
 		}
 		return maxValueProperty;
 	}
@@ -47,9 +50,10 @@ public class SkillFilter implements Predicate<Official> {
 		this.maxValueProperty().setValue(maxValue);
 	}
 
-	public ObjectProperty<Integer>  minValueProperty() {
+	public ObjectProperty<Integer> minValueProperty() {
 		if (minValueProperty == null) {
-			minValueProperty = new SimpleObjectProperty<Integer>(this, "minValue",null);
+			minValueProperty = new SimpleObjectProperty<Integer>(this,
+					"minValue", null);
 		}
 		return minValueProperty;
 	}
@@ -108,11 +112,14 @@ public class SkillFilter implements Predicate<Official> {
 		} else {
 			level = skillLevel.getLevel();
 		}
-		//We checked the skill against each limit of the filter. 
-		//If One limit is null, the test for this limit return true, whatever the value of the skill 
-		boolean minValueChecked = getMinValue() == null ||level >= getMinValue(); 
-		boolean maxValueChecked = getMaxValue() == null ||level <= getMaxValue(); 
-		
-		return  minValueChecked && maxValueChecked ;
+		// We checked the skill against each limit of the filter.
+		// If One limit is null, the test for this limit return true, whatever
+		// the value of the skill
+		boolean minValueChecked = getMinValue() == null
+				|| level >= getMinValue();
+		boolean maxValueChecked = getMaxValue() == null
+				|| level <= getMaxValue();
+
+		return minValueChecked && maxValueChecked;
 	}
 }

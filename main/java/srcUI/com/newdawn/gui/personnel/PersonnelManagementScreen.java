@@ -54,7 +54,7 @@ import com.newdawn.model.personnel.PersonnelAssignment;
 import com.newdawn.model.personnel.Scientist;
 import com.newdawn.model.personnel.Skill;
 import com.newdawn.model.personnel.SkillLevel;
-import com.sun.javafx.collections.CompositeMatcher;
+import com.sun.javafx.collections.DynamicAndPredicate;
 
 /**
  * 
@@ -81,8 +81,14 @@ public class PersonnelManagementScreen implements Initializable {
 	private AssignementFilter assignementFilters;
 	private ObservableList<Official> officialFilteredList = FXCollections
 			.observableArrayList();
-	private final CompositeMatcher<Official> compositeMatcher = new CompositeMatcher<>();
-	private final CompositeMatcher<Official> skillFiltersMatcher = new CompositeMatcher<>();
+	// private final DynamicAndPredicate<Official> overallFilterMatcher = new
+	// DynamicAndPredicate<>();
+	/**
+	 * This predicate combine the {@link #skillFiltersMatcher} and
+	 * {@link #typeOfficialMatcher} with an "AND" operation
+	 */
+	private Predicate<Official> overallFilterMatcher = null;
+	private final DynamicAndPredicate<Official> skillFiltersMatcher = new DynamicAndPredicate<>();
 	private final Predicate<Official> typeOfficialMatcher = new Predicate<Official>() {
 
 		@Override
@@ -135,9 +141,9 @@ public class PersonnelManagementScreen implements Initializable {
 	@FXML
 	// fx:id="skillFilterMaxValueColumn"
 	private TableColumn<SkillFilter, Integer> skillFilterMaxValueColumn; // Value
-																		// injected
-																		// by
-																		// FXMLLoader
+																			// injected
+																			// by
+																			// FXMLLoader
 	@FXML
 	// fx:id="skillFilterMaxValueComponent"
 	private TextField skillFilterMaxValueComponent; // Value injected by
@@ -145,9 +151,9 @@ public class PersonnelManagementScreen implements Initializable {
 	@FXML
 	// fx:id="skillFilterMinValueColumn"
 	private TableColumn<SkillFilter, Integer> skillFilterMinValueColumn; // Value
-																		// injected
-																		// by
-																		// FXMLLoader
+																			// injected
+																			// by
+																			// FXMLLoader
 	@FXML
 	// fx:id="skillFilterMinValueComponent"
 	private TextField skillFilterMinValueComponent; // Value injected by
@@ -237,12 +243,14 @@ public class PersonnelManagementScreen implements Initializable {
 				Bindings.select(
 						officialsFilteredTableView.selectionModelProperty(),
 						"selectedItem").isNull());
-		
+
 		final ObjectBinding<Official> selectedPersonnel = Bindings.select(
 				officialsFilteredTableView.selectionModelProperty(),
 				"selectedItem");
-		
-		detailsPaneController.officialProperty().bind(officialsFilteredTableView.getSelectionModel().selectedItemProperty());
+
+		detailsPaneController.officialProperty().bind(
+				officialsFilteredTableView.getSelectionModel()
+						.selectedItemProperty());
 		skillColumn
 				.setCellValueFactory(new Callback<CellDataFeatures<SkillLevel, String>, ObservableValue<String>>() {
 					public ObservableValue<String> call(
@@ -337,11 +345,13 @@ public class PersonnelManagementScreen implements Initializable {
 								.skillProperty(), "name");
 					}
 				});
-	
+
 		skillFilterMinValueColumn
-				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>("minValue"));
+				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>(
+						"minValue"));
 		skillFilterMaxValueColumn
-				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>("maxValue"));
+				.setCellValueFactory(new PropertyValueFactory<SkillFilter, Integer>(
+						"maxValue"));
 		skillFiltersTableView.getItems().addListener(
 				new ListChangeListener<SkillFilter>() {
 					@Override
@@ -427,8 +437,9 @@ public class PersonnelManagementScreen implements Initializable {
 	}
 
 	private void initializeCompositeMatcher() {
-		compositeMatcher.getMatchers().add(typeOfficialMatcher);
-		compositeMatcher.getMatchers().add(skillFiltersMatcher);
+		overallFilterMatcher = typeOfficialMatcher.and(skillFiltersMatcher);
+		// overallFilterMatcher.getMatchers().add(typeOfficialMatcher);
+		// overallFilterMatcher.getMatchers().add(skillFiltersMatcher);
 	}
 
 	// TODO Try to use a filtered List
@@ -438,7 +449,7 @@ public class PersonnelManagementScreen implements Initializable {
 		}
 		officialFilteredList.clear();
 		for (Official official : gameData.getOfficials()) {
-			if (compositeMatcher.test(official)) {
+			if (overallFilterMatcher.test(official)) {
 				officialFilteredList.add(official);
 
 				official.getSkillLevels().addListener(mapChangeListener);
@@ -462,7 +473,7 @@ public class PersonnelManagementScreen implements Initializable {
 				.setMaxValue((maxValueText == null || maxValueText.isEmpty()) ? null
 						: Integer.parseInt(maxValueText));
 		skillFiltersTableView.getItems().add(skillFilter);
-		compositeMatcher.getMatchers().add(skillFilter);
+		overallFilterMatcher = overallFilterMatcher.and(skillFilter);
 		updateFilters(event);
 	}
 
