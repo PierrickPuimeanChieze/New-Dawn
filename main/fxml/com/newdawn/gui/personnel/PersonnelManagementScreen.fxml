@@ -32,10 +32,10 @@
                           <children>
                             <FlowPane minHeight="-Infinity" minWidth="0.0">
                               <children>
-                                <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Naval Officer" />
-                                <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Scientist" />
-                                <CheckBox fx:id="groundOfficerFilterCheckBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateFilters" selected="true" text="Ground officer" />
-                                <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator" />
+                                <CheckBox id="navalOfficerCheckBox" fx:id="navalOfficerFilterCheckBox" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#onOfficialTypeCheckBoxAction" selected="true" text="Naval Officer" />
+                                <CheckBox fx:id="scientistFilterCheckBox" mnemonicParsing="false" onAction="#onOfficialTypeCheckBoxAction" selected="true" text="Scientist" />
+                                <CheckBox fx:id="groundOfficerFilterCheckBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onOfficialTypeCheckBoxAction" selected="true" text="Ground officer" />
+                                <CheckBox fx:id="civilianAdministratorCheckBox" mnemonicParsing="false" selected="true" text="Civilian Administrator"  onAction="#onOfficialTypeCheckBoxAction" />
                               </children>
                               <prefWidth>
                                 <Long fx:value="-1" />
@@ -134,7 +134,7 @@
                             <Button mnemonicParsing="false" onAction="#addSkillFilter" text="Add Filter" />
                             <ScrollPane id="ScrollPane" VBox.vgrow="ALWAYS">
                               <content>
-                                <TableView fx:id="skillFiltersTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                <TableView fx:id="skillFiltersTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyTypedOnSkillFilters">
                                   <columns>
                                     <TableColumn text="Skill" fx:id="skillFiltersNameColumn">
                                       <prefWidth>

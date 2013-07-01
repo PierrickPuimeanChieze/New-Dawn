@@ -33,6 +33,8 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
@@ -204,6 +206,35 @@ public class PersonnelManagementScreen implements Initializable {
 				.getSelectionModel().getSelectedItem());
 	}
 
+	@FXML
+	void onKeyTypedOnSkillFilters(KeyEvent event) {
+		switch (event.getCode()) {
+		case DELETE:
+			deleteSelectedSkillFilter();
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@FXML
+	void onOfficialTypeCheckBoxAction(ActionEvent event) {
+		updateOfficialFiltersResult();
+	}
+
+	private void deleteSelectedSkillFilter() {
+		SkillFilter selectedItem = skillFiltersTableView.getSelectionModel()
+				.getSelectedItem();
+		if (selectedItem != null) {
+			skillFiltersTableView.getItems().remove(selectedItem);
+			skillFiltersTableView.getSelectionModel().clearSelection();
+			updateOfficialFiltersResult();
+
+		}
+	}
+
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -271,7 +302,7 @@ public class PersonnelManagementScreen implements Initializable {
 			}
 		});
 
-		updateFilters(null);
+		updateOfficialFiltersResult();
 	}
 
 	private void initializeAssignmentListViewAndFilters() {
@@ -382,7 +413,7 @@ public class PersonnelManagementScreen implements Initializable {
 																	ObservableValue<? extends Number> arg0,
 																	Number arg1,
 																	Number arg2) {
-																updateFilters(null);
+																updateOfficialFiltersResult();
 															}
 														});
 												return selectInteger;
@@ -390,12 +421,14 @@ public class PersonnelManagementScreen implements Initializable {
 										});
 								officialsFilteredTableView.getColumns().add(
 										skillColumn);
+								skillFiltersColumn.put(skill, skillColumn);
 							}
 
 							for (SkillFilter skillFilter : arg0.getRemoved()) {
 								final Skill skill = skillFilter.getSkill();
 								TableColumn<Official, Number> column = skillFiltersColumn
 										.remove(skill);
+
 								if (column != null) {
 									officialsFilteredTableView.getColumns()
 											.remove(column);
@@ -428,7 +461,7 @@ public class PersonnelManagementScreen implements Initializable {
 		gameData.getOfficials().addListener(new ListChangeListener<Official>() {
 			@Override
 			public void onChanged(Change<? extends Official> arg0) {
-				updateFilters(null);
+				updateOfficialFiltersResult();
 			}
 		});
 
@@ -443,7 +476,10 @@ public class PersonnelManagementScreen implements Initializable {
 	}
 
 	// TODO Try to use a filtered List
-	public void updateFilters(ActionEvent event) {
+	/**
+	 * Update the filtered officials list
+	 */
+	public void updateOfficialFiltersResult() {
 		for (Official official : officialFilteredList) {
 			official.getSkillLevels().removeListener(mapChangeListener);
 		}
@@ -473,8 +509,10 @@ public class PersonnelManagementScreen implements Initializable {
 				.setMaxValue((maxValueText == null || maxValueText.isEmpty()) ? null
 						: Integer.parseInt(maxValueText));
 		skillFiltersTableView.getItems().add(skillFilter);
-		overallFilterMatcher = overallFilterMatcher.and(skillFilter);
-		updateFilters(event);
+		// We don't need to update #skillFiltersMatcher because of the biding
+		// betwen skillFiltersMatcher' matchers and the items of
+		// skillFiltersTableView
+		updateOfficialFiltersResult();
 	}
 
 	// TODO try to use a binding
