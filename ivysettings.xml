@@ -24,11 +24,12 @@
         <chain name="default">
             <!-- This is the default maven 2 repository -->
             <ibiblio name="m2repo" m2compatible="true" />
+            <ibiblio name="spring.milestone" root="http://repo.springsource.org/milestone/"
+                     m2compatible="true" />
             <!--
             Add additional public repositories here.
             eg == java.net repo, containing useful java apis ==
-            <ibiblio name="java.net" root="http://download.java.net/maven/1/"
-                                     pattern="[organisation]/[type]s/[artifact]-[revision].[ext]"/>
+
              -->
         </chain>
     </resolvers>
