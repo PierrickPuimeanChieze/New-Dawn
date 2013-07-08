@@ -21,6 +21,7 @@ import com.newdawn.model.mineral.MineralDeposit;
 import com.newdawn.model.mineral.MineralModel;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
+import com.newdawn.model.system.Asteroid;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.Satellite;
 import com.newdawn.model.system.Star;
@@ -42,6 +43,7 @@ public class SystemHandler extends DefaultHandler2 {
 	private List<MineralDeposit> depositsForCurrentMineralModel = new ArrayList<>();
 	private Satellite currentSatellite;
 	private Star currentStar;
+	private Asteroid currentAsteroid;
 	@Autowired
 	private InitialisationController initialisationController;
 	@Autowired
@@ -80,9 +82,32 @@ public class SystemHandler extends DefaultHandler2 {
 		case "deposit" :
 			initCurrentDeposit(attributes);
 			break;
+		case "asteroid":
+			initCurrentAsteroid(attributes);
+			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);
 		}
+		
+	}
+
+	private void initCurrentAsteroid(Attributes attributes) {
+		long orbitalRadius = Long.parseLong(attributes
+				.getValue("orbitalRadius"));
+		long diameter = Long.parseLong(attributes.getValue("diameter"));
+//		String name = attributes.getValue("name");
+		Long orbitalPeriod = null;
+		String orbitalPeriodStr = attributes.getValue("orbitalPeriod");
+		if (orbitalPeriodStr != null) {
+			orbitalPeriod = Long.parseLong(orbitalPeriodStr);
+		}
+		// TODO handling the illegal argument exception from parseDelta
+		double delta = 0.0;
+//		delta = parseDelta(attributes.getValue("delta"));
+		currentAsteroid = initialisationController.addNewAsteroidToStar(
+				currentStar, orbitalRadius, diameter,
+				orbitalPeriod, delta);
+		initCurrentMinerralyExploitableBody(currentPlanet);
 		
 	}
 
@@ -144,6 +169,10 @@ public class SystemHandler extends DefaultHandler2 {
 		case "deposit":
 			depositsForCurrentMineralModel.add(currentMineralDeposit);
 			currentMineralDeposit = null;
+			break;
+		case "asteroid":
+			currentAsteroid = null;
+			currentMinerallyExploitableBody = null;
 			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);

@@ -7,6 +7,7 @@ package com.newdawn.model.system;
 import com.newdawn.model.mineral.MinerallyExploitableBody;
 import com.newdawn.model.mineral.MinerallyExploitableBodyModel;
 import javafx.beans.property.ReadOnlyStringProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  * 
@@ -15,6 +16,7 @@ import javafx.beans.property.ReadOnlyStringProperty;
 public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
 
 	private MinerallyExploitableBodyModel minerallyExploitableBodyModel;
+	private ReadOnlyStringProperty visualNameProperty = null;
 
 	public Asteroid(Orbit orbit, long diameter) {
 		super(orbit, diameter);
@@ -33,6 +35,15 @@ public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
 
 	@Override
 	public ReadOnlyStringProperty visualNameProperty() {
-		throw new UnsupportedOperationException("Not supported yet.");
+		if (visualNameProperty == null) {
+			visualNameProperty = new SimpleStringProperty(this, "visualName",
+					getName());
+		}
+
+		return visualNameProperty ;
+	}
+
+	public String getVisualName() {
+		return visualNameProperty().getValue();
 	}
 }

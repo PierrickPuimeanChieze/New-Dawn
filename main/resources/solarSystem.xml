@@ -31,6 +31,9 @@
 		<planet name="Neptune" planetaryClass="gas_giant"
 			orbitalRadius="4499900000" diameter="45432" orbitalPeriod="5200416000" />
 
+		<asteroid diameter="12" orbitalRadius="502990000" orbitalPeriod="374335776" >
+					    
+		</asteroid>
 
 	</star>
 </system>

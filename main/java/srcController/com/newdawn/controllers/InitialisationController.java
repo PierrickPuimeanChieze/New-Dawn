@@ -5,6 +5,7 @@
 package com.newdawn.controllers;
 
 import com.newdawn.model.system.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -104,6 +105,15 @@ public class InitialisationController {
 		Satellite satellite = new Satellite(name, orbit, diameter);
 		satellite.setOrbitalPeriod(orbitalPeriod);
 		orbitCenter.getSatellites().add(satellite);
+		return satellite;
+	}
+
+	public Asteroid addNewAsteroidToStar(CelestialBody orbitCenter, long orbitalRadius,
+			long diameter, Long orbitalPeriod, double delta) {
+		Orbit orbit = new Orbit(orbitCenter, orbitalRadius);
+		Asteroid satellite = new Asteroid(orbit, diameter);
+		satellite.setOrbitalPeriod(orbitalPeriod);
+		orbitCenter.getStellarSystem().getAsteroids().add(satellite);
 		return satellite;
 	}
 }

@@ -5,6 +5,7 @@
 package com.newdawn.gui.map.system;
 
 import com.newdawn.model.ships.Squadron;
+import com.newdawn.model.system.Asteroid;
 import com.newdawn.model.system.Satellite;
 import com.newdawn.model.system.Planet;
 import com.newdawn.model.system.Star;
@@ -124,6 +125,22 @@ public class SystemViewer extends ScrollPane {
 
 		for (Squadron taskGroup : stellarSystem.getSquadrons()) {
 			components.getChildren().add(new SquadronComponent(taskGroup));
+		}
+
+		for (Asteroid asteroid : stellarSystem.getAsteroids()) {
+			final CelestialBodyComponent asteroidComponent = CelestialBodyComponentFactory
+					.buildComponentForBody(asteroid);
+			asteroidComponent.setOnMouseClicked(new CenterHandler(this,
+					asteroidComponent));
+			components.getChildren().add(asteroidComponent);
+			OrbitComponent planetOrbitComponent = new OrbitComponent(
+					asteroid.getOrbit());
+			components.getChildren().add(planetOrbitComponent);
+			asteroidComponent.setLinkedOrbitComponent(planetOrbitComponent);
+			asteroidComponent.getCelestialBodyCircle().setFill(Color.YELLOWGREEN);
+			// registeredOrbit.add(planet.getOrbit());
+
+			
 		}
 
 		updateChildren();
