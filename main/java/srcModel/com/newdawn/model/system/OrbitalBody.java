@@ -18,15 +18,15 @@ public class OrbitalBody extends CelestialBody {
 	private DoubleProperty deltaProperty;
 	private Long orbitalPeriod;
 
-	public OrbitalBody(Orbit orbit, long diameter) {
+	public OrbitalBody(Orbit orbit, double diameter) {
 		this(orbit, 0.0, diameter);
 	}
 
-	public OrbitalBody(Orbit orbit, double delta, long diameter) {
+	public OrbitalBody(Orbit orbit, double delta, double diameter) {
 		this(orbit, delta, diameter, null);
 	}
 
-	public OrbitalBody(Orbit orbit, double delta, long diameter,
+	public OrbitalBody(Orbit orbit, double delta, double diameter,
 			Long orbitalPeriod) {
 		super(orbit.getRef().getStellarSystem(), diameter);
 		this.orbit = orbit;

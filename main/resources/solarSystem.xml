@@ -35,5 +35,6 @@
 					    
 		</asteroid>
 
+		<asteroidBelt number="50" width="1000000" orbitalRadius="502990000" gaussianRepartition="true"/>
 	</star>
 </system>

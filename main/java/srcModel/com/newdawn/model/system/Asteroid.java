@@ -18,7 +18,7 @@ public class Asteroid extends OrbitalBody implements MinerallyExploitableBody {
 	private MinerallyExploitableBodyModel minerallyExploitableBodyModel;
 	private ReadOnlyStringProperty visualNameProperty = null;
 
-	public Asteroid(Orbit orbit, long diameter) {
+	public Asteroid(Orbit orbit, double diameter) {
 		super(orbit, diameter);
 	}
 

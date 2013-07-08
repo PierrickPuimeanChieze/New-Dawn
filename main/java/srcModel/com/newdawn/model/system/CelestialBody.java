@@ -25,7 +25,7 @@ public abstract class CelestialBody implements SpaceObject {
 
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
-	private long diameter;
+	private double diameter;
 	private StringProperty nameProperty;
 	private StellarSystem stellarSystem;
 	private DoubleProperty positionXProperty;
@@ -60,9 +60,9 @@ public abstract class CelestialBody implements SpaceObject {
 		return nameProperty;
 	}
 
-	public CelestialBody(StellarSystem stellarSystem, long diameter) {
+	public CelestialBody(StellarSystem stellarSystem, double diameter2) {
 		this.stellarSystem = stellarSystem;
-		this.diameter = diameter;
+		this.diameter = diameter2;
 		this.orderFactories.add(new MoveToSpaceObjectOrderFactory(this));
 	}
 
@@ -106,7 +106,7 @@ public abstract class CelestialBody implements SpaceObject {
 		return propertyChangeSupport;
 	}
 
-	public long getDiameter() {
+	public double getDiameter() {
 		return diameter;
 	}
 

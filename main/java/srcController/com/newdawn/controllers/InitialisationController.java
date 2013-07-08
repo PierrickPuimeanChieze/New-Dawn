@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import viewerfx.AsteroidBuilder;
+
 /**
  * 
  * @author Pierrick Puimean-Chieze
@@ -28,8 +30,9 @@ public class InitialisationController {
 	private GameData gameData;
 	@Autowired
 	private Config config;
-	@Autowired 
+	@Autowired
 	private SystemHandler systemHandler;
+
 	public Config getConfig() {
 		return config;
 	}
@@ -108,12 +111,28 @@ public class InitialisationController {
 		return satellite;
 	}
 
-	public Asteroid addNewAsteroidToStar(CelestialBody orbitCenter, long orbitalRadius,
-			long diameter, Long orbitalPeriod, double delta) {
+	public Asteroid addNewAsteroidToStar(CelestialBody orbitCenter,
+			long orbitalRadius, long diameter, Long orbitalPeriod, double delta) {
 		Orbit orbit = new Orbit(orbitCenter, orbitalRadius);
 		Asteroid satellite = new Asteroid(orbit, diameter);
 		satellite.setOrbitalPeriod(orbitalPeriod);
 		orbitCenter.getStellarSystem().getAsteroids().add(satellite);
 		return satellite;
+	}
+
+	public void addAsteroidBeltToStar(Star currentStar, long number,
+			long orbitalRadius, long width, boolean useGaussianRepartition) {
+
+		AsteroidBuilder asteroidBuilder = new AsteroidBuilder();
+		asteroidBuilder.setMinimumDiameter(10);
+		asteroidBuilder.setMaximumDiameter(15);
+		asteroidBuilder.setCentralOrbitalValue(orbitalRadius);
+		asteroidBuilder.setWidth(width);
+		asteroidBuilder.setOrbitCenter(currentStar);
+		for (int i = 0; i < number; i++) {
+			currentStar.getStellarSystem().getAsteroids()
+					.add(asteroidBuilder.getAsteroid());
+		}
+
 	}
 }

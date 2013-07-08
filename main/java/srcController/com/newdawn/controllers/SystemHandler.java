@@ -85,9 +85,32 @@ public class SystemHandler extends DefaultHandler2 {
 		case "asteroid":
 			initCurrentAsteroid(attributes);
 			break;
+		case "asteroidBelt":
+			initCurrentAsteroidBelt(attributes);
+			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);
 		}
+		
+	}
+
+	private void initCurrentAsteroidBelt(Attributes attributes) {
+		long orbitalRadius = Long.parseLong(attributes
+				.getValue("orbitalRadius"));
+		long width = Long.parseLong(attributes.getValue("width"));
+		long number = Long.parseLong(attributes.getValue("number"));
+		boolean useGaussianRepartition = Boolean.parseBoolean(attributes.getValue("gaussianRepartition")); 
+//		String name = attributes.getValue("name");
+//		Long orbitalPeriod = null;
+//		String orbitalPeriodStr = attributes.getValue("orbitalPeriod");
+//		if (orbitalPeriodStr != null) {
+//			orbitalPeriod = Long.parseLong(orbitalPeriodStr);
+//		}
+		// TODO handling the illegal argument exception from parseDelta
+		double delta = 0.0;
+//		delta = parseDelta(attributes.getValue("delta"));
+		initialisationController.addAsteroidBeltToStar(
+				currentStar, number, orbitalRadius, width, useGaussianRepartition);
 		
 	}
 
@@ -107,7 +130,7 @@ public class SystemHandler extends DefaultHandler2 {
 		currentAsteroid = initialisationController.addNewAsteroidToStar(
 				currentStar, orbitalRadius, diameter,
 				orbitalPeriod, delta);
-		initCurrentMinerralyExploitableBody(currentPlanet);
+		initCurrentMinerralyExploitableBody(currentAsteroid);
 		
 	}
 
@@ -173,6 +196,8 @@ public class SystemHandler extends DefaultHandler2 {
 		case "asteroid":
 			currentAsteroid = null;
 			currentMinerallyExploitableBody = null;
+			break;
+		case "asteroidBelt":
 			break;
 		default:
 			throw new AssertionError("Unknow Element : " + qName);
