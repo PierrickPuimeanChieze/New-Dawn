@@ -37,13 +37,16 @@ public class PropertyListCellFactory<T> implements
 	@Override
 	//TODO override the update item method of the cell
 	public ListCell<T> call(ListView<T> arg0) {
-		ListCell<T> toReturn = new ListCell<>();
-
-		final StringBinding selectString = Bindings.selectString(
-				toReturn.itemProperty(), propertyName);
-
-		toReturn.textProperty().bind(selectString);
-		toReturn.setOnMouseClicked(mouseEventHandler);
-		return toReturn;
+		return new ListCell<T>() {
+			@Override
+			public void updateItem(T item, boolean empty) {
+				super.updateItem(item, empty);
+				textProperty().unbind();
+				if (item != null) {
+					// assumes MyDataType.someProperty() returns a StringProperty:
+					textProperty().bind(Bindings.selectString(item, propertyName));
+				}
+			}
+		};
 	}
 }

@@ -267,6 +267,7 @@ public class FleetManagementScreen implements Initializable {
 		final ObjectBinding<ObservableList<Squadron>> select = Bindings.select(
 				systemListView.getSelectionModel().selectedItemProperty(),
 				"squadrons");
+
 		squadronListView.itemsProperty().bind(select);
 
 		squadronListView.setCellFactory(new PropertyListCellFactory<Squadron>(

@@ -94,34 +94,14 @@ public class MainScreen implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		fleetManagementScreenTab.setContent(getFleetManagementScreen());
-		systemMapScreenTab.setContent(getSystemMapScreen());
-		economicScreenTab.setContent(getEconomicScreen());
-		personnelManagementScreenTab.setContent(getPersonnelManagementScreen());
-		teamManagementScreenTab.setContent(getTeamManagementScreen());
-		economicScreenMenuItem
-				.setAccelerator(new KeyCodeCombination(KeyCode.F2));
-		economicScreenMenuItem.setUserData(economicScreenTab);
 
-		systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(
-				KeyCode.F3));
-		systemMapScreenMenuItem.setUserData(systemMapScreenTab);
+		initializeFleetManagementGUIElements();
+		initializeMapGUIElements();
+		initializeEconomicGUIElements();
+		initializePersonnelManagementGUIElements();
+		initializeTeamManagementGUIElements();
 
-		personnelManagementScreenMenuItem
-				.setAccelerator(new KeyCodeCombination(KeyCode.F4));
-		personnelManagementScreenMenuItem
-				.setUserData(personnelManagementScreenTab);
 
-		teamManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(
-				KeyCode.F5));
-		teamManagementScreenMenuItem.setUserData(teamManagementScreenTab);
-
-		fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(
-				KeyCode.F12));
-		fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
-
-		screensTabPane.getTabs().removeAll(systemMapScreenTab,
-				fleetManagementScreenTab, economicScreenTab);
 		fiveSecButton.setUserData(5);
 		thirtySecButton.setUserData(30);
 		fiveMinButton.setUserData(5 * 60);
@@ -134,6 +114,48 @@ public class MainScreen implements Initializable {
 		thirtyDayButton.setUserData(30 * 24 * 3600);
 
 		// screensTabPane.setStyle("-fx-background-color:#000000");
+	}
+
+	private void initializeTeamManagementGUIElements() {
+		teamManagementScreenTab.setContent(getTeamManagementScreen());
+
+
+		teamManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(
+				KeyCode.F5));
+		teamManagementScreenMenuItem.setUserData(teamManagementScreenTab);
+	}
+
+	private void initializePersonnelManagementGUIElements() {
+		personnelManagementScreenTab.setContent(getPersonnelManagementScreen());
+		personnelManagementScreenMenuItem
+				.setAccelerator(new KeyCodeCombination(KeyCode.F4));
+		personnelManagementScreenMenuItem
+				.setUserData(personnelManagementScreenTab);
+
+	}
+
+	private void initializeEconomicGUIElements() {
+		economicScreenTab.setContent(getEconomicScreen());
+		economicScreenMenuItem
+				.setAccelerator(new KeyCodeCombination(KeyCode.F2));
+		economicScreenMenuItem.setUserData(economicScreenTab);
+	}
+
+	private void initializeMapGUIElements() {
+		systemMapScreenTab.setContent(getSystemMapScreen());
+		systemMapScreenMenuItem.setAccelerator(new KeyCodeCombination(
+				KeyCode.F3));
+		systemMapScreenMenuItem.setUserData(systemMapScreenTab);
+	}
+
+	private void initializeFleetManagementGUIElements() {
+		fleetManagementScreenTab.setContent(getFleetManagementScreen());
+		fleetManagementScreenMenuItem.setAccelerator(new KeyCodeCombination(
+				KeyCode.F12));
+		fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
+
+		screensTabPane.getTabs().removeAll(systemMapScreenTab,
+				fleetManagementScreenTab, economicScreenTab);
 	}
 
 	private AnchorPane getSystemMapScreen() {
