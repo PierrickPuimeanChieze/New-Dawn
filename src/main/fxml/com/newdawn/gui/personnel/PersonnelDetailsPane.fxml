@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.PersonnelDetailsPane">
+    <children>
+        <GridPane id="locationTextField" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Personnel Name :" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <GridPane.margin>
+                        <Insets top="5.0" fx:id="x1" />
+                    </GridPane.margin>
+                </Label>
+                <Label text="Assignement :" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1" />
+                <Label text="Location :" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <minWidth>
+                        <Long fx:value="-1" />
+                    </minWidth>
+                    <GridPane.margin>
+                        <Insets right="5.0" top="5.0" />
+                    </GridPane.margin>
+                </Label>
+                <TextField id="designationTextField" fx:id="designationTextField" disable="true" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <TextField id="assignementLocation" fx:id="assignementTextField" disable="true" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="locationTestField" disable="true" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            </children>
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" minWidth="10.0">
+                    <prefWidth>
+                        <Long fx:value="130" />
+                    </prefWidth>
+                </ColumnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <prefWidth>
+                <Long fx:value="-1" />
+            </prefWidth>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
+                    <prefHeight>
+                        <Long fx:value="-1" />
+                    </prefHeight>
+                </RowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
+                    <prefHeight>
+                        <Long fx:value="-1" />
+                    </prefHeight>
+                </RowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES">
+                    <prefHeight>
+                        <Long fx:value="-1" />
+                    </prefHeight>
+                </RowConstraints>
+            </rowConstraints>
+        </GridPane>
+    </children>
+    <prefHeight>
+        <Long fx:value="-1" />
+    </prefHeight>
+    <prefWidth>
+        <Long fx:value="-1" />
+    </prefWidth>
+</AnchorPane>

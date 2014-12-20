@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="leadership" class="com.newdawn.model.personnel.Skill">
+        <constructor-arg value="Leadership"/>
+    </bean>
+    <bean id="geology" class="com.newdawn.model.personnel.Skill">
+        <constructor-arg value="Geology"/>
+    </bean>
+    <bean id="diplomacy" class="com.newdawn.model.personnel.Skill">
+        <constructor-arg value="Diplomacy"/>
+    </bean>
+    <bean id="intelligence" class="com.newdawn.model.personnel.Skill">
+        <constructor-arg value="Intelligence"/>
+    </bean>
+        
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.Long?>
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="475.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.newdawn.gui.personnel.TeamManagementScreen">
+  <children>
+    <TreeView fx:id="teamsTreeView" prefHeight="200.0" prefWidth="200.0" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+    <VBox id="VBox" alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <TitledPane fx:id="teamInformationTitledPane" animated="false" collapsible="true" text="Team information">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+              <children>
+                <Label text="Assignment" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <TextField fx:id="assignmentTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
+                <Label text="Location" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+                <TextField id="assignmentTextField" fx:id="locationTextFiedl" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
+                <Label fx:id="teamCumulativeSkillLevelLabel" text="Total Skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                <TextField id="effectiveTeamSkilTextField" fx:id="effectiveTeamSkilLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
+                <Button mnemonicParsing="false" onAction="#launchTeamAssignmentChange" prefWidth="120.0" text="Change Assignement" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="-2.0" />
+                <Button mnemonicParsing="false" onAction="#launchTeamDeletion" prefWidth="120.0" text="Delete team" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="23.0" />
+              </children>
+              <prefHeight>
+                <Long fx:value="-1" />
+              </prefHeight>
+              <prefWidth>
+                <Long fx:value="-1" />
+              </prefWidth>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TitledPane animated="false" collapsible="true" text="Leader's information">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0">
+              <children>
+                <Label text="Name" AnchorPane.topAnchor="0.0" />
+                <TextField fx:id="leaderNameTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
+                <Label text="Leadership skill" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0" />
+                <TextField fx:id="leaderLeadershipSkillLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="25.0" />
+                <Label text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="50.0" />
+                <TextField fx:id="leaderTeamSkillLevelTextField" prefWidth="200.0" text="TextField" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="50.0" />
+              </children>
+              <prefHeight>
+                <Long fx:value="-1" />
+              </prefHeight>
+              <prefWidth>
+                <Long fx:value="-1" />
+              </prefWidth>
+            </AnchorPane>
+          </content>
+        </TitledPane>
+        <TableView fx:id="membersTableView" onKeyPressed="#membersTableViewKeyPressedEvent" prefHeight="200.0" prefWidth="-1.0" VBox.vgrow="SOMETIMES">
+          <columns>
+            <TableColumn prefWidth="75.0" sortable="false" text="Name" fx:id="nameColumn" />
+            <TableColumn prefWidth="75.0" sortable="false" fx:id="skillColumn" />
+          </columns>
+        </TableView>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

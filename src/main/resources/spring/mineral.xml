@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="mineral_1" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Duranium"/>
+    </bean>
+    <bean id="mineral_2" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Neutronium"/>
+    </bean>
+    <bean id="mineral_3" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Corbomite"/>
+    </bean>
+    <bean id="mineral_4" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Tritanium"/>
+    </bean>
+    <bean id="mineral_5" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Boronide"/>
+    </bean>
+    <bean id="mineral_6" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Mercassium"/>
+    </bean>
+    <bean id="mineral_7" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Vendarite"/>
+    </bean>
+    <bean id="mineral_8" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Sorium"/>
+    </bean>
+    <bean id="mineral_9" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Uridium"/>
+    </bean>
+    <bean id="mineral_10" class="com.newdawn.model.mineral.Mineral">
+        <property name="name" value="Corundium"/>
+    </bean>
+        
+</beans>

@@ -13,3 +13,5 @@
 /.classpath
 /local.properties
 /bin
+*.iml
+*.idea
