@@ -114,6 +114,7 @@ public class ViewerFX extends Application {
 			primaryStage.setScene(scene);
 
 			primaryStage.show();
+//			primaryStage.setFullScreen(true);
 		} catch (IOException ex) {
 			LOG.fatal(null, ex);
 			throw new RuntimeException(ex);

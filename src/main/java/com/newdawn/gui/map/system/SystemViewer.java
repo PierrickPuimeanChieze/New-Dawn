@@ -25,7 +25,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 
 /**
- * 
+ * This component is designed to allow the user to visualize and interract with a system using a map
+ *
  * @author Pierrick Puimean-Chieze
  */
 public class SystemViewer extends ScrollPane {
@@ -83,19 +84,32 @@ public class SystemViewer extends ScrollPane {
 		});
 	}
 
-	public SystemViewer(StellarSystem stellarSystem) {
+    /**
+     * This constructor initialize a component for a given instance of {@link com.newdawn.model.system.StellarSystem}
+     *
+     * @param stellarSystem the stellar system that will be visualized in this component
+     */
+    public SystemViewer(StellarSystem stellarSystem) {
 		this();
 
+
+        //For each star
 		for (Star star : stellarSystem.getStars()) {
+            //we create the visual component for it
+            //TODO use an external factory
 			final CelestialBodyComponent starComponent = CelestialBodyComponentFactory
 					.buildComponentForBody(star);
+            //We add the listener for this component
 			starComponent.setOnMouseClicked(new CenterHandler(this,
 					starComponent));
+            //And we add it to the overall component group
 			components.getChildren().add(starComponent);
 
 		}
 
+        //We do the same for each planets
 		for (Planet planet : stellarSystem.getPlanets()) {
+            //TODO use an external factory
 			final CelestialBodyComponent planetComponent = CelestialBodyComponentFactory
 					.buildComponentForBody(planet);
 			planetComponent.setOnMouseClicked(new CenterHandler(this,
@@ -107,6 +121,8 @@ public class SystemViewer extends ScrollPane {
 			planetComponent.setLinkedOrbitComponent(planetOrbitComponent);
 			// registeredOrbit.add(planet.getOrbit());
 
+            //And for each satellite of it
+            //TODO use an external factory
 			for (Satellite satellite : planet.getSatellites()) {
 				final CelestialBodyComponent moonComponent = CelestialBodyComponentFactory
 						.buildComponentForBody(satellite);
@@ -119,10 +135,14 @@ public class SystemViewer extends ScrollPane {
 			}
 		}
 
+        //For each Squadron
+        //TODO use an external factory
 		for (Squadron taskGroup : stellarSystem.getSquadrons()) {
 			components.getChildren().add(new SquadronComponent(taskGroup));
 		}
 
+        //And for each asteroid
+        //TODO use an external factory
 		for (Asteroid asteroid : stellarSystem.getAsteroids()) {
 			final CelestialBodyComponent asteroidComponent = CelestialBodyComponentFactory
 					.buildComponentForBody(asteroid);
@@ -136,7 +156,7 @@ public class SystemViewer extends ScrollPane {
 			asteroidComponent.getCelestialBodyCircle().setFill(Color.YELLOWGREEN);
 			// registeredOrbit.add(planet.getOrbit());
 
-			
+
 		}
 
 		updateChildren();
@@ -159,7 +179,7 @@ public class SystemViewer extends ScrollPane {
 
 	/**
 	 * Get the value of zoomLevel
-	 * 
+	 *
 	 * @return the value of zoomLevel
 	 */
 	public double getZoomLevel() {
@@ -168,7 +188,7 @@ public class SystemViewer extends ScrollPane {
 
 	/**
 	 * Set the value of zoomLevel
-	 * 
+	 *
 	 * @param zoomLevel
 	 *            new value of zoomLevel
 	 */
@@ -209,7 +229,7 @@ public class SystemViewer extends ScrollPane {
 
 	/**
 	 * This method center the group on a given position, in screen coordinates
-	 * 
+	 *
 	 * @param positionX
 	 *            the x of the wanted position
 	 * @param positionY
@@ -229,7 +249,7 @@ public class SystemViewer extends ScrollPane {
 
 	/**
 	 * This method get the center of the group, in astronomical unit
-	 * 
+	 *
 	 * @return
 	 */
 	public final Point2D.Double getCenter() {

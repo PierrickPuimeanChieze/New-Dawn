@@ -8,6 +8,10 @@ import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -16,7 +20,7 @@ import javafx.util.Callback;
 public class PropertyOrToStringTreeCellFactory<T> implements
 		Callback<TreeView<T>, TreeCell<T>> {
 
-	private Class<?>[] toStringClasses;
+	private List<Class<?>> toStringClasses = new ArrayList<>();;
 	EventHandler<MouseEvent> mouseEventHandler;
 	private final String propertyName;
 
@@ -25,39 +29,27 @@ public class PropertyOrToStringTreeCellFactory<T> implements
 			Class<?>... toStringClasses) {
 		this.propertyName = propertyName;
 		this.mouseEventHandler = mouseEventHandler;
-		this.toStringClasses = toStringClasses;
+		CollectionUtils.addAll(this.toStringClasses, toStringClasses);
 	}
 
 	@Override
 	public TreeCell<T> call(TreeView<T> arg0) {
 
-		final TreeCell<T> toReturn = new TreeCell<T>();
-		toReturn.textProperty().bind(
-				Bindings.selectString(toReturn.itemProperty(), propertyName));
-
-		// TODO replace by updateItem
-		toReturn.itemProperty().addListener(new ChangeListener<T>() {
+		final TreeCell<T> toReturn = new TreeCell<T>() {
 			@Override
-			public void changed(ObservableValue<? extends T> arg0, T arg1, T arg2) {
-				if (arg2 == null) {
-					toReturn.textProperty().unbind();
-					toReturn.setText(null);
-					return;
-				}
-				for (Class<?> class1 : toStringClasses) {
-					if (class1.isAssignableFrom(arg2.getClass())) {
-						toReturn.textProperty().unbind();
-						toReturn.setText(arg2.toString());
-						return;
+			protected void updateItem(T item, boolean empty) {
+				super.updateItem(item, empty);
+				textProperty().unbind();
+				if (item != null) {
+					if (CollectionUtils.countMatches(toStringClasses, (Class class1) -> class1.isAssignableFrom(item.getClass()))>0) {
+						setText(item.toString());
+					} else {
+						textProperty().bind(Bindings.selectString(item, propertyName));
 					}
 				}
-				if (!toReturn.textProperty().isBound()) {
-					toReturn.textProperty().bind(
-							Bindings.selectString(toReturn.itemProperty(),
-									propertyName));
-				}
 			}
-		});
+		};
+
 		return toReturn;
 	}
 }
