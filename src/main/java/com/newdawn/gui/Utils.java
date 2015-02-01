@@ -1,10 +1,12 @@
 package com.newdawn.gui;
 
+import com.newdawn.gui.map.system.Constants;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.awt.geom.Point2D;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -56,4 +58,28 @@ public class Utils {
 		name += " target : " + event.getTarget();
 		return name;
 	}
+
+    public static Point2D.Double convertCoordinateFromSpaceToScreen(Point2D.Double position, double zoomLevel ) {
+        final double registeredPositionX = position.getX();
+        final double registeredPositionY = position.getY();
+
+        double positionX = (registeredPositionX / Constants.FIXED_QUOTIENT)
+                * zoomLevel;
+        double positionY = (registeredPositionY / Constants.FIXED_QUOTIENT)
+                * zoomLevel;
+
+        return new Point2D.Double(positionX, positionY*-1);
+    }
+
+    public static Point2D.Double convertCoordinateFromScreenToSpace(Point2D.Double position, double zoomLevel ) {
+        final double registeredPositionX = position.getX();
+        final double registeredPositionY = position.getY()*-1;
+
+        double positionX = (registeredPositionX / zoomLevel)
+                * Constants.FIXED_QUOTIENT;
+        double positionY = (registeredPositionY / zoomLevel)
+                * Constants.FIXED_QUOTIENT;
+
+        return new Point2D.Double(positionX, positionY);
+    }
 }

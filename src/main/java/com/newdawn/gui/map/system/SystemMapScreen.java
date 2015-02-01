@@ -102,12 +102,15 @@ public class SystemMapScreen implements Initializable {
 		if (selectedItem != null) {
 			SystemViewer selectedViewer = (SystemViewer) selectedItem
 					.getContent();
+
 			double increment = 0.01;
 			if (event.isControlDown()) {
 				increment = 0.1;
 			}
 
 			switch (event.getCode()) {
+                case Z:
+//                    selectedViewer.toggleZoomMode();
 			// case DOWN:
 			// components.setTranslateY(getTranslateY() - 10);
 			// break;

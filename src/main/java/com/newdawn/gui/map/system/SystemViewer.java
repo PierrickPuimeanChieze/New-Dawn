@@ -4,6 +4,7 @@
  */
 package com.newdawn.gui.map.system;
 
+import com.newdawn.gui.Utils;
 import com.newdawn.model.ships.Squadron;
 import com.newdawn.model.system.*;
 import javafx.beans.property.DoubleProperty;
@@ -12,10 +13,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.apache.commons.logging.Log;
@@ -35,9 +38,14 @@ public class SystemViewer extends ScrollPane {
 	private Group global = new Group();
 	private Group components = new Group();
 	// private double zoomLevel = 1;
-	private Rectangle background;
+	private GridPane grid;
 	private DoubleProperty zoomLevelProperty;
-
+    private static EventHandler<MouseEvent> LOG_EVENT_HANDLER = new EventHandler<MouseEvent>() {
+    @Override
+    public void handle(MouseEvent event) {
+        System.out.println(event.getSource());
+    }
+};
 	public DoubleProperty zoomLevelProperty() {
 		if (zoomLevelProperty == null) {
 			zoomLevelProperty = new SimpleDoubleProperty(this, "zoomLevel", 1.0);
@@ -50,16 +58,41 @@ public class SystemViewer extends ScrollPane {
 	public SystemViewer() {
 		this.setPannable(true);
 		this.focusedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0,
-					Boolean arg1, Boolean arg2) {
-				LOG.debug(arg2 ? "Focused" : "Not Focused");
-			}
-		});
-		background = new Rectangle();
-		background.setFill(Color.BISQUE);
-		global.getChildren().add(background);
-		global.getChildren().add(components);
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0,
+                                Boolean arg1, Boolean arg2) {
+                LOG.debug(arg2 ? "Focused" : "Not Focused");
+            }
+        });
+		grid = new GridPane();
+        grid.setOpacity(0.0);
+        grid.setOnMouseClicked(LOG_EVENT_HANDLER);
+        grid.setMouseTransparent(true);
+        grid.setHgap(0);
+        grid.setVgap(0);
+        grid.setPadding(new Insets(0,0,0,0));
+        for (int x =0;x<10;x++) {
+            for (int y = 0; y < 10; y++) {
+                Rectangle rectangle = new Rectangle();
+                rectangle.setFill(Color.RED);
+                rectangle.setStroke(Color.BLACK);
+                rectangle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        Point2D.Double actualCenter = new Point2D.Double(rectangle.getX()+rectangle.getWidth()/2, rectangle.getY()+rectangle.getHeight()/2);
+                        Point2D.Double spaceCenter = Utils.convertCoordinateFromScreenToSpace(actualCenter, getZoomLevel());
+                        setZoomLevel(getZoomLevel() * 10);
+                        Point2D.Double newCenter = Utils.convertCoordinateFromSpaceToScreen(spaceCenter, getZoomLevel());
+                        SystemViewer.this.centerTo(newCenter);
+                    }
+                });
+                grid.add(rectangle, y,x);
+            }
+        }
+
+        global.getChildren().add(components);
+        global.getChildren().add(grid);
+
 		this.setContent(global);
 		zoomLevelProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -102,6 +135,8 @@ public class SystemViewer extends ScrollPane {
             //We add the listener for this component
 			starComponent.setOnMouseClicked(new CenterHandler(this,
 					starComponent));
+
+            starComponent.setOnMouseClicked(LOG_EVENT_HANDLER);
             //And we add it to the overall component group
 			components.getChildren().add(starComponent);
 
@@ -167,14 +202,18 @@ public class SystemViewer extends ScrollPane {
 	private void updateBackground() {
 		// double HBuffer = getViewportBounds().getWidth();
 		// double VBuffer = getViewportBounds().getHeight();
-		double HBuffer = 0;
-		double VBuffer = 0;
-		background.setWidth(components.getBoundsInLocal().getWidth() + HBuffer
-				* 2);
-		background.setHeight(components.getBoundsInLocal().getHeight()
-				+ VBuffer * 2);
-		background.setX(components.getBoundsInLocal().getMinX() - HBuffer);
-		background.setY(components.getBoundsInLocal().getMinY() - VBuffer);
+
+        double totalWidth = components.getBoundsInLocal().getWidth();
+        double totalHeight = components.getBoundsInLocal().getHeight();
+        grid.setTranslateX(totalWidth/2*-1);
+        grid.setTranslateY(totalHeight/2*-1);
+        double gridCaseSize = Math.max(totalHeight, totalWidth) / 10;
+
+        for (Node node : grid.getChildren()) {
+            Rectangle gridCase = (Rectangle) node;
+            gridCase.setHeight(gridCaseSize);
+            gridCase.setWidth(gridCaseSize);
+        }
 	}
 
 	/**
@@ -264,4 +303,14 @@ public class SystemViewer extends ScrollPane {
 		}
 		return center;
 	}
+
+    public void toggleZoomMode() {
+        if (this.grid.isMouseTransparent()) {
+            this.grid.setMouseTransparent(false);
+            this.grid.setOpacity(0.5);
+        } else {
+            this.grid.setMouseTransparent(true);
+            this.grid.setOpacity(0.0);
+        }
+    }
 }

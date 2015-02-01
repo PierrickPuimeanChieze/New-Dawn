@@ -4,6 +4,7 @@
  */
 package com.newdawn.gui.map.system;
 
+import com.newdawn.gui.Utils;
 import com.newdawn.model.system.CelestialBody;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,6 +13,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+
+import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * 
@@ -97,17 +101,24 @@ public class CelestialBodyComponent extends Group {
 
 	public void update() {
 		double zoomLevel = getZoomLevel();
+        //We get the real coordinates
 		final double registeredPositionX = body.getPositionX();
 		final double registeredPositionY = body.getPositionY();
-		double positionX = (registeredPositionX / Constants.FIXED_QUOTIENT)
-				* zoomLevel;
-		double positionY = (registeredPositionY / Constants.FIXED_QUOTIENT)
-				* zoomLevel;
 
-		celestialBodyCircle.setCenterX(positionX);
-		celestialBodyCircle.setCenterY(positionY * -1);
 
-		double radiusToSet = (body.getDiameter() / 2.0 / Constants.FIXED_QUOTIENT)
+        //We calcul the coordinate screen position
+//		double positionX = (registeredPositionX / Constants.FIXED_QUOTIENT)
+//				* zoomLevel;
+//        double positionY = (registeredPositionY / Constants.FIXED_QUOTIENT)
+//                * zoomLevel;
+//
+//        celestialBodyCircle.setCenterX(positionX);
+//        celestialBodyCircle.setCenterY(positionY * -1);
+
+        Point2D.Double zoomedCoordinate = Utils.convertCoordinateFromSpaceToScreen(new Point.Double(registeredPositionX, registeredPositionY), zoomLevel);
+        celestialBodyCircle.setCenterX(zoomedCoordinate.getX());
+        celestialBodyCircle.setCenterY(zoomedCoordinate.getY());
+        double radiusToSet = (body.getDiameter() / 2.0 / Constants.FIXED_QUOTIENT)
 				* zoomLevel;
 		final double minimalRadius = getMinimalRadius();
 		if (radiusToSet < minimalRadius) {
