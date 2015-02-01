@@ -29,7 +29,7 @@ import javafx.scene.text.Text;
 // TODO : documentation
 public class SquadronComponent extends Group {
 
-	private DoubleProperty zoomLevelProperty;
+
 	final private Squadron squadronToShow;
 	private Line verticalCrossBar = new Line();
 	private Line horizontalCrossBar = new Line();
@@ -52,8 +52,8 @@ public class SquadronComponent extends Group {
 
 		this.getChildren().addAll(verticalCrossBar, horizontalCrossBar,
 				directionalLine, directionalLineEnd, speedText);
-		this.setZoomLevel(1);
-		this.zoomLevelProperty().addListener(updaterListener);
+
+
 		this.squadronToShow.positionXProperty().addListener(updaterListener);
 		this.squadronToShow.positionYProperty().addListener(updaterListener);
 		this.squadronToShow.destinationProperty().addListener(updaterListener);
@@ -128,80 +128,10 @@ public class SquadronComponent extends Group {
 	}
 
 	public void update() {
-		double zoomLevel = getZoomLevel();
-		final double centerX = squadronToShow.getPositionX();
-		final double centerY = squadronToShow.getPositionY();
-		double centerXCalculated = centerX / Constants.FIXED_QUOTIENT
-				* zoomLevel;
-		double centerYCalculated = centerY / Constants.FIXED_QUOTIENT
-				* zoomLevel;
 
-		horizontalCrossBar.setStartX(centerXCalculated - 5);
-		horizontalCrossBar.setEndX(centerXCalculated + 5);
-		horizontalCrossBar.setStartY(centerYCalculated);
-		horizontalCrossBar.setEndY(centerYCalculated);
 
-		verticalCrossBar.setStartX(centerXCalculated);
-		verticalCrossBar.setEndX(centerXCalculated);
-		verticalCrossBar.setStartY(centerYCalculated - 5);
-		verticalCrossBar.setEndY(centerYCalculated + 5);
-
-		// If Ship is moving, we calculate the arrow
-		if (squadronToShow.getDestination() != null) {
-			// TODO replace this calculation by the use of the
-			// ShipMovementController.calculateIntermediateCoordinate
-			double li = DIRECTIONAL_LINE_LENGTH;
-			final double destinationX = this.squadronToShow.getDestination()
-					.getPositionX();
-			final double destinationY = this.squadronToShow.getDestination()
-					.getPositionY();
-
-			final double destinationXCalculated = destinationX
-					/ Constants.FIXED_QUOTIENT * zoomLevel;
-			final double destinationYCalculated = destinationY
-					/ Constants.FIXED_QUOTIENT * zoomLevel;
-
-			double lc = Math.sqrt((destinationXCalculated - centerXCalculated)
-					* (destinationXCalculated - centerXCalculated)
-					+ (destinationYCalculated - centerYCalculated)
-					* (destinationYCalculated - centerYCalculated));
-			Point2D intermediateCoordinate = ShipUtils
-					.calculateIntermediateCoordinate(new Point2D(
-							centerXCalculated, centerYCalculated), new Point2D(
-							destinationXCalculated, destinationYCalculated), li);
-
-			directionalLine.setStartX(centerXCalculated);
-			directionalLine.setStartY(centerYCalculated);
-			directionalLine.setEndX(intermediateCoordinate.getX());
-			directionalLine.setEndY(intermediateCoordinate.getY());
-
-			// End of the directionalLine
-			directionalLineEnd.setRadius(3);
-			directionalLineEnd.setCenterX(intermediateCoordinate.getX());
-			directionalLineEnd.setCenterY(intermediateCoordinate.getY());
-
-			// Speed Text
-			speedText.setX(intermediateCoordinate.getX() + 5);
-			if (intermediateCoordinate.getY() > centerYCalculated) {
-				speedText.setY(intermediateCoordinate.getY() + 5);
-			} else {
-				speedText.setY(intermediateCoordinate.getY() - 5);
-			}
-		}
 	}
 
-	public DoubleProperty zoomLevelProperty() {
-		if (zoomLevelProperty == null) {
-			zoomLevelProperty = new SimpleDoubleProperty(this, "zoomLevel", 1);
-		}
-		return zoomLevelProperty;
-	}
 
-	public double getZoomLevel() {
-		return zoomLevelProperty().getValue();
-	}
 
-	public void setZoomLevel(double zoomLevel) {
-		zoomLevelProperty().setValue(zoomLevel);
-	}
 }

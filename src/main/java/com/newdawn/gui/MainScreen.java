@@ -113,6 +113,8 @@ public class MainScreen implements Initializable {
 		fiveDayButton.setUserData(5 * 24 * 3600);
 		thirtyDayButton.setUserData(30 * 24 * 3600);
 
+        screensTabPane.getTabs().removeAll(teamManagementScreenTab,personnelManagementScreenTab,
+                fleetManagementScreenTab, economicScreenTab);
 		// screensTabPane.setStyle("-fx-background-color:#000000");
 	}
 
@@ -154,8 +156,7 @@ public class MainScreen implements Initializable {
 				KeyCode.F12));
 		fleetManagementScreenMenuItem.setUserData(fleetManagementScreenTab);
 
-		screensTabPane.getTabs().removeAll(systemMapScreenTab,
-				fleetManagementScreenTab, economicScreenTab);
+
 	}
 
 	private AnchorPane getSystemMapScreen() {

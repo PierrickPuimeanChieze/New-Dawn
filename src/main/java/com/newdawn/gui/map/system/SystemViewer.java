@@ -36,7 +36,7 @@ public class SystemViewer extends ScrollPane {
 
 	private static final Log LOG = LogFactory.getLog(SystemViewer.class);
 	private Group global = new Group();
-	private Group components = new Group();
+	private Group components = new SpecialGroup();
 	// private double zoomLevel = 1;
 	private GridPane grid;
 	private DoubleProperty zoomLevelProperty;
@@ -91,7 +91,7 @@ public class SystemViewer extends ScrollPane {
         }
 
         global.getChildren().add(components);
-        global.getChildren().add(grid);
+//        global.getChildren().add(grid);
 
 		this.setContent(global);
 		zoomLevelProperty().addListener(new ChangeListener<Number>() {
@@ -158,62 +158,63 @@ public class SystemViewer extends ScrollPane {
 
             //And for each satellite of it
             //TODO use an external factory
-			for (Satellite satellite : planet.getSatellites()) {
-				final CelestialBodyComponent moonComponent = CelestialBodyComponentFactory
-						.buildComponentForBody(satellite);
-				components.getChildren().add(moonComponent);
-				OrbitComponent moonOrbitComponent = new OrbitComponent(
-						satellite.getOrbit());
-				moonOrbitComponent.setAlwaysVisible(false);
-				components.getChildren().add(moonOrbitComponent);
-				moonComponent.setLinkedOrbitComponent(moonOrbitComponent);
-			}
+//			for (Satellite satellite : planet.getSatellites()) {
+//				final CelestialBodyComponent moonComponent = CelestialBodyComponentFactory
+//						.buildComponentForBody(satellite);
+//				components.getChildren().add(moonComponent);
+//				OrbitComponent moonOrbitComponent = new OrbitComponent(
+//						satellite.getOrbit());
+//				moonOrbitComponent.setAlwaysVisible(false);
+//				components.getChildren().add(moonOrbitComponent);
+//				moonComponent.setLinkedOrbitComponent(moonOrbitComponent);
+//			}
 		}
 
         //For each Squadron
         //TODO use an external factory
-		for (Squadron taskGroup : stellarSystem.getSquadrons()) {
-			components.getChildren().add(new SquadronComponent(taskGroup));
-		}
+//		for (Squadron taskGroup : stellarSystem.getSquadrons()) {
+//			components.getChildren().add(new SquadronComponent(taskGroup));
+//		}
 
         //And for each asteroid
         //TODO use an external factory
-		for (Asteroid asteroid : stellarSystem.getAsteroids()) {
-			final CelestialBodyComponent asteroidComponent = CelestialBodyComponentFactory
-					.buildComponentForBody(asteroid);
-			asteroidComponent.setOnMouseClicked(new CenterHandler(this,
-					asteroidComponent));
-			components.getChildren().add(asteroidComponent);
-			OrbitComponent planetOrbitComponent = new OrbitComponent(
-					asteroid.getOrbit());
-			components.getChildren().add(planetOrbitComponent);
-			asteroidComponent.setLinkedOrbitComponent(planetOrbitComponent);
-			asteroidComponent.getCelestialBodyCircle().setFill(Color.YELLOWGREEN);
-			// registeredOrbit.add(planet.getOrbit());
-
-
-		}
+//		for (Asteroid asteroid : stellarSystem.getAsteroids()) {
+//			final CelestialBodyComponent asteroidComponent = CelestialBodyComponentFactory
+//					.buildComponentForBody(asteroid);
+//			asteroidComponent.setOnMouseClicked(new CenterHandler(this,
+//					asteroidComponent));
+//			components.getChildren().add(asteroidComponent);
+//			OrbitComponent planetOrbitComponent = new OrbitComponent(
+//					asteroid.getOrbit());
+//			components.getChildren().add(planetOrbitComponent);
+//			asteroidComponent.setLinkedOrbitComponent(planetOrbitComponent);
+//			asteroidComponent.getCelestialBodyCircle().setFill(Color.YELLOWGREEN);
+//			// registeredOrbit.add(planet.getOrbit());
+//
+//
+//		}
 
 		updateChildren();
 		updateBackground();
-
+        components.scaleXProperty().bind(zoomLevelProperty());
+        components.scaleYProperty().bind(zoomLevelProperty());
 	}
 
 	private void updateBackground() {
 		// double HBuffer = getViewportBounds().getWidth();
 		// double VBuffer = getViewportBounds().getHeight();
 
-        double totalWidth = components.getBoundsInLocal().getWidth();
-        double totalHeight = components.getBoundsInLocal().getHeight();
-        grid.setTranslateX(totalWidth/2*-1);
-        grid.setTranslateY(totalHeight/2*-1);
-        double gridCaseSize = Math.max(totalHeight, totalWidth) / 10;
-
-        for (Node node : grid.getChildren()) {
-            Rectangle gridCase = (Rectangle) node;
-            gridCase.setHeight(gridCaseSize);
-            gridCase.setWidth(gridCaseSize);
-        }
+//        double totalWidth = components.getBoundsInLocal().getWidth();
+//        double totalHeight = components.getBoundsInLocal().getHeight();
+//        grid.setTranslateX(totalWidth/2*-1);
+//        grid.setTranslateY(totalHeight/2*-1);
+//        double gridCaseSize = Math.max(totalHeight, totalWidth) / 10;
+//
+//        for (Node node : grid.getChildren()) {
+//            Rectangle gridCase = (Rectangle) node;
+//            gridCase.setHeight(gridCaseSize);
+//            gridCase.setWidth(gridCaseSize);
+//        }
 	}
 
 	/**
@@ -236,29 +237,16 @@ public class SystemViewer extends ScrollPane {
 	}
 
 	public void updateChildren() {
-		double zoomLevel = getZoomLevel();
-		for (Node children : components.getChildren()) {
-			if (children instanceof CelestialBodyComponent) {
-				CelestialBodyComponent celestialBodyComponent = (CelestialBodyComponent) children;
-				celestialBodyComponent.setZoomLevel(zoomLevel);
-			}
-			if (children instanceof OrbitComponent) {
-				OrbitComponent orbitComponent = (OrbitComponent) children;
-				orbitComponent.setZoomLevel(zoomLevel);
-			}
-			if (children instanceof SquadronComponent) {
-				SquadronComponent shipComponent = (SquadronComponent) children;
-				shipComponent.setZoomLevel(zoomLevel);
-			}
-		}
-
-		updateBackground();
-		double vPart = getVvalue() / (getVmax() - getVmin());
-		double hPart = getHvalue() / (getHmax() - getHmin());
-		setVmax(components.getBoundsInLocal().getHeight());
-		setHmax(components.getBoundsInLocal().getWidth());
-		setVvalue(vPart * (getVmax() - getVmin()));
-		setHvalue(hPart * (getHmax() - getHmin()));
+//		double zoomLevel = getZoomLevel();
+//
+//
+//		updateBackground();
+//		double vPart = getVvalue() / (getVmax() - getVmin());
+//		double hPart = getHvalue() / (getHmax() - getHmin());
+//		setVmax(components.getBoundsInLocal().getHeight());
+//		setHmax(components.getBoundsInLocal().getWidth());
+//		setVvalue(vPart * (getVmax() - getVmin()));
+//		setHvalue(hPart * (getHmax() - getHmin()));
 
 	}
 

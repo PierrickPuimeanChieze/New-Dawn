@@ -31,7 +31,7 @@ public class CelestialBodyComponent extends Group {
 	private final CelestialBody body;
 	private DoubleProperty minimalRadiusProperty;
 	public static final String PNAME_MINIMAL_RADIUS = "minimalRadius";
-	private DoubleProperty zoomLevelProperty;
+
 	public OrbitComponent linkedOrbitComponent;
 	private Text nameText;
 	private ChangeListener<Number> updaterListener = new ChangeListener<Number>() {
@@ -49,11 +49,11 @@ public class CelestialBodyComponent extends Group {
 
 		nameText = new Text();
 		nameText.textProperty().bind(body.nameProperty());
-		zoomLevelProperty().addListener(updaterListener);
+
 		body.positionXProperty().addListener(updaterListener);
 		body.positionYProperty().addListener(updaterListener);
-		getChildren().addAll(celestialBodyCircle, nameText);
-		setZoomLevel(1);
+		getChildren().addAll(celestialBodyCircle);
+        update();
 		// .addL
 	}
 
@@ -67,7 +67,7 @@ public class CelestialBodyComponent extends Group {
 
 	/**
 	 * Get the value of minimalRadius
-	 * 
+	 *
 	 * @return the value of minimalRadius
 	 */
 	public double getMinimalRadius() {
@@ -76,7 +76,7 @@ public class CelestialBodyComponent extends Group {
 
 	/**
 	 * Set the value of minimalRadius
-	 * 
+	 *
 	 * @param minimalRadius
 	 *            new value of minimalRadius
 	 */
@@ -84,64 +84,35 @@ public class CelestialBodyComponent extends Group {
 		minimalRadiusProperty().setValue(minimalRadius);
 	}
 
-	public DoubleProperty zoomLevelProperty() {
-		if (zoomLevelProperty == null) {
-			zoomLevelProperty = new SimpleDoubleProperty(this, "zoomLevel");
-		}
-		return zoomLevelProperty;
-	}
 
-	public double getZoomLevel() {
-		return zoomLevelProperty().getValue();
-	}
-
-	public void setZoomLevel(double zoomLevel) {
-		zoomLevelProperty().setValue(zoomLevel);
-	}
 
 	public void update() {
-		double zoomLevel = getZoomLevel();
-        //We get the real coordinates
-		final double registeredPositionX = body.getPositionX();
-		final double registeredPositionY = body.getPositionY();
+        final double registeredPositionX = body.getPositionX()/Constants.FIXED_QUOTIENT;
+        final double registeredPositionY = body.getPositionY()/Constants.FIXED_QUOTIENT*-1;
 
+        celestialBodyCircle.setCenterX(registeredPositionX);
+        celestialBodyCircle.setCenterY(registeredPositionY);
+        double radiusToSet = getCelestialBodyRadius();
 
-        //We calcul the coordinate screen position
-//		double positionX = (registeredPositionX / Constants.FIXED_QUOTIENT)
-//				* zoomLevel;
-//        double positionY = (registeredPositionY / Constants.FIXED_QUOTIENT)
-//                * zoomLevel;
+        celestialBodyCircle.setRadius(radiusToSet);
+
+        // Mettre en place un binding
+//        nameText.setX(celestialBodyCircle.getCenterX()
+//                - celestialBodyCircle.getRadius() - 5);
+//        nameText.setY(celestialBodyCircle.getCenterY()
+//                - celestialBodyCircle.getRadius() - 5);
+
+//        if (linkedOrbitComponent != null) {
 //
-//        celestialBodyCircle.setCenterX(positionX);
-//        celestialBodyCircle.setCenterY(positionY * -1);
+//            // TODO supprimer le test, le remplacer par une seule ligne de code
+//            if (!linkedOrbitComponent.isAlwaysVisible()
+//                    && !linkedOrbitComponent.isVisible()) {
+//                setVisible(false);
+//            } else {
+//                setVisible(true);
+//            }
+//        }
 
-        Point2D.Double zoomedCoordinate = Utils.convertCoordinateFromSpaceToScreen(new Point.Double(registeredPositionX, registeredPositionY), zoomLevel);
-        celestialBodyCircle.setCenterX(zoomedCoordinate.getX());
-        celestialBodyCircle.setCenterY(zoomedCoordinate.getY());
-        double radiusToSet = (body.getDiameter() / 2.0 / Constants.FIXED_QUOTIENT)
-				* zoomLevel;
-		final double minimalRadius = getMinimalRadius();
-		if (radiusToSet < minimalRadius) {
-			radiusToSet = minimalRadius;
-		}
-		celestialBodyCircle.setRadius(radiusToSet);
-
-		// Mettre en place un binding
-		nameText.setX(celestialBodyCircle.getCenterX()
-				- celestialBodyCircle.getRadius() - 5);
-		nameText.setY(celestialBodyCircle.getCenterY()
-				- celestialBodyCircle.getRadius() - 5);
-
-		if (linkedOrbitComponent != null) {
-			linkedOrbitComponent.setZoomLevel(zoomLevel);
-			// TODO supprimer le test, le remplacer par une seule ligne de code
-			if (!linkedOrbitComponent.isAlwaysVisible()
-					&& !linkedOrbitComponent.isVisible()) {
-				setVisible(false);
-			} else {
-				setVisible(true);
-			}
-		}
 
 	}
 
@@ -152,4 +123,12 @@ public class CelestialBodyComponent extends Group {
 	public Circle getCelestialBodyCircle() {
 		return celestialBodyCircle;
 	}
+
+    public double getCelestialBodyRadius() {
+        return (body.getDiameter() / 2.0 / Constants.FIXED_QUOTIENT);
+    }
+
+    public String getBodyName() {
+        return body.getName();
+    }
 }

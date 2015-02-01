@@ -65,7 +65,7 @@ public class ViewerFX extends Application {
 				.getIt(initialisationController);
 		StellarSystem testSystem = initialisationController
 				.createSystem(getClass().getResourceAsStream("/testSystem.xml"));
-		gameData.getStellarSystems().addAll(solarSystem, solarSystem2,
+		gameData.getStellarSystems().addAll(//solarSystem, solarSystem2,
 				testSystem);
 
 		Colony testColony2 = springContainer.getBean(Colony.class);
